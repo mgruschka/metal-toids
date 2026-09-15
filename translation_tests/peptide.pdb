@@ -1,0 +1,105 @@
+MODEL        0
+ATOM      1  C   ACE A   0       1.520   0.000   0.000  1.00  0.00           C  
+ATOM      2  CAY ACE A   0       0.043   0.362   0.246  1.00  0.00           C  
+ATOM      3  HY1 ACE A   0      -0.183   1.288  -0.240  1.00  0.00           H  
+ATOM      4  HY2 ACE A   0      -0.584  -0.410  -0.146  1.00  0.00           H  
+ATOM      5  HY3 ACE A   0      -0.129   0.461   1.298  1.00  0.00           H  
+ATOM      6  O   ACE A   0       2.386   0.855  -0.161  1.00  0.00           O  
+ATOM      7  N   ALA A   1       2.116  -1.186  -0.083  1.00  0.00           N  
+ATOM      8  CA  ALA A   1       1.343  -2.421  -0.169  1.00  0.00           C  
+ATOM      9  C   ALA A   1       0.886  -2.681  -1.596  1.00  0.00           C  
+ATOM     10  O   ALA A   1       1.239  -1.937  -2.509  1.00  0.00           O  
+ATOM     11  CB  ALA A   1       0.133  -2.366   0.749  1.00  0.00           C  
+ATOM     12  N   ALA A   2       0.102  -3.738  -1.787  1.00  0.00           N  
+ATOM     13  CA  ALA A   2      -0.296  -4.600  -0.678  1.00  0.00           C  
+ATOM     14  C   ALA A   2      -1.475  -4.009   0.078  1.00  0.00           C  
+ATOM     15  O   ALA A   2      -2.012  -2.974  -0.314  1.00  0.00           O  
+ATOM     16  CB  ALA A   2       0.864  -4.818   0.279  1.00  0.00           C  
+ATOM     17  N   ALA A   3      -1.877  -4.665   1.163  1.00  0.00           N  
+ATOM     18  CA  ALA A   3      -1.216  -5.891   1.599  1.00  0.00           C  
+ATOM     19  C   ALA A   3       0.041  -5.580   2.395  1.00  0.00           C  
+ATOM     20  O   ALA A   3       0.341  -4.417   2.660  1.00  0.00           O  
+ATOM     21  CB  ALA A   3      -0.858  -6.764   0.407  1.00  0.00           C  
+ATOM     22  N   ALA A   4       0.777  -6.620   2.778  1.00  0.00           N  
+ATOM     23  CA  ALA A   4       0.391  -7.988   2.446  1.00  0.00           C  
+ATOM     24  C   ALA A   4       0.823  -8.351   1.035  1.00  0.00           C  
+ATOM     25  O   ALA A   4       1.480  -7.559   0.361  1.00  0.00           O  
+ATOM     26  CB  ALA A   4      -1.112  -8.172   2.580  1.00  0.00           C  
+ATOM     27  N   ALA A   5       0.453  -9.547   0.587  1.00  0.00           N  
+ATOM     28  CA  ALA A   5      -0.327 -10.461   1.416  1.00  0.00           C  
+ATOM     29  C   ALA A   5      -1.807 -10.116   1.366  1.00  0.00           C  
+ATOM     30  O   ALA A   5      -2.213  -9.217   0.632  1.00  0.00           O  
+ATOM     31  CB  ALA A   5       0.154 -10.428   2.857  1.00  0.00           C  
+ATOM     32  NT  NME A   6      -2.612 -10.829   2.148  1.00  0.00           N  
+ATOM     33  HNT NME A   6      -1.649 -11.080   2.063  1.00  0.00           H  
+ATOM     34  CAT NME A   6      -3.545 -11.655   3.054  1.00  0.00           C  
+ATOM     35  HT1 NME A   6      -2.981 -12.070   3.864  1.00  0.00           H  
+ATOM     36  HT2 NME A   6      -4.316 -11.023   3.443  1.00  0.00           H  
+ATOM     37  HT3 NME A   6      -3.986 -12.447   2.486  1.00  0.00           H  
+TER      38      NME A   6
+CONECT    1    7
+CONECT    7    1
+CONECT    9   12
+CONECT   12    9
+CONECT   14   17
+CONECT   17   14
+CONECT   19   22
+CONECT   22   19
+CONECT   24   27
+CONECT   27   24
+CONECT   29   32
+CONECT   32   29
+CONECT    1    6
+CONECT    6    1
+CONECT    1    2
+CONECT    2    1
+CONECT    2    3
+CONECT    3    2
+CONECT    2    4
+CONECT    4    2
+CONECT    2    5
+CONECT    5    2
+CONECT   32   33
+CONECT   33   32
+CONECT   32   34
+CONECT   34   32
+CONECT   34   35
+CONECT   35   34
+CONECT   34   36
+CONECT   36   34
+CONECT   34   37
+CONECT   37   34
+ENDMDL
+CONECT    1    7
+CONECT    7    1
+CONECT    9   12
+CONECT   12    9
+CONECT   14   17
+CONECT   17   14
+CONECT   19   22
+CONECT   22   19
+CONECT   24   27
+CONECT   27   24
+CONECT   29   32
+CONECT   32   29
+CONECT    1    6
+CONECT    6    1
+CONECT    1    2
+CONECT    2    1
+CONECT    2    3
+CONECT    3    2
+CONECT    2    4
+CONECT    4    2
+CONECT    2    5
+CONECT    5    2
+CONECT   32   33
+CONECT   33   32
+CONECT   32   34
+CONECT   34   32
+CONECT   34   35
+CONECT   35   34
+CONECT   34   36
+CONECT   36   34
+CONECT   34   37
+CONECT   37   34
+END

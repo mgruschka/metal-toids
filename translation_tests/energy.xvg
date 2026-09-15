@@ -1,0 +1,35 @@
+# This file was created Wed Jun 17 15:39:36 2026
+# Created by:
+#               :-) GROMACS - gmx energy, 2021.4-plumed-2.8.0 (-:
+# 
+# Executable:   /project2/andrewferguson/share_tools/gromacs-2021.4/installed_files/bin//gmx_mpi
+# Data prefix:  /project2/andrewferguson/share_tools/gromacs-2021.4/installed_files
+# Working dir:  /scratch/midway3/gruschka/metal-toids/translation_tests
+# Command line:
+#   gmx_mpi energy -f ener.edr
+# gmx energy is part of G R O M A C S:
+#
+# GRoups of Organic Molecules in ACtion for Science
+#
+@    title "GROMACS Energies"
+@    xaxis  label "Time (ps)"
+@    yaxis  label "(kJ/mol)"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85
+@ legend on
+@ legend box on
+@ legend loctype view
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "Bond"
+@ s1 legend "U-B"
+@ s2 legend "Proper Dih."
+@ s3 legend "Improper Dih."
+@ s4 legend "CMAP Dih."
+@ s5 legend "LJ-14"
+@ s6 legend "Coulomb-14"
+@ s7 legend "LJ (SR)"
+@ s8 legend "Coulomb (SR)"
+@ s9 legend "Coul. recip."
+@ s10 legend "Potential"
+    0.000000  338.060852  487.362183  201.394485  1503.245117  -29.433889   47.516212  1501.430786  24069.919922  -1398.339966   51.109669  26772.265625

@@ -1,0 +1,8 @@
+MODEL        0
+ATOM      7  CB  CYM A   1      -8.158  -1.108  -0.440  1.00  0.00           C  
+ATOM      8  SG  CYM A   1      -9.236  -2.562  -0.486  1.00  0.00           S  
+ATOM      9  HB1 CYM A   1      -8.362  -0.507  -1.332  1.00  0.00           H  
+ATOM     10  HB2 CYM A   1      -8.433  -0.511   0.437  1.00  0.00           H  
+TER      11      CYM A   1
+ENDMDL
+END

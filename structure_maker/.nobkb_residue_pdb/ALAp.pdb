@@ -1,0 +1,8 @@
+MODEL        0
+ATOM      2  CB  ALA A   0      -2.571  -0.091   1.615  1.00  0.00           C  
+ATOM      3  HB1 ALA A   0      -1.738   0.479   1.971  1.00  0.00           H  
+ATOM      4  HB2 ALA A   0      -3.359   0.572   1.323  1.00  0.00           H  
+ATOM      5  HB3 ALA A   0      -2.918  -0.738   2.393  1.00  0.00           H  
+TER       6      ALA A   0
+ENDMDL
+END

@@ -1,0 +1,12 @@
+MODEL        0
+ATOM      2  CB  NOE A   0       7.200  27.243  32.287  1.00  0.00           C  
+ATOM      3  HB1 NOE A   0       7.597  27.081  31.307  1.00  0.00           H  
+ATOM      4  HB2 NOE A   0       7.416  26.395  32.903  1.00  0.00           H  
+ATOM      5  CC  NOE A   0       5.675  27.438  32.197  1.00  0.00           C  
+ATOM      6  HC1 NOE A   0       5.460  28.286  31.581  1.00  0.00           H  
+ATOM      7  HC2 NOE A   0       5.278  27.600  33.178  1.00  0.00           H  
+ATOM      8  OHT NOE A   0       5.078  26.270  31.627  1.00  0.00           O  
+ATOM      9  HHT NOE A   0       4.127  26.392  31.571  1.00  0.00           H  
+TER      10      NOE A   0
+ENDMDL
+END

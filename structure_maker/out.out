@@ -1,0 +1,696 @@
+GPU ID: 0
+MINI=A+C_A+C_A-C, TXTFILE=../angle_files/A+C_A+C_A-C.txt
+Error: molecule.pdb was not created for A+C_A+C_A-C
+MINI=A+C_A-C_A+C, TXTFILE=../angle_files/A+C_A-C_A+C.txt
+Error: molecule.pdb was not created for A+C_A-C_A+C
+MINI=A+C_A-C_A-C, TXTFILE=../angle_files/A+C_A-C_A-C.txt
+Error: molecule.pdb was not created for A+C_A-C_A-C
+MINI=A-C_A+C_A+C, TXTFILE=../angle_files/A-C_A+C_A+C.txt
+Error: molecule.pdb was not created for A-C_A+C_A+C
+MINI=A-C_A+C_A-C, TXTFILE=../angle_files/A-C_A+C_A-C.txt
+Error: molecule.pdb was not created for A-C_A+C_A-C
+MINI=A-C_A-C_A+C, TXTFILE=../angle_files/A-C_A-C_A+C.txt
+Error: molecule.pdb was not created for A-C_A-C_A+C
+MINI=A+C_A-C_AD+C, TXTFILE=../angle_files/A+C_A-C_AD+C.txt
+Error: molecule.pdb was not created for A+C_A-C_AD+C
+MINI=A+C_A-C_AD-C, TXTFILE=../angle_files/A+C_A-C_AD-C.txt
+Error: molecule.pdb was not created for A+C_A-C_AD-C
+MINI=A-C_A+C_AD-C, TXTFILE=../angle_files/A-C_A+C_AD-C.txt
+Error: molecule.pdb was not created for A-C_A+C_AD-C
+MINI=A+C_A-C_AD+T, TXTFILE=../angle_files/A+C_A-C_AD+T.txt
+Error: molecule.pdb was not created for A+C_A-C_AD+T
+MINI=A+C_A-C_AD-T, TXTFILE=../angle_files/A+C_A-C_AD-T.txt
+Error: molecule.pdb was not created for A+C_A-C_AD-T
+MINI=A-C_A+C_AD+T, TXTFILE=../angle_files/A-C_A+C_AD+T.txt
+Error: molecule.pdb was not created for A-C_A+C_AD+T
+MINI=A-C_A+C_AD-T, TXTFILE=../angle_files/A-C_A+C_AD-T.txt
+Error: molecule.pdb was not created for A-C_A+C_AD-T
+MINI=A+C_A-C_A-T, TXTFILE=../angle_files/A+C_A-C_A-T.txt
+Error: molecule.pdb was not created for A+C_A-C_A-T
+MINI=A-C_A+C_A+T, TXTFILE=../angle_files/A-C_A+C_A+T.txt
+Error: molecule.pdb was not created for A-C_A+C_A+T
+MINI=A-C_A+C_A-T, TXTFILE=../angle_files/A-C_A+C_A-T.txt
+Error: molecule.pdb was not created for A-C_A+C_A-T
+MINI=A+C_A+C_C7B+C, TXTFILE=../angle_files/A+C_A+C_C7B+C.txt
+Error: molecule.pdb was not created for A+C_A+C_C7B+C
+MINI=A+C_A-C_C7B+C, TXTFILE=../angle_files/A+C_A-C_C7B+C.txt
+Error: molecule.pdb was not created for A+C_A-C_C7B+C
+MINI=A+C_A-C_C7B-C, TXTFILE=../angle_files/A+C_A-C_C7B-C.txt
+Error: molecule.pdb was not created for A+C_A-C_C7B-C
+MINI=A-C_A+C_C7B+C, TXTFILE=../angle_files/A-C_A+C_C7B+C.txt
+Error: molecule.pdb was not created for A-C_A+C_C7B+C
+MINI=A-C_A+C_C7B-C, TXTFILE=../angle_files/A-C_A+C_C7B-C.txt
+Error: molecule.pdb was not created for A-C_A+C_C7B-C
+MINI=A-C_A-C_C7B-C, TXTFILE=../angle_files/A-C_A-C_C7B-C.txt
+Error: molecule.pdb was not created for A-C_A-C_C7B-C
+MINI=A+C_A-C_C7B+T, TXTFILE=../angle_files/A+C_A-C_C7B+T.txt
+Error: molecule.pdb was not created for A+C_A-C_C7B+T
+MINI=A+C_A-C_C7B-T, TXTFILE=../angle_files/A+C_A-C_C7B-T.txt
+Error: molecule.pdb was not created for A+C_A-C_C7B-T
+MINI=A-C_A+C_C7B+T, TXTFILE=../angle_files/A-C_A+C_C7B+T.txt
+Error: molecule.pdb was not created for A-C_A+C_C7B+T
+MINI=A-C_A+C_C7B-T, TXTFILE=../angle_files/A-C_A+C_C7B-T.txt
+Error: molecule.pdb was not created for A-C_A+C_C7B-T
+MINI=A+C_AD+C_A-C, TXTFILE=../angle_files/A+C_AD+C_A-C.txt
+Error: molecule.pdb was not created for A+C_AD+C_A-C
+MINI=A+C_AD-C_A+C, TXTFILE=../angle_files/A+C_AD-C_A+C.txt
+Error: molecule.pdb was not created for A+C_AD-C_A+C
+MINI=A-C_AD+C_A-C, TXTFILE=../angle_files/A-C_AD+C_A-C.txt
+Error: molecule.pdb was not created for A-C_AD+C_A-C
+MINI=A-C_AD-C_A+C, TXTFILE=../angle_files/A-C_AD-C_A+C.txt
+Error: molecule.pdb was not created for A-C_AD-C_A+C
+MINI=A+C_AD+C_C7B+C, TXTFILE=../angle_files/A+C_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for A+C_AD+C_C7B+C
+MINI=A+C_AD-C_C7B-C, TXTFILE=../angle_files/A+C_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for A+C_AD-C_C7B-C
+MINI=A-C_AD+C_C7B+C, TXTFILE=../angle_files/A-C_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for A-C_AD+C_C7B+C
+MINI=A-C_AD-C_C7B-C, TXTFILE=../angle_files/A-C_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for A-C_AD-C_C7B-C
+MINI=A+C_AD+T_C7B+C, TXTFILE=../angle_files/A+C_AD+T_C7B+C.txt
+Error: molecule.pdb was not created for A+C_AD+T_C7B+C
+MINI=A+C_AD-T_C7B-C, TXTFILE=../angle_files/A+C_AD-T_C7B-C.txt
+Error: molecule.pdb was not created for A+C_AD-T_C7B-C
+MINI=A-C_AD+T_C7B+C, TXTFILE=../angle_files/A-C_AD+T_C7B+C.txt
+Error: molecule.pdb was not created for A-C_AD+T_C7B+C
+MINI=A+C_A+T_A-C, TXTFILE=../angle_files/A+C_A+T_A-C.txt
+Error: molecule.pdb was not created for A+C_A+T_A-C
+MINI=A+C_A-T_A+C, TXTFILE=../angle_files/A+C_A-T_A+C.txt
+Error: molecule.pdb was not created for A+C_A-T_A+C
+MINI=A-C_A+T_A-C, TXTFILE=../angle_files/A-C_A+T_A-C.txt
+Error: molecule.pdb was not created for A-C_A+T_A-C
+MINI=A-C_A-T_A+C, TXTFILE=../angle_files/A-C_A-T_A+C.txt
+Error: molecule.pdb was not created for A-C_A-T_A+C
+MINI=A+C_A+T_C7B+C, TXTFILE=../angle_files/A+C_A+T_C7B+C.txt
+Error: molecule.pdb was not created for A+C_A+T_C7B+C
+MINI=A+C_A-T_C7B-C, TXTFILE=../angle_files/A+C_A-T_C7B-C.txt
+Error: molecule.pdb was not created for A+C_A-T_C7B-C
+MINI=A-C_A+T_C7B+C, TXTFILE=../angle_files/A-C_A+T_C7B+C.txt
+Error: molecule.pdb was not created for A-C_A+T_C7B+C
+MINI=A-C_A-T_C7B-C, TXTFILE=../angle_files/A-C_A-T_C7B-C.txt
+Error: molecule.pdb was not created for A-C_A-T_C7B-C
+MINI=A+C_C7B+C_A+C, TXTFILE=../angle_files/A+C_C7B+C_A+C.txt
+Error: molecule.pdb was not created for A+C_C7B+C_A+C
+MINI=A+C_C7B+C_A-C, TXTFILE=../angle_files/A+C_C7B+C_A-C.txt
+Error: molecule.pdb was not created for A+C_C7B+C_A-C
+MINI=A+C_C7B-C_A+C, TXTFILE=../angle_files/A+C_C7B-C_A+C.txt
+Error: molecule.pdb was not created for A+C_C7B-C_A+C
+MINI=A-C_C7B-C_A+C, TXTFILE=../angle_files/A-C_C7B-C_A+C.txt
+Error: molecule.pdb was not created for A-C_C7B-C_A+C
+MINI=A-C_C7B-C_A-C, TXTFILE=../angle_files/A-C_C7B-C_A-C.txt
+Error: molecule.pdb was not created for A-C_C7B-C_A-C
+MINI=A+C_C7B+C_AD+C, TXTFILE=../angle_files/A+C_C7B+C_AD+C.txt
+Error: molecule.pdb was not created for A+C_C7B+C_AD+C
+MINI=A+C_C7B+C_AD-C, TXTFILE=../angle_files/A+C_C7B+C_AD-C.txt
+Error: molecule.pdb was not created for A+C_C7B+C_AD-C
+MINI=A-C_C7B-C_AD+C, TXTFILE=../angle_files/A-C_C7B-C_AD+C.txt
+Error: molecule.pdb was not created for A-C_C7B-C_AD+C
+MINI=A-C_C7B-C_AD-C, TXTFILE=../angle_files/A-C_C7B-C_AD-C.txt
+Error: molecule.pdb was not created for A-C_C7B-C_AD-C
+MINI=A+C_C7B+C_AD+T, TXTFILE=../angle_files/A+C_C7B+C_AD+T.txt
+Error: molecule.pdb was not created for A+C_C7B+C_AD+T
+MINI=A+C_C7B+C_AD-T, TXTFILE=../angle_files/A+C_C7B+C_AD-T.txt
+Error: molecule.pdb was not created for A+C_C7B+C_AD-T
+MINI=A-C_C7B-C_AD+T, TXTFILE=../angle_files/A-C_C7B-C_AD+T.txt
+Error: molecule.pdb was not created for A-C_C7B-C_AD+T
+MINI=A-C_C7B-C_AD-T, TXTFILE=../angle_files/A-C_C7B-C_AD-T.txt
+Error: molecule.pdb was not created for A-C_C7B-C_AD-T
+MINI=A+C_C7B+C_A+T, TXTFILE=../angle_files/A+C_C7B+C_A+T.txt
+Error: molecule.pdb was not created for A+C_C7B+C_A+T
+MINI=A+C_C7B+C_A-T, TXTFILE=../angle_files/A+C_C7B+C_A-T.txt
+Error: molecule.pdb was not created for A+C_C7B+C_A-T
+MINI=A-C_C7B-C_A+T, TXTFILE=../angle_files/A-C_C7B-C_A+T.txt
+Error: molecule.pdb was not created for A-C_C7B-C_A+T
+MINI=A-C_C7B-C_A-T, TXTFILE=../angle_files/A-C_C7B-C_A-T.txt
+Error: molecule.pdb was not created for A-C_C7B-C_A-T
+MINI=A+C_C7B+C_C7B+C, TXTFILE=../angle_files/A+C_C7B+C_C7B+C.txt
+Error: molecule.pdb was not created for A+C_C7B+C_C7B+C
+MINI=A+C_C7B+C_C7B-C, TXTFILE=../angle_files/A+C_C7B+C_C7B-C.txt
+Error: molecule.pdb was not created for A+C_C7B+C_C7B-C
+MINI=A-C_C7B-C_C7B+C, TXTFILE=../angle_files/A-C_C7B-C_C7B+C.txt
+Error: molecule.pdb was not created for A-C_C7B-C_C7B+C
+MINI=A-C_C7B-C_C7B-C, TXTFILE=../angle_files/A-C_C7B-C_C7B-C.txt
+Error: molecule.pdb was not created for A-C_C7B-C_C7B-C
+MINI=A+C_C7B+C_C7B+T, TXTFILE=../angle_files/A+C_C7B+C_C7B+T.txt
+Error: molecule.pdb was not created for A+C_C7B+C_C7B+T
+MINI=A+C_C7B+C_C7B-T, TXTFILE=../angle_files/A+C_C7B+C_C7B-T.txt
+Error: molecule.pdb was not created for A+C_C7B+C_C7B-T
+MINI=A-C_C7B-C_C7B+T, TXTFILE=../angle_files/A-C_C7B-C_C7B+T.txt
+Error: molecule.pdb was not created for A-C_C7B-C_C7B+T
+MINI=A-C_C7B-C_C7B-T, TXTFILE=../angle_files/A-C_C7B-C_C7B-T.txt
+Error: molecule.pdb was not created for A-C_C7B-C_C7B-T
+MINI=A-C_C7B-T_A+C, TXTFILE=../angle_files/A-C_C7B-T_A+C.txt
+MINI=A+C_C7B-T_C7B-C, TXTFILE=../angle_files/A+C_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for A+C_C7B-T_C7B-C
+MINI=A-C_C7B+T_C7B+C, TXTFILE=../angle_files/A-C_C7B+T_C7B+C.txt
+Error: molecule.pdb was not created for A-C_C7B+T_C7B+C
+MINI=A-C_C7B-T_C7B-C, TXTFILE=../angle_files/A-C_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for A-C_C7B-T_C7B-C
+MINI=AD+C_A+C_A-C, TXTFILE=../angle_files/AD+C_A+C_A-C.txt
+Error: molecule.pdb was not created for AD+C_A+C_A-C
+MINI=AD+C_A-C_A+C, TXTFILE=../angle_files/AD+C_A-C_A+C.txt
+Error: molecule.pdb was not created for AD+C_A-C_A+C
+MINI=AD+C_A-C_A-C, TXTFILE=../angle_files/AD+C_A-C_A-C.txt
+Error: molecule.pdb was not created for AD+C_A-C_A-C
+MINI=AD-C_A+C_A+C, TXTFILE=../angle_files/AD-C_A+C_A+C.txt
+Error: molecule.pdb was not created for AD-C_A+C_A+C
+MINI=AD-C_A+C_A-C, TXTFILE=../angle_files/AD-C_A+C_A-C.txt
+Error: molecule.pdb was not created for AD-C_A+C_A-C
+MINI=AD-C_A-C_A+C, TXTFILE=../angle_files/AD-C_A-C_A+C.txt
+Error: molecule.pdb was not created for AD-C_A-C_A+C
+MINI=AD+C_A-C_AD+C, TXTFILE=../angle_files/AD+C_A-C_AD+C.txt
+Error: molecule.pdb was not created for AD+C_A-C_AD+C
+MINI=AD+C_A-C_AD-C, TXTFILE=../angle_files/AD+C_A-C_AD-C.txt
+Error: molecule.pdb was not created for AD+C_A-C_AD-C
+MINI=AD-C_A+C_AD+C, TXTFILE=../angle_files/AD-C_A+C_AD+C.txt
+Error: molecule.pdb was not created for AD-C_A+C_AD+C
+MINI=AD-C_A+C_AD-C, TXTFILE=../angle_files/AD-C_A+C_AD-C.txt
+Error: molecule.pdb was not created for AD-C_A+C_AD-C
+MINI=AD+C_A-C_AD+T, TXTFILE=../angle_files/AD+C_A-C_AD+T.txt
+Error: molecule.pdb was not created for AD+C_A-C_AD+T
+MINI=AD+C_A-C_AD-T, TXTFILE=../angle_files/AD+C_A-C_AD-T.txt
+Error: molecule.pdb was not created for AD+C_A-C_AD-T
+MINI=AD-C_A+C_AD+T, TXTFILE=../angle_files/AD-C_A+C_AD+T.txt
+Error: molecule.pdb was not created for AD-C_A+C_AD+T
+MINI=AD-C_A+C_AD-T, TXTFILE=../angle_files/AD-C_A+C_AD-T.txt
+Error: molecule.pdb was not created for AD-C_A+C_AD-T
+MINI=AD+C_A-C_A+T, TXTFILE=../angle_files/AD+C_A-C_A+T.txt
+Error: molecule.pdb was not created for AD+C_A-C_A+T
+MINI=AD+C_A-C_A-T, TXTFILE=../angle_files/AD+C_A-C_A-T.txt
+Error: molecule.pdb was not created for AD+C_A-C_A-T
+MINI=AD-C_A+C_A+T, TXTFILE=../angle_files/AD-C_A+C_A+T.txt
+Error: molecule.pdb was not created for AD-C_A+C_A+T
+MINI=AD-C_A+C_A-T, TXTFILE=../angle_files/AD-C_A+C_A-T.txt
+Error: molecule.pdb was not created for AD-C_A+C_A-T
+MINI=AD+C_A+C_C7B+C, TXTFILE=../angle_files/AD+C_A+C_C7B+C.txt
+Error: molecule.pdb was not created for AD+C_A+C_C7B+C
+MINI=AD+C_A-C_C7B+C, TXTFILE=../angle_files/AD+C_A-C_C7B+C.txt
+Error: molecule.pdb was not created for AD+C_A-C_C7B+C
+MINI=AD+C_A-C_C7B-C, TXTFILE=../angle_files/AD+C_A-C_C7B-C.txt
+Error: molecule.pdb was not created for AD+C_A-C_C7B-C
+MINI=AD-C_A+C_C7B+C, TXTFILE=../angle_files/AD-C_A+C_C7B+C.txt
+Error: molecule.pdb was not created for AD-C_A+C_C7B+C
+MINI=AD-C_A+C_C7B-C, TXTFILE=../angle_files/AD-C_A+C_C7B-C.txt
+Error: molecule.pdb was not created for AD-C_A+C_C7B-C
+MINI=AD-C_A-C_C7B-C, TXTFILE=../angle_files/AD-C_A-C_C7B-C.txt
+Error: molecule.pdb was not created for AD-C_A-C_C7B-C
+MINI=AD+C_A-C_C7B+T, TXTFILE=../angle_files/AD+C_A-C_C7B+T.txt
+Error: molecule.pdb was not created for AD+C_A-C_C7B+T
+MINI=AD+C_A-C_C7B-T, TXTFILE=../angle_files/AD+C_A-C_C7B-T.txt
+Error: molecule.pdb was not created for AD+C_A-C_C7B-T
+MINI=AD-C_A+C_C7B+T, TXTFILE=../angle_files/AD-C_A+C_C7B+T.txt
+Error: molecule.pdb was not created for AD-C_A+C_C7B+T
+MINI=AD-C_A+C_C7B-T, TXTFILE=../angle_files/AD-C_A+C_C7B-T.txt
+Error: molecule.pdb was not created for AD-C_A+C_C7B-T
+MINI=AD+C_AD+C_A-C, TXTFILE=../angle_files/AD+C_AD+C_A-C.txt
+Error: molecule.pdb was not created for AD+C_AD+C_A-C
+MINI=AD+C_AD-C_A+C, TXTFILE=../angle_files/AD+C_AD-C_A+C.txt
+Error: molecule.pdb was not created for AD+C_AD-C_A+C
+MINI=AD-C_AD+C_A-C, TXTFILE=../angle_files/AD-C_AD+C_A-C.txt
+Error: molecule.pdb was not created for AD-C_AD+C_A-C
+MINI=AD-C_AD-C_A+C, TXTFILE=../angle_files/AD-C_AD-C_A+C.txt
+Error: molecule.pdb was not created for AD-C_AD-C_A+C
+MINI=AD+C_AD+C_C7B+C, TXTFILE=../angle_files/AD+C_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for AD+C_AD+C_C7B+C
+MINI=AD+C_AD-C_C7B-C, TXTFILE=../angle_files/AD+C_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for AD+C_AD-C_C7B-C
+MINI=AD-C_AD+C_C7B+C, TXTFILE=../angle_files/AD-C_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for AD-C_AD+C_C7B+C
+MINI=AD-C_AD-C_C7B-C, TXTFILE=../angle_files/AD-C_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for AD-C_AD-C_C7B-C
+MINI=AD+C_AD+T_C7B+C, TXTFILE=../angle_files/AD+C_AD+T_C7B+C.txt
+Error: molecule.pdb was not created for AD+C_AD+T_C7B+C
+MINI=AD-C_AD-T_C7B-C, TXTFILE=../angle_files/AD-C_AD-T_C7B-C.txt
+Error: molecule.pdb was not created for AD-C_AD-T_C7B-C
+MINI=AD+C_A+T_A-C, TXTFILE=../angle_files/AD+C_A+T_A-C.txt
+Error: molecule.pdb was not created for AD+C_A+T_A-C
+MINI=AD+C_A-T_A+C, TXTFILE=../angle_files/AD+C_A-T_A+C.txt
+Error: molecule.pdb was not created for AD+C_A-T_A+C
+MINI=AD-C_A+T_A-C, TXTFILE=../angle_files/AD-C_A+T_A-C.txt
+Error: molecule.pdb was not created for AD-C_A+T_A-C
+MINI=AD-C_A-T_A+C, TXTFILE=../angle_files/AD-C_A-T_A+C.txt
+Error: molecule.pdb was not created for AD-C_A-T_A+C
+MINI=AD+C_A+T_C7B+C, TXTFILE=../angle_files/AD+C_A+T_C7B+C.txt
+Error: molecule.pdb was not created for AD+C_A+T_C7B+C
+MINI=AD+C_A-T_C7B-C, TXTFILE=../angle_files/AD+C_A-T_C7B-C.txt
+Error: molecule.pdb was not created for AD+C_A-T_C7B-C
+MINI=AD-C_A+T_C7B+C, TXTFILE=../angle_files/AD-C_A+T_C7B+C.txt
+Error: molecule.pdb was not created for AD-C_A+T_C7B+C
+MINI=AD-C_A-T_C7B-C, TXTFILE=../angle_files/AD-C_A-T_C7B-C.txt
+Error: molecule.pdb was not created for AD-C_A-T_C7B-C
+MINI=AD+C_C7B+C_A+C, TXTFILE=../angle_files/AD+C_C7B+C_A+C.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_A+C
+MINI=AD+C_C7B+C_A-C, TXTFILE=../angle_files/AD+C_C7B+C_A-C.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_A-C
+MINI=AD-C_C7B-C_A+C, TXTFILE=../angle_files/AD-C_C7B-C_A+C.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_A+C
+MINI=AD-C_C7B-C_A-C, TXTFILE=../angle_files/AD-C_C7B-C_A-C.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_A-C
+MINI=AD+C_C7B+C_AD+C, TXTFILE=../angle_files/AD+C_C7B+C_AD+C.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_AD+C
+MINI=AD+C_C7B+C_AD-C, TXTFILE=../angle_files/AD+C_C7B+C_AD-C.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_AD-C
+MINI=AD-C_C7B-C_AD-C, TXTFILE=../angle_files/AD-C_C7B-C_AD-C.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_AD-C
+MINI=AD+C_C7B+C_AD+T, TXTFILE=../angle_files/AD+C_C7B+C_AD+T.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_AD+T
+MINI=AD+C_C7B+C_AD-T, TXTFILE=../angle_files/AD+C_C7B+C_AD-T.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_AD-T
+MINI=AD-C_C7B-C_AD+T, TXTFILE=../angle_files/AD-C_C7B-C_AD+T.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_AD+T
+MINI=AD-C_C7B-C_AD-T, TXTFILE=../angle_files/AD-C_C7B-C_AD-T.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_AD-T
+MINI=AD+C_C7B+C_A+T, TXTFILE=../angle_files/AD+C_C7B+C_A+T.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_A+T
+MINI=AD+C_C7B+C_A-T, TXTFILE=../angle_files/AD+C_C7B+C_A-T.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_A-T
+MINI=AD-C_C7B-C_A+T, TXTFILE=../angle_files/AD-C_C7B-C_A+T.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_A+T
+MINI=AD-C_C7B-C_A-T, TXTFILE=../angle_files/AD-C_C7B-C_A-T.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_A-T
+MINI=AD+C_C7B+C_C7B+C, TXTFILE=../angle_files/AD+C_C7B+C_C7B+C.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_C7B+C
+MINI=AD+C_C7B+C_C7B-C, TXTFILE=../angle_files/AD+C_C7B+C_C7B-C.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_C7B-C
+MINI=AD-C_C7B-C_C7B+C, TXTFILE=../angle_files/AD-C_C7B-C_C7B+C.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_C7B+C
+MINI=AD-C_C7B-C_C7B-C, TXTFILE=../angle_files/AD-C_C7B-C_C7B-C.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_C7B-C
+MINI=AD+C_C7B+C_C7B+T, TXTFILE=../angle_files/AD+C_C7B+C_C7B+T.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_C7B+T
+MINI=AD+C_C7B+C_C7B-T, TXTFILE=../angle_files/AD+C_C7B+C_C7B-T.txt
+Error: molecule.pdb was not created for AD+C_C7B+C_C7B-T
+MINI=AD-C_C7B-C_C7B+T, TXTFILE=../angle_files/AD-C_C7B-C_C7B+T.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_C7B+T
+MINI=AD-C_C7B-C_C7B-T, TXTFILE=../angle_files/AD-C_C7B-C_C7B-T.txt
+Error: molecule.pdb was not created for AD-C_C7B-C_C7B-T
+MINI=AD+C_C7B-T_C7B-C, TXTFILE=../angle_files/AD+C_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for AD+C_C7B-T_C7B-C
+MINI=AD-C_C7B-T_C7B-C, TXTFILE=../angle_files/AD-C_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for AD-C_C7B-T_C7B-C
+MINI=AD+T_A+C_A-C, TXTFILE=../angle_files/AD+T_A+C_A-C.txt
+Error: molecule.pdb was not created for AD+T_A+C_A-C
+MINI=AD+T_A-C_A+C, TXTFILE=../angle_files/AD+T_A-C_A+C.txt
+Error: molecule.pdb was not created for AD+T_A-C_A+C
+MINI=AD-T_A+C_A-C, TXTFILE=../angle_files/AD-T_A+C_A-C.txt
+Error: molecule.pdb was not created for AD-T_A+C_A-C
+MINI=AD-T_A-C_A+C, TXTFILE=../angle_files/AD-T_A-C_A+C.txt
+Error: molecule.pdb was not created for AD-T_A-C_A+C
+MINI=AD+T_A-C_AD+C, TXTFILE=../angle_files/AD+T_A-C_AD+C.txt
+Error: molecule.pdb was not created for AD+T_A-C_AD+C
+MINI=AD-T_A+C_AD-C, TXTFILE=../angle_files/AD-T_A+C_AD-C.txt
+Error: molecule.pdb was not created for AD-T_A+C_AD-C
+MINI=AD+T_A-C_AD+T, TXTFILE=../angle_files/AD+T_A-C_AD+T.txt
+Error: molecule.pdb was not created for AD+T_A-C_AD+T
+MINI=AD+T_A-C_AD-T, TXTFILE=../angle_files/AD+T_A-C_AD-T.txt
+Error: molecule.pdb was not created for AD+T_A-C_AD-T
+MINI=AD-T_A+C_AD+T, TXTFILE=../angle_files/AD-T_A+C_AD+T.txt
+Error: molecule.pdb was not created for AD-T_A+C_AD+T
+MINI=AD-T_A+C_AD-T, TXTFILE=../angle_files/AD-T_A+C_AD-T.txt
+Error: molecule.pdb was not created for AD-T_A+C_AD-T
+MINI=AD+T_A-C_A+T, TXTFILE=../angle_files/AD+T_A-C_A+T.txt
+Error: molecule.pdb was not created for AD+T_A-C_A+T
+MINI=AD-T_A+C_A-T, TXTFILE=../angle_files/AD-T_A+C_A-T.txt
+Error: molecule.pdb was not created for AD-T_A+C_A-T
+MINI=AD+T_A+C_C7B+C, TXTFILE=../angle_files/AD+T_A+C_C7B+C.txt
+Error: molecule.pdb was not created for AD+T_A+C_C7B+C
+MINI=AD+T_A-C_C7B-C, TXTFILE=../angle_files/AD+T_A-C_C7B-C.txt
+Error: molecule.pdb was not created for AD+T_A-C_C7B-C
+MINI=AD-T_A+C_C7B+C, TXTFILE=../angle_files/AD-T_A+C_C7B+C.txt
+Error: molecule.pdb was not created for AD-T_A+C_C7B+C
+MINI=AD-T_A-C_C7B-C, TXTFILE=../angle_files/AD-T_A-C_C7B-C.txt
+Error: molecule.pdb was not created for AD-T_A-C_C7B-C
+MINI=AD+T_A-C_C7B+T, TXTFILE=../angle_files/AD+T_A-C_C7B+T.txt
+Error: molecule.pdb was not created for AD+T_A-C_C7B+T
+MINI=AD+T_A-C_C7B-T, TXTFILE=../angle_files/AD+T_A-C_C7B-T.txt
+Error: molecule.pdb was not created for AD+T_A-C_C7B-T
+MINI=AD-T_A+C_C7B+T, TXTFILE=../angle_files/AD-T_A+C_C7B+T.txt
+Error: molecule.pdb was not created for AD-T_A+C_C7B+T
+MINI=AD+T_AD+C_A-C, TXTFILE=../angle_files/AD+T_AD+C_A-C.txt
+Error: molecule.pdb was not created for AD+T_AD+C_A-C
+MINI=AD+T_AD-C_A+C, TXTFILE=../angle_files/AD+T_AD-C_A+C.txt
+Error: molecule.pdb was not created for AD+T_AD-C_A+C
+MINI=AD-T_AD+C_A-C, TXTFILE=../angle_files/AD-T_AD+C_A-C.txt
+Error: molecule.pdb was not created for AD-T_AD+C_A-C
+MINI=AD-T_AD-C_A+C, TXTFILE=../angle_files/AD-T_AD-C_A+C.txt
+Error: molecule.pdb was not created for AD-T_AD-C_A+C
+MINI=AD+T_AD+C_C7B+C, TXTFILE=../angle_files/AD+T_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for AD+T_AD+C_C7B+C
+MINI=AD+T_AD-C_C7B-C, TXTFILE=../angle_files/AD+T_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for AD+T_AD-C_C7B-C
+MINI=AD-T_AD+C_C7B+C, TXTFILE=../angle_files/AD-T_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for AD-T_AD+C_C7B+C
+MINI=AD-T_AD-C_C7B-C, TXTFILE=../angle_files/AD-T_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for AD-T_AD-C_C7B-C
+MINI=AD+T_A+T_A-C, TXTFILE=../angle_files/AD+T_A+T_A-C.txt
+Error: molecule.pdb was not created for AD+T_A+T_A-C
+MINI=AD+T_A-T_A+C, TXTFILE=../angle_files/AD+T_A-T_A+C.txt
+Error: molecule.pdb was not created for AD+T_A-T_A+C
+MINI=AD-T_A+T_A-C, TXTFILE=../angle_files/AD-T_A+T_A-C.txt
+Error: molecule.pdb was not created for AD-T_A+T_A-C
+MINI=AD-T_A-T_A+C, TXTFILE=../angle_files/AD-T_A-T_A+C.txt
+Error: molecule.pdb was not created for AD-T_A-T_A+C
+MINI=AD+T_A+T_C7B+C, TXTFILE=../angle_files/AD+T_A+T_C7B+C.txt
+Error: molecule.pdb was not created for AD+T_A+T_C7B+C
+MINI=AD+T_A-T_C7B-C, TXTFILE=../angle_files/AD+T_A-T_C7B-C.txt
+Error: molecule.pdb was not created for AD+T_A-T_C7B-C
+MINI=AD-T_A+T_C7B+C, TXTFILE=../angle_files/AD-T_A+T_C7B+C.txt
+Error: molecule.pdb was not created for AD-T_A+T_C7B+C
+MINI=AD-T_A-T_C7B-C, TXTFILE=../angle_files/AD-T_A-T_C7B-C.txt
+Error: molecule.pdb was not created for AD-T_A-T_C7B-C
+MINI=AD+T_C7B+C_A+C, TXTFILE=../angle_files/AD+T_C7B+C_A+C.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_A+C
+MINI=AD+T_C7B+C_A-C, TXTFILE=../angle_files/AD+T_C7B+C_A-C.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_A-C
+MINI=AD-T_C7B-C_A-C, TXTFILE=../angle_files/AD-T_C7B-C_A-C.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_A-C
+MINI=AD+T_C7B+C_AD-C, TXTFILE=../angle_files/AD+T_C7B+C_AD-C.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_AD-C
+MINI=AD-T_C7B-C_AD+C, TXTFILE=../angle_files/AD-T_C7B-C_AD+C.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_AD+C
+MINI=AD+T_C7B+C_AD+T, TXTFILE=../angle_files/AD+T_C7B+C_AD+T.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_AD+T
+MINI=AD+T_C7B+C_AD-T, TXTFILE=../angle_files/AD+T_C7B+C_AD-T.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_AD-T
+MINI=AD-T_C7B-C_AD+T, TXTFILE=../angle_files/AD-T_C7B-C_AD+T.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_AD+T
+MINI=AD-T_C7B-C_AD-T, TXTFILE=../angle_files/AD-T_C7B-C_AD-T.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_AD-T
+MINI=AD+T_C7B+C_A+T, TXTFILE=../angle_files/AD+T_C7B+C_A+T.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_A+T
+MINI=AD+T_C7B+C_A-T, TXTFILE=../angle_files/AD+T_C7B+C_A-T.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_A-T
+MINI=AD-T_C7B-C_A+T, TXTFILE=../angle_files/AD-T_C7B-C_A+T.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_A+T
+MINI=AD-T_C7B-C_A-T, TXTFILE=../angle_files/AD-T_C7B-C_A-T.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_A-T
+MINI=AD+T_C7B+C_C7B+C, TXTFILE=../angle_files/AD+T_C7B+C_C7B+C.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_C7B+C
+MINI=AD+T_C7B+C_C7B-C, TXTFILE=../angle_files/AD+T_C7B+C_C7B-C.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_C7B-C
+MINI=AD-T_C7B-C_C7B+C, TXTFILE=../angle_files/AD-T_C7B-C_C7B+C.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_C7B+C
+MINI=AD-T_C7B-C_C7B-C, TXTFILE=../angle_files/AD-T_C7B-C_C7B-C.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_C7B-C
+MINI=AD+T_C7B+C_C7B+T, TXTFILE=../angle_files/AD+T_C7B+C_C7B+T.txt
+Error: molecule.pdb was not created for AD+T_C7B+C_C7B+T
+MINI=AD-T_C7B-C_C7B-T, TXTFILE=../angle_files/AD-T_C7B-C_C7B-T.txt
+Error: molecule.pdb was not created for AD-T_C7B-C_C7B-T
+MINI=AD+T_C7B-T_C7B-C, TXTFILE=../angle_files/AD+T_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for AD+T_C7B-T_C7B-C
+MINI=AD-T_C7B-T_C7B-C, TXTFILE=../angle_files/AD-T_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for AD-T_C7B-T_C7B-C
+MINI=A+T_A+C_A-C, TXTFILE=../angle_files/A+T_A+C_A-C.txt
+Error: molecule.pdb was not created for A+T_A+C_A-C
+MINI=A+T_A-C_A+C, TXTFILE=../angle_files/A+T_A-C_A+C.txt
+Error: molecule.pdb was not created for A+T_A-C_A+C
+MINI=A+T_A-C_A-C, TXTFILE=../angle_files/A+T_A-C_A-C.txt
+Error: molecule.pdb was not created for A+T_A-C_A-C
+MINI=A-T_A+C_A+C, TXTFILE=../angle_files/A-T_A+C_A+C.txt
+Error: molecule.pdb was not created for A-T_A+C_A+C
+MINI=A-T_A+C_A-C, TXTFILE=../angle_files/A-T_A+C_A-C.txt
+Error: molecule.pdb was not created for A-T_A+C_A-C
+MINI=A-T_A-C_A+C, TXTFILE=../angle_files/A-T_A-C_A+C.txt
+Error: molecule.pdb was not created for A-T_A-C_A+C
+MINI=A+T_A-C_AD+C, TXTFILE=../angle_files/A+T_A-C_AD+C.txt
+Error: molecule.pdb was not created for A+T_A-C_AD+C
+MINI=A+T_A-C_AD-C, TXTFILE=../angle_files/A+T_A-C_AD-C.txt
+Error: molecule.pdb was not created for A+T_A-C_AD-C
+MINI=A-T_A+C_AD+C, TXTFILE=../angle_files/A-T_A+C_AD+C.txt
+Error: molecule.pdb was not created for A-T_A+C_AD+C
+MINI=A-T_A+C_AD-C, TXTFILE=../angle_files/A-T_A+C_AD-C.txt
+Error: molecule.pdb was not created for A-T_A+C_AD-C
+MINI=A+T_A-C_AD+T, TXTFILE=../angle_files/A+T_A-C_AD+T.txt
+Error: molecule.pdb was not created for A+T_A-C_AD+T
+MINI=A+T_A-C_AD-T, TXTFILE=../angle_files/A+T_A-C_AD-T.txt
+Error: molecule.pdb was not created for A+T_A-C_AD-T
+MINI=A-T_A+C_AD+T, TXTFILE=../angle_files/A-T_A+C_AD+T.txt
+Error: molecule.pdb was not created for A-T_A+C_AD+T
+MINI=A-T_A+C_AD-T, TXTFILE=../angle_files/A-T_A+C_AD-T.txt
+Error: molecule.pdb was not created for A-T_A+C_AD-T
+MINI=A+T_A-C_A+T, TXTFILE=../angle_files/A+T_A-C_A+T.txt
+Error: molecule.pdb was not created for A+T_A-C_A+T
+MINI=A+T_A-C_A-T, TXTFILE=../angle_files/A+T_A-C_A-T.txt
+Error: molecule.pdb was not created for A+T_A-C_A-T
+MINI=A-T_A+C_A+T, TXTFILE=../angle_files/A-T_A+C_A+T.txt
+Error: molecule.pdb was not created for A-T_A+C_A+T
+MINI=A-T_A+C_A-T, TXTFILE=../angle_files/A-T_A+C_A-T.txt
+Error: molecule.pdb was not created for A-T_A+C_A-T
+MINI=A+T_A+C_C7B+C, TXTFILE=../angle_files/A+T_A+C_C7B+C.txt
+Error: molecule.pdb was not created for A+T_A+C_C7B+C
+MINI=A+T_A-C_C7B+C, TXTFILE=../angle_files/A+T_A-C_C7B+C.txt
+Error: molecule.pdb was not created for A+T_A-C_C7B+C
+MINI=A+T_A-C_C7B-C, TXTFILE=../angle_files/A+T_A-C_C7B-C.txt
+Error: molecule.pdb was not created for A+T_A-C_C7B-C
+MINI=A-T_A+C_C7B+C, TXTFILE=../angle_files/A-T_A+C_C7B+C.txt
+Error: molecule.pdb was not created for A-T_A+C_C7B+C
+MINI=A-T_A+C_C7B-C, TXTFILE=../angle_files/A-T_A+C_C7B-C.txt
+Error: molecule.pdb was not created for A-T_A+C_C7B-C
+MINI=A-T_A-C_C7B-C, TXTFILE=../angle_files/A-T_A-C_C7B-C.txt
+Error: molecule.pdb was not created for A-T_A-C_C7B-C
+MINI=A+T_A-C_C7B+T, TXTFILE=../angle_files/A+T_A-C_C7B+T.txt
+Error: molecule.pdb was not created for A+T_A-C_C7B+T
+MINI=A+T_A-C_C7B-T, TXTFILE=../angle_files/A+T_A-C_C7B-T.txt
+Error: molecule.pdb was not created for A+T_A-C_C7B-T
+MINI=A-T_A+C_C7B+T, TXTFILE=../angle_files/A-T_A+C_C7B+T.txt
+Error: molecule.pdb was not created for A-T_A+C_C7B+T
+MINI=A-T_A+C_C7B-T, TXTFILE=../angle_files/A-T_A+C_C7B-T.txt
+Error: molecule.pdb was not created for A-T_A+C_C7B-T
+MINI=A+T_AD+C_A-C, TXTFILE=../angle_files/A+T_AD+C_A-C.txt
+Error: molecule.pdb was not created for A+T_AD+C_A-C
+MINI=A+T_AD-C_A+C, TXTFILE=../angle_files/A+T_AD-C_A+C.txt
+Error: molecule.pdb was not created for A+T_AD-C_A+C
+MINI=A-T_AD+C_A-C, TXTFILE=../angle_files/A-T_AD+C_A-C.txt
+Error: molecule.pdb was not created for A-T_AD+C_A-C
+MINI=A-T_AD-C_A+C, TXTFILE=../angle_files/A-T_AD-C_A+C.txt
+Error: molecule.pdb was not created for A-T_AD-C_A+C
+MINI=A+T_AD+C_C7B+C, TXTFILE=../angle_files/A+T_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for A+T_AD+C_C7B+C
+MINI=A+T_AD-C_C7B-C, TXTFILE=../angle_files/A+T_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for A+T_AD-C_C7B-C
+MINI=A-T_AD+C_C7B+C, TXTFILE=../angle_files/A-T_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for A-T_AD+C_C7B+C
+MINI=A-T_AD-C_C7B-C, TXTFILE=../angle_files/A-T_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for A-T_AD-C_C7B-C
+MINI=A+T_AD+T_C7B+C, TXTFILE=../angle_files/A+T_AD+T_C7B+C.txt
+Error: molecule.pdb was not created for A+T_AD+T_C7B+C
+MINI=A-T_AD-T_C7B-C, TXTFILE=../angle_files/A-T_AD-T_C7B-C.txt
+Error: molecule.pdb was not created for A-T_AD-T_C7B-C
+MINI=A+T_A+T_A-C, TXTFILE=../angle_files/A+T_A+T_A-C.txt
+Error: molecule.pdb was not created for A+T_A+T_A-C
+MINI=A+T_A-T_A+C, TXTFILE=../angle_files/A+T_A-T_A+C.txt
+Error: molecule.pdb was not created for A+T_A-T_A+C
+MINI=A-T_A+T_A-C, TXTFILE=../angle_files/A-T_A+T_A-C.txt
+Error: molecule.pdb was not created for A-T_A+T_A-C
+MINI=A-T_A-T_A+C, TXTFILE=../angle_files/A-T_A-T_A+C.txt
+Error: molecule.pdb was not created for A-T_A-T_A+C
+MINI=A+T_A+T_C7B+C, TXTFILE=../angle_files/A+T_A+T_C7B+C.txt
+Error: molecule.pdb was not created for A+T_A+T_C7B+C
+MINI=A+T_A-T_C7B-C, TXTFILE=../angle_files/A+T_A-T_C7B-C.txt
+Error: molecule.pdb was not created for A+T_A-T_C7B-C
+MINI=A-T_A+T_C7B+C, TXTFILE=../angle_files/A-T_A+T_C7B+C.txt
+Error: molecule.pdb was not created for A-T_A+T_C7B+C
+MINI=A-T_A-T_C7B-C, TXTFILE=../angle_files/A-T_A-T_C7B-C.txt
+Error: molecule.pdb was not created for A-T_A-T_C7B-C
+MINI=A+T_C7B+C_A+C, TXTFILE=../angle_files/A+T_C7B+C_A+C.txt
+Error: molecule.pdb was not created for A+T_C7B+C_A+C
+MINI=A+T_C7B+C_A-C, TXTFILE=../angle_files/A+T_C7B+C_A-C.txt
+Error: molecule.pdb was not created for A+T_C7B+C_A-C
+MINI=A+T_C7B-C_A+C, TXTFILE=../angle_files/A+T_C7B-C_A+C.txt
+Error: molecule.pdb was not created for A+T_C7B-C_A+C
+MINI=A-T_C7B-C_A+C, TXTFILE=../angle_files/A-T_C7B-C_A+C.txt
+Error: molecule.pdb was not created for A-T_C7B-C_A+C
+MINI=A-T_C7B-C_A-C, TXTFILE=../angle_files/A-T_C7B-C_A-C.txt
+Error: molecule.pdb was not created for A-T_C7B-C_A-C
+MINI=A+T_C7B+C_AD+C, TXTFILE=../angle_files/A+T_C7B+C_AD+C.txt
+Error: molecule.pdb was not created for A+T_C7B+C_AD+C
+MINI=A+T_C7B+C_AD-C, TXTFILE=../angle_files/A+T_C7B+C_AD-C.txt
+Error: molecule.pdb was not created for A+T_C7B+C_AD-C
+MINI=A-T_C7B-C_AD+C, TXTFILE=../angle_files/A-T_C7B-C_AD+C.txt
+Error: molecule.pdb was not created for A-T_C7B-C_AD+C
+MINI=A-T_C7B-C_AD-C, TXTFILE=../angle_files/A-T_C7B-C_AD-C.txt
+Error: molecule.pdb was not created for A-T_C7B-C_AD-C
+MINI=A+T_C7B+C_AD+T, TXTFILE=../angle_files/A+T_C7B+C_AD+T.txt
+Error: molecule.pdb was not created for A+T_C7B+C_AD+T
+MINI=A+T_C7B+C_AD-T, TXTFILE=../angle_files/A+T_C7B+C_AD-T.txt
+Error: molecule.pdb was not created for A+T_C7B+C_AD-T
+MINI=A-T_C7B-C_AD+T, TXTFILE=../angle_files/A-T_C7B-C_AD+T.txt
+Error: molecule.pdb was not created for A-T_C7B-C_AD+T
+MINI=A-T_C7B-C_AD-T, TXTFILE=../angle_files/A-T_C7B-C_AD-T.txt
+Error: molecule.pdb was not created for A-T_C7B-C_AD-T
+MINI=A+T_C7B+C_A+T, TXTFILE=../angle_files/A+T_C7B+C_A+T.txt
+Error: molecule.pdb was not created for A+T_C7B+C_A+T
+MINI=A+T_C7B+C_A-T, TXTFILE=../angle_files/A+T_C7B+C_A-T.txt
+Error: molecule.pdb was not created for A+T_C7B+C_A-T
+MINI=A-T_C7B-C_A+T, TXTFILE=../angle_files/A-T_C7B-C_A+T.txt
+Error: molecule.pdb was not created for A-T_C7B-C_A+T
+MINI=A-T_C7B-C_A-T, TXTFILE=../angle_files/A-T_C7B-C_A-T.txt
+Error: molecule.pdb was not created for A-T_C7B-C_A-T
+MINI=A+T_C7B+C_C7B+C, TXTFILE=../angle_files/A+T_C7B+C_C7B+C.txt
+Error: molecule.pdb was not created for A+T_C7B+C_C7B+C
+MINI=A+T_C7B+C_C7B-C, TXTFILE=../angle_files/A+T_C7B+C_C7B-C.txt
+Error: molecule.pdb was not created for A+T_C7B+C_C7B-C
+MINI=A+T_C7B-C_C7B-C, TXTFILE=../angle_files/A+T_C7B-C_C7B-C.txt
+Error: molecule.pdb was not created for A+T_C7B-C_C7B-C
+MINI=A-T_C7B-C_C7B+C, TXTFILE=../angle_files/A-T_C7B-C_C7B+C.txt
+Error: molecule.pdb was not created for A-T_C7B-C_C7B+C
+MINI=A-T_C7B-C_C7B-C, TXTFILE=../angle_files/A-T_C7B-C_C7B-C.txt
+Error: molecule.pdb was not created for A-T_C7B-C_C7B-C
+MINI=A+T_C7B+C_C7B+T, TXTFILE=../angle_files/A+T_C7B+C_C7B+T.txt
+Error: molecule.pdb was not created for A+T_C7B+C_C7B+T
+MINI=A+T_C7B+C_C7B-T, TXTFILE=../angle_files/A+T_C7B+C_C7B-T.txt
+Error: molecule.pdb was not created for A+T_C7B+C_C7B-T
+MINI=A-T_C7B-C_C7B+T, TXTFILE=../angle_files/A-T_C7B-C_C7B+T.txt
+Error: molecule.pdb was not created for A-T_C7B-C_C7B+T
+MINI=A-T_C7B-C_C7B-T, TXTFILE=../angle_files/A-T_C7B-C_C7B-T.txt
+Error: molecule.pdb was not created for A-T_C7B-C_C7B-T
+MINI=A+T_C7B-T_C7B-C, TXTFILE=../angle_files/A+T_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for A+T_C7B-T_C7B-C
+MINI=A-T_C7B-T_C7B-C, TXTFILE=../angle_files/A-T_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for A-T_C7B-T_C7B-C
+MINI=C7B+C_A+C_A-C, TXTFILE=../angle_files/C7B+C_A+C_A-C.txt
+Error: molecule.pdb was not created for C7B+C_A+C_A-C
+MINI=C7B+C_A-C_A+C, TXTFILE=../angle_files/C7B+C_A-C_A+C.txt
+Error: molecule.pdb was not created for C7B+C_A-C_A+C
+MINI=C7B-C_A+C_A-C, TXTFILE=../angle_files/C7B-C_A+C_A-C.txt
+Error: molecule.pdb was not created for C7B-C_A+C_A-C
+MINI=C7B-C_A-C_A+C, TXTFILE=../angle_files/C7B-C_A-C_A+C.txt
+Error: molecule.pdb was not created for C7B-C_A-C_A+C
+MINI=C7B+C_A-C_A-T, TXTFILE=../angle_files/C7B+C_A-C_A-T.txt
+Error: molecule.pdb was not created for C7B+C_A-C_A-T
+MINI=C7B+C_A+C_C7B+C, TXTFILE=../angle_files/C7B+C_A+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B+C_A+C_C7B+C
+MINI=C7B+C_A-C_C7B-C, TXTFILE=../angle_files/C7B+C_A-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B+C_A-C_C7B-C
+MINI=C7B-C_A+C_C7B+C, TXTFILE=../angle_files/C7B-C_A+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B-C_A+C_C7B+C
+MINI=C7B-C_A-C_C7B-C, TXTFILE=../angle_files/C7B-C_A-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B-C_A-C_C7B-C
+MINI=C7B+C_A-C_C7B+T, TXTFILE=../angle_files/C7B+C_A-C_C7B+T.txt
+Error: molecule.pdb was not created for C7B+C_A-C_C7B+T
+MINI=C7B+C_AD+C_A-C, TXTFILE=../angle_files/C7B+C_AD+C_A-C.txt
+Error: molecule.pdb was not created for C7B+C_AD+C_A-C
+MINI=C7B+C_AD-C_A+C, TXTFILE=../angle_files/C7B+C_AD-C_A+C.txt
+Error: molecule.pdb was not created for C7B+C_AD-C_A+C
+MINI=C7B-C_AD+C_A-C, TXTFILE=../angle_files/C7B-C_AD+C_A-C.txt
+Error: molecule.pdb was not created for C7B-C_AD+C_A-C
+MINI=C7B-C_AD-C_A+C, TXTFILE=../angle_files/C7B-C_AD-C_A+C.txt
+Error: molecule.pdb was not created for C7B-C_AD-C_A+C
+MINI=C7B+C_AD+C_C7B+C, TXTFILE=../angle_files/C7B+C_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B+C_AD+C_C7B+C
+MINI=C7B+C_AD-C_C7B-C, TXTFILE=../angle_files/C7B+C_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B+C_AD-C_C7B-C
+MINI=C7B-C_AD+C_C7B+C, TXTFILE=../angle_files/C7B-C_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B-C_AD+C_C7B+C
+MINI=C7B-C_AD-C_C7B-C, TXTFILE=../angle_files/C7B-C_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B-C_AD-C_C7B-C
+MINI=C7B-C_AD-T_C7B-C, TXTFILE=../angle_files/C7B-C_AD-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B-C_AD-T_C7B-C
+MINI=C7B+C_A+T_A-C, TXTFILE=../angle_files/C7B+C_A+T_A-C.txt
+Error: molecule.pdb was not created for C7B+C_A+T_A-C
+MINI=C7B+C_A-T_A+C, TXTFILE=../angle_files/C7B+C_A-T_A+C.txt
+Error: molecule.pdb was not created for C7B+C_A-T_A+C
+MINI=C7B-C_A+T_A-C, TXTFILE=../angle_files/C7B-C_A+T_A-C.txt
+Error: molecule.pdb was not created for C7B-C_A+T_A-C
+MINI=C7B-C_A-T_A+C, TXTFILE=../angle_files/C7B-C_A-T_A+C.txt
+Error: molecule.pdb was not created for C7B-C_A-T_A+C
+MINI=C7B+C_A+T_C7B+C, TXTFILE=../angle_files/C7B+C_A+T_C7B+C.txt
+Error: molecule.pdb was not created for C7B+C_A+T_C7B+C
+MINI=C7B+C_A-T_C7B-C, TXTFILE=../angle_files/C7B+C_A-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B+C_A-T_C7B-C
+MINI=C7B-C_A+T_C7B+C, TXTFILE=../angle_files/C7B-C_A+T_C7B+C.txt
+Error: molecule.pdb was not created for C7B-C_A+T_C7B+C
+MINI=C7B-C_A-T_C7B-C, TXTFILE=../angle_files/C7B-C_A-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B-C_A-T_C7B-C
+MINI=C7B-C_C7B-C_A+C, TXTFILE=../angle_files/C7B-C_C7B-C_A+C.txt
+MINI=C7B+C_C7B-T_A+C, TXTFILE=../angle_files/C7B+C_C7B-T_A+C.txt
+MINI=C7B+C_C7B-T_C7B-C, TXTFILE=../angle_files/C7B+C_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B+C_C7B-T_C7B-C
+MINI=C7B-C_C7B-T_C7B-C, TXTFILE=../angle_files/C7B-C_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B-C_C7B-T_C7B-C
+MINI=C7B+T_A+C_A-C, TXTFILE=../angle_files/C7B+T_A+C_A-C.txt
+Error: molecule.pdb was not created for C7B+T_A+C_A-C
+MINI=C7B+T_A-C_A+C, TXTFILE=../angle_files/C7B+T_A-C_A+C.txt
+Error: molecule.pdb was not created for C7B+T_A-C_A+C
+MINI=C7B-T_A+C_A-C, TXTFILE=../angle_files/C7B-T_A+C_A-C.txt
+Error: molecule.pdb was not created for C7B-T_A+C_A-C
+MINI=C7B-T_A-C_A+C, TXTFILE=../angle_files/C7B-T_A-C_A+C.txt
+Error: molecule.pdb was not created for C7B-T_A-C_A+C
+MINI=C7B-T_A+C_AD+C, TXTFILE=../angle_files/C7B-T_A+C_AD+C.txt
+Error: molecule.pdb was not created for C7B-T_A+C_AD+C
+MINI=C7B-T_A+C_AD-C, TXTFILE=../angle_files/C7B-T_A+C_AD-C.txt
+Error: molecule.pdb was not created for C7B-T_A+C_AD-C
+MINI=C7B-T_A+C_AD+T, TXTFILE=../angle_files/C7B-T_A+C_AD+T.txt
+Error: molecule.pdb was not created for C7B-T_A+C_AD+T
+MINI=C7B-T_A+C_AD-T, TXTFILE=../angle_files/C7B-T_A+C_AD-T.txt
+Error: molecule.pdb was not created for C7B-T_A+C_AD-T
+MINI=C7B-T_A+C_A-T, TXTFILE=../angle_files/C7B-T_A+C_A-T.txt
+Error: molecule.pdb was not created for C7B-T_A+C_A-T
+MINI=C7B+T_A+C_C7B+C, TXTFILE=../angle_files/C7B+T_A+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B+T_A+C_C7B+C
+MINI=C7B+T_A-C_C7B-C, TXTFILE=../angle_files/C7B+T_A-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B+T_A-C_C7B-C
+MINI=C7B-T_A+C_C7B+C, TXTFILE=../angle_files/C7B-T_A+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B-T_A+C_C7B+C
+MINI=C7B-T_A+C_C7B-C, TXTFILE=../angle_files/C7B-T_A+C_C7B-C.txt
+Error: molecule.pdb was not created for C7B-T_A+C_C7B-C
+MINI=C7B-T_A-C_C7B-C, TXTFILE=../angle_files/C7B-T_A-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B-T_A-C_C7B-C
+MINI=C7B-T_A+C_C7B+T, TXTFILE=../angle_files/C7B-T_A+C_C7B+T.txt
+Error: molecule.pdb was not created for C7B-T_A+C_C7B+T
+MINI=C7B+T_AD+C_A-C, TXTFILE=../angle_files/C7B+T_AD+C_A-C.txt
+Error: molecule.pdb was not created for C7B+T_AD+C_A-C
+MINI=C7B+T_AD-C_A+C, TXTFILE=../angle_files/C7B+T_AD-C_A+C.txt
+Error: molecule.pdb was not created for C7B+T_AD-C_A+C
+MINI=C7B-T_AD+C_A-C, TXTFILE=../angle_files/C7B-T_AD+C_A-C.txt
+Error: molecule.pdb was not created for C7B-T_AD+C_A-C
+MINI=C7B-T_AD-C_A+C, TXTFILE=../angle_files/C7B-T_AD-C_A+C.txt
+Error: molecule.pdb was not created for C7B-T_AD-C_A+C
+MINI=C7B+T_AD+C_C7B+C, TXTFILE=../angle_files/C7B+T_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B+T_AD+C_C7B+C
+MINI=C7B+T_AD-C_C7B-C, TXTFILE=../angle_files/C7B+T_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B+T_AD-C_C7B-C
+MINI=C7B-T_AD+C_C7B+C, TXTFILE=../angle_files/C7B-T_AD+C_C7B+C.txt
+Error: molecule.pdb was not created for C7B-T_AD+C_C7B+C
+MINI=C7B-T_AD-C_C7B-C, TXTFILE=../angle_files/C7B-T_AD-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B-T_AD-C_C7B-C
+MINI=C7B+T_A+T_A-C, TXTFILE=../angle_files/C7B+T_A+T_A-C.txt
+Error: molecule.pdb was not created for C7B+T_A+T_A-C
+MINI=C7B+T_A-T_A+C, TXTFILE=../angle_files/C7B+T_A-T_A+C.txt
+Error: molecule.pdb was not created for C7B+T_A-T_A+C
+MINI=C7B-T_A+T_A-C, TXTFILE=../angle_files/C7B-T_A+T_A-C.txt
+Error: molecule.pdb was not created for C7B-T_A+T_A-C
+MINI=C7B-T_A-T_A+C, TXTFILE=../angle_files/C7B-T_A-T_A+C.txt
+Error: molecule.pdb was not created for C7B-T_A-T_A+C
+MINI=C7B+T_A+T_C7B+C, TXTFILE=../angle_files/C7B+T_A+T_C7B+C.txt
+Error: molecule.pdb was not created for C7B+T_A+T_C7B+C
+MINI=C7B+T_A-T_C7B-C, TXTFILE=../angle_files/C7B+T_A-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B+T_A-T_C7B-C
+MINI=C7B-T_A+T_C7B+C, TXTFILE=../angle_files/C7B-T_A+T_C7B+C.txt
+Error: molecule.pdb was not created for C7B-T_A+T_C7B+C
+MINI=C7B-T_A-T_C7B-C, TXTFILE=../angle_files/C7B-T_A-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B-T_A-T_C7B-C
+MINI=C7B-T_C7B-C_A-C, TXTFILE=../angle_files/C7B-T_C7B-C_A-C.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_A-C
+MINI=C7B-T_C7B-C_AD+C, TXTFILE=../angle_files/C7B-T_C7B-C_AD+C.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_AD+C
+MINI=C7B-T_C7B-C_AD+T, TXTFILE=../angle_files/C7B-T_C7B-C_AD+T.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_AD+T
+MINI=C7B-T_C7B-C_AD-T, TXTFILE=../angle_files/C7B-T_C7B-C_AD-T.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_AD-T
+MINI=C7B-T_C7B-C_A+T, TXTFILE=../angle_files/C7B-T_C7B-C_A+T.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_A+T
+MINI=C7B-T_C7B-C_A-T, TXTFILE=../angle_files/C7B-T_C7B-C_A-T.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_A-T
+MINI=C7B-T_C7B-C_C7B+C, TXTFILE=../angle_files/C7B-T_C7B-C_C7B+C.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_C7B+C
+MINI=C7B-T_C7B-C_C7B-C, TXTFILE=../angle_files/C7B-T_C7B-C_C7B-C.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_C7B-C
+MINI=C7B-T_C7B-C_C7B+T, TXTFILE=../angle_files/C7B-T_C7B-C_C7B+T.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_C7B+T
+MINI=C7B-T_C7B-C_C7B-T, TXTFILE=../angle_files/C7B-T_C7B-C_C7B-T.txt
+Error: molecule.pdb was not created for C7B-T_C7B-C_C7B-T
+MINI=C7B+T_C7B-T_C7B-C, TXTFILE=../angle_files/C7B+T_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B+T_C7B-T_C7B-C
+MINI=C7B-T_C7B-T_C7B-C, TXTFILE=../angle_files/C7B-T_C7B-T_C7B-C.txt
+Error: molecule.pdb was not created for C7B-T_C7B-T_C7B-C

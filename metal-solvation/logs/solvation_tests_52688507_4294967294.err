@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "/scratch/midway3/gruschka/metal-toids/metal-solvation/phase1.py", line 570, in <module>
+    main()
+  File "/scratch/midway3/gruschka/metal-toids/metal-solvation/phase1.py", line 535, in main
+    positions, box = equilibrate(ff, modeller, args, platform, props)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/midway3/gruschka/metal-toids/metal-solvation/phase1.py", line 238, in equilibrate
+    sim = app.Simulation(modeller.topology, system, integ, platform, props)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/midway3/gruschka/alchemist/lib/python3.11/site-packages/openmm/app/simulation.py", line 105, in __init__
+    self.context = mm.Context(self.system, self.integrator, platform, platformProperties)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/midway3/gruschka/alchemist/lib/python3.11/site-packages/openmm/openmm.py", line 6217, in __init__
+    _openmm.Context_swiginit(self, _openmm.new_Context(*args))
+                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^
+openmm.OpenMMException: Error loading CUDA module: CUDA_ERROR_UNSUPPORTED_PTX_VERSION (222)
+srun: error: midway3-0425: task 0: Exited with exit code 1

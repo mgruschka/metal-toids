@@ -1,0 +1,36 @@
+Mon Jul 27 09:45:53 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.216.03             Driver Version: 535.216.03   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA L40S                    On  | 00000000:1A:00.0 Off |                    0 |
+| N/A   27C    P8              33W / 350W |      0MiB / 46068MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+[09:45:54] openmm 8.2.0.dev-5377094
+[09:45:54] outdir runs/Zn_126
+[09:45:54] platform: CUDA {'Precision': 'mixed'}
+[09:45:54] 882 waters, box 3.0 nm, net charge +2
+[09:45:54] ion params: q=+2.0000 sigma=0.195000 eps=0.012500
+[09:45:54] PME grid 40^3
+[09:45:58] minimizing
+[09:46:00] NPT equilibration, 0.5 ns
+[09:46:28] equilibrated box edge 2.9819 nm
+[09:46:28] ion params: q=+2.0000 sigma=0.195000 eps=0.012500
+[09:46:28] PME grid 40^3
+[09:46:28] NVT production for RDF, 20.0 ns
+[10:03:56] IOD 1.870 A   g_max 18.23   CN 6.00
+dcdplugin) detected standard 32-bit DCD file of native endianness
+dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
+done: runs/Zn_126

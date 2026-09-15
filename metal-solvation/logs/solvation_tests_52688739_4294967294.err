@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/scratch/midway3/gruschka/metal-toids/metal-solvation/phase1.py", line 570, in <module>
+    main()
+  File "/scratch/midway3/gruschka/metal-toids/metal-solvation/phase1.py", line 542, in main
+    results["hfe"] = run_hfe(ff, modeller, args, platform, props,
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/scratch/midway3/gruschka/metal-toids/metal-solvation/phase1.py", line 333, in run_hfe
+    from openmmtools import alchemy, states, mcmc, multistate
+ModuleNotFoundError: No module named 'openmmtools'
+srun: error: midway3-0425: task 0: Exited with exit code 1

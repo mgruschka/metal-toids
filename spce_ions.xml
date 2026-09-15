@@ -1,0 +1,9 @@
+<ForceField>
+ <AtomTypes>
+ </AtomTypes>
+ <NonbondedForce coulomb14scale="1.0" lj14scale="1.0">
+  <UseAttributeFromResidue name="charge"/>
+ </NonbondedForce>
+ <LennardJonesForce lj14scale="1.0">
+ </LennardJonesForce>
+</ForceField>

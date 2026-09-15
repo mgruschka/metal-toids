@@ -1,0 +1,10 @@
+MODEL        0
+ATOM      2  CB  ASP A   0      -1.705  -1.436   1.492  1.00  0.00           C  
+ATOM      3  HB1 ASP A   0      -2.153  -2.185   2.111  1.00  0.00           H  
+ATOM      4  HB2 ASP A   0      -1.021  -0.854   2.073  1.00  0.00           H  
+ATOM      5  CG  ASP A   0      -2.803  -0.519   0.920  1.00  0.00           C  
+ATOM      6  OD1 ASP A   0      -2.537   0.726   0.655  1.00  0.00           O  
+ATOM      7  OD2 ASP A   0      -3.996  -0.991   0.703  1.00  0.00           O  
+TER       8      ASP A   0
+ENDMDL
+END

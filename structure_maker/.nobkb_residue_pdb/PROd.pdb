@@ -1,0 +1,13 @@
+MODEL        0
+ATOM      5  CD  PRO A   1       0.303   0.323  -0.133  1.00  0.00           C  
+ATOM      6  CG  PRO A   1       0.850  -1.065   0.160  1.00  0.00           C  
+ATOM      7  HD1 PRO A   1       0.120   0.392  -1.232  1.00  0.00           H  
+ATOM      8  HD2 PRO A   1      -0.652   0.530   0.393  1.00  0.00           H  
+ATOM      9  CB  PRO A   1       2.281  -0.881  -0.279  1.00  0.00           C  
+ATOM     11  HB1 PRO A   1       2.965  -1.706   0.014  1.00  0.00           H  
+ATOM     12  HB2 PRO A   1       2.306  -0.761  -1.388  1.00  0.00           H  
+ATOM     13  HG1 PRO A   1       0.302  -1.887  -0.348  1.00  0.00           H  
+ATOM     14  HG2 PRO A   1       0.831  -1.243   1.260  1.00  0.00           H  
+TER      15      PRO A   1
+ENDMDL
+END

@@ -1,0 +1,53 @@
+Mon Jul 27 10:27:04 2026       
++---------------------------------------------------------------------------------------+
+| NVIDIA-SMI 535.216.03             Driver Version: 535.216.03   CUDA Version: 12.2     |
+|-----------------------------------------+----------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |         Memory-Usage | GPU-Util  Compute M. |
+|                                         |                      |               MIG M. |
+|=========================================+======================+======================|
+|   0  NVIDIA L40S                    On  | 00000000:1A:00.0 Off |                    0 |
+| N/A   27C    P8              32W / 350W |      0MiB / 46068MiB |      0%      Default |
+|                                         |                      |                  N/A |
++-----------------------------------------+----------------------+----------------------+
+                                                                                         
++---------------------------------------------------------------------------------------+
+| Processes:                                                                            |
+|  GPU   GI   CI        PID   Type   Process name                            GPU Memory |
+|        ID   ID                                                             Usage      |
+|=======================================================================================|
+|  No running processes found                                                           |
++---------------------------------------------------------------------------------------+
+[10:27:04] openmm 8.1.2.dev-440a9c7
+[10:27:04] outdir runs/Zn_126
+[10:27:04] platform: CUDA {'Precision': 'mixed'}
+[10:27:05] 882 waters, box 3.0 nm, net charge +2
+[10:27:05] ion params: q=+2.0000 sigma=0.195000 eps=0.012500
+[10:27:05] PME grid 40^3
+[10:27:11] minimizing
+[10:27:13] NPT equilibration, 0.5 ns
+[10:27:44] equilibrated box edge 2.9795 nm
+[10:27:44] ion params: q=+2.0000 sigma=0.195000 eps=0.012500
+[10:27:44] PME grid 40^3
+[10:27:44] NVT production for RDF, 20.0 ns
+[10:49:30] IOD 1.870 A   g_max 18.07   CN 6.00
+[10:49:43] ion params: q=+2.0000 sigma=0.195000 eps=0.012500
+[10:49:43] PME grid 40^3
+[10:49:43] 19 lambda states, 5.0 ns each (95 ns total)
+Please cite the following:
+
+        Friedrichs MS, Eastman P, Vaidyanathan V, Houston M, LeGrand S, Beberg AL, Ensign DL, Bruns CM, and Pande VS. Accelerating molecular dynamic simulations on graphics processing unit. J. Comput. Chem. 30:864, 2009. DOI: 10.1002/jcc.21209
+        Eastman P and Pande VS. OpenMM: A hardware-independent framework for molecular simulations. Comput. Sci. Eng. 12:34, 2010. DOI: 10.1109/MCSE.2010.27
+        Eastman P and Pande VS. Efficient nonbonded interactions for molecular dynamics on a graphics processing unit. J. Comput. Chem. 31:1268, 2010. DOI: 10.1002/jcc.21413
+        Eastman P and Pande VS. Constant constraint matrix approximation: A robust, parallelizable constraint method for molecular simulations. J. Chem. Theor. Comput. 6:434, 2010. DOI: 10.1021/ct900463w
+        Chodera JD and Shirts MR. Replica exchange and expanded ensemble simulations as Gibbs multistate: Simple improvements for enhanced mixing. J. Chem. Phys., 135:194110, 2011. DOI:10.1063/1.3660669
+        
+[10:49:43] running replica exchange
+[12:19:17] dG(decoupling) =  460.592 +/- 0.395 kcal/mol
+[12:19:17] raw HFE        = -460.592 kcal/mol   (before corrections)
+[12:19:17] (mixing statistics unavailable: 'MultiStateSamplerAnalyzer' object has no attribute 'mixing_statistics')
+[12:19:17] wrote runs/Zn_126/results.json
+[12:19:17] raw HFE -460.592, C4 tail +0.000, sum -460.592 kcal/mol (finite-size correction still to apply)
+dcdplugin) detected standard 32-bit DCD file of native endianness
+dcdplugin) CHARMM format DCD file (also NAMD 2.1 and later)
+done: runs/Zn_126
