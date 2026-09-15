@@ -1,0 +1,5 @@
+loadRestrt test.inpcrd
+setOverwrite True 
+add12_6_4 :CL watermodel TIP3P polfile lj_1264_pol_custom.dat # This is the line that adds the CCOEF to prmtop file
+printLJMatrix :CL # prints the LJ parameters for interaction of Cobalt with all other atom types
+outparm metal_ligand_solv_1264.prmtop metal_ligand_solv.inpcrd

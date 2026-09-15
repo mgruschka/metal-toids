@@ -348,6 +348,27 @@ def make_peptide_angles(sequence, angles):
     
     return real_h
     
+def regroup_by_residue(traj):
+    """Reorder atoms so that each (chainID, resSeq) is one contiguous block.
+
+    Older mdtraj versions did this implicitly inside Topology.from_dataframe;
+    current versions create residues sequentially, which leaves the stacked
+    sidechains at the end of the file and makes PDB readers split residues."""
+    table, bonds = traj.topology.to_dataframe()
+    order = np.lexsort((np.arange(len(table)), table['resSeq'].to_numpy(), table['chainID'].to_numpy()))
+    if np.all(order == np.arange(len(table))):
+        return traj
+    remap = np.empty(len(order), dtype=int)
+    remap[order] = np.arange(len(order))
+    table = table.iloc[order].reset_index(drop=True)
+    table['serial'] = np.arange(1, len(table) + 1)
+    if bonds is not None and len(bonds):
+        bonds = bonds.copy()
+        bonds[:, 0] = remap[bonds[:, 0].astype(int)]
+        bonds[:, 1] = remap[bonds[:, 1].astype(int)]
+    return md.Trajectory(traj.xyz[:, order], md.Topology.from_dataframe(table, bonds))
+
+
 def load_sequence(sequence, filename):
     
     backbone = md.load(f"template_{sequence}.pdb", standard_names=False)
@@ -402,6 +423,7 @@ def load_sequence(sequence, filename):
             
         i += 1
     
+    backbone = regroup_by_residue(backbone)
     backbone.save_pdb(filename)
     
 
@@ -845,7 +867,6 @@ def run():
     else:
         print("Input Error -- Must enter: minimum (--mini) OR phi/psi/omega triplet (--phi, --psi, --omega) OR text file containing angles (--anglefile)")
         return
-run()
 
-
-            
+if __name__ == "__main__":
+    run()

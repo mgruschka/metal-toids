@@ -5143,7 +5143,6 @@
   <Type name="BAMI-N16" class="NG2P1" mass="14.007" element="N"/>
   <Type name="BAMI-H17" class="HGP2" mass="1.008" element="H"/>
   <Type name="BAMI-H18" class="HGP2" mass="1.008" element="H"/>
-  <Type name="BAR-BAR" class="BAR" mass="137.327" element="Ba"/>
   <Type name="BARB-O4" class="OC3C51" mass="15.9994" element="O"/>
   <Type name="BARB-C1" class="CC3152" mass="12.011" element="C"/>
   <Type name="BARB-H1" class="HCA1" mass="1.008" element="H"/>
@@ -8260,7 +8259,6 @@
   <Type name="CA-CD" class="CG2O3" mass="12.011" element="C"/>
   <Type name="CA-OE1" class="OG2D2" mass="15.9994" element="O"/>
   <Type name="CA-OE2" class="OG2D2" mass="15.9994" element="O"/>
-  <Type name="CAL-CAL" class="CAL" mass="40.08" element="Ca"/>
   <Type name="CALD-O" class="OG2D1" mass="15.9994" element="O"/>
   <Type name="CALD-C" class="CG2O4" mass="12.011" element="C"/>
   <Type name="CALD-CB" class="CG321" mass="12.011" element="C"/>
@@ -8296,7 +8294,6 @@
   <Type name="CBU-C4" class="CG3C41" mass="12.011" element="C"/>
   <Type name="CBU-H41" class="HGA2" mass="1.008" element="H"/>
   <Type name="CBU-H42" class="HGA2" mass="1.008" element="H"/>
-  <Type name="CD2-CD" class="CAD" mass="112.411" element="Cd"/>
   <Type name="CDCA-C3" class="CG311" mass="12.011" element="C"/>
   <Type name="CDCA-O3" class="OG311" mass="15.9994" element="O"/>
   <Type name="CDCA-H3'" class="HGP1" mass="1.008" element="H"/>
@@ -9377,7 +9374,6 @@
   <Type name="CER241-H24F" class="HAL3" mass="1.008" element="H"/>
   <Type name="CER241-H24G" class="HAL3" mass="1.008" element="H"/>
   <Type name="CER241-H24H" class="HAL3" mass="1.008" element="H"/>
-  <Type name="CES-CES" class="CES" mass="132.90545" element="Cs"/>
   <Type name="CHEX-C1" class="CC32A" mass="12.011" element="C"/>
   <Type name="CHEX-H1A" class="HCA2A" mass="1.008" element="H"/>
   <Type name="CHEX-H1B" class="HCA2A" mass="1.008" element="H"/>
@@ -9636,7 +9632,6 @@
   <Type name="CINL-C9" class="CG2R61" mass="12.011" element="C"/>
   <Type name="CINL-H9" class="HGR61" mass="1.008" element="H"/>
   <Type name="CINL-C10" class="CG2R61" mass="12.011" element="C"/>
-  <Type name="CLA-CLA" class="CLA" mass="35.45" element="Cl"/>
   <Type name="CLET-C1" class="CG321" mass="12.011" element="C"/>
   <Type name="CLET-CL11" class="CLGA1" mass="35.453" element="Cl"/>
   <Type name="CLET-H12" class="HGA2" mass="1.008" element="H"/>
@@ -25310,7 +25305,6 @@
   <Type name="LINP-H18R" class="HAL3" mass="1.008" element="H"/>
   <Type name="LINP-H18S" class="HAL3" mass="1.008" element="H"/>
   <Type name="LINP-H18T" class="HAL3" mass="1.008" element="H"/>
-  <Type name="LIT-LIT" class="LIT" mass="6.941" element="Li"/>
   <Type name="LMANOL-C1" class="CC322" mass="12.011" element="C"/>
   <Type name="LMANOL-H11" class="HCA2" mass="1.008" element="H"/>
   <Type name="LMANOL-H12" class="HCA2" mass="1.008" element="H"/>
@@ -29200,7 +29194,6 @@
   <Type name="METP-O41" class="OG2P1" mass="15.9994" element="O"/>
   <Type name="METP-O42" class="OG2P1" mass="15.9994" element="O"/>
   <Type name="METP-O43" class="OG2P1" mass="15.9994" element="O"/>
-  <Type name="MG-MG" class="MG" mass="24.305" element="Mg"/>
   <Type name="MGALOL-C1" class="CC322" mass="12.011" element="C"/>
   <Type name="MGALOL-H11" class="HCA2" mass="1.008" element="H"/>
   <Type name="MGALOL-H12" class="HCA2" mass="1.008" element="H"/>
@@ -31621,8 +31614,6 @@
   <Type name="OEBZ-H101" class="HGA3" mass="1.008" element="H"/>
   <Type name="OEBZ-H102" class="HGA3" mass="1.008" element="H"/>
   <Type name="OEBZ-H103" class="HGA3" mass="1.008" element="H"/>
-  <Type name="OH-O1" class="OX" mass="15.9994" element="O"/>
-  <Type name="OH-H1" class="HX" mass="1.008" element="H"/>
   <Type name="OIHY-N1" class="NG2R53" mass="14.007" element="N"/>
   <Type name="OIHY-H1" class="HGP1" mass="1.008" element="H"/>
   <Type name="OIHY-C2" class="CG2R53" mass="12.011" element="C"/>
@@ -40572,7 +40563,6 @@
   <Type name="POPS-H16X" class="HAL3" mass="1.008" element="H"/>
   <Type name="POPS-H16Y" class="HAL3" mass="1.008" element="H"/>
   <Type name="POPS-H16Z" class="HAL3" mass="1.008" element="H"/>
-  <Type name="POT-POT" class="POT" mass="39.0983" element="K"/>
   <Type name="PPH1-CG" class="CG2R61" mass="12.011" element="C"/>
   <Type name="PPH1-HG" class="HGR61" mass="1.008" element="H"/>
   <Type name="PPH1-CD1" class="CG2R61" mass="12.011" element="C"/>
@@ -42587,7 +42577,6 @@
   <Type name="RTOL-H201" class="HA3" mass="1.008" element="H"/>
   <Type name="RTOL-H202" class="HA3" mass="1.008" element="H"/>
   <Type name="RTOL-H203" class="HA3" mass="1.008" element="H"/>
-  <Type name="RUB-RUB" class="RUB" mass="85.4678" element="Rb"/>
   <Type name="SAH-N" class="NG3P3" mass="14.007" element="N"/>
   <Type name="SAH-HT1" class="HGP2" mass="1.008" element="H"/>
   <Type name="SAH-HT2" class="HGP2" mass="1.008" element="H"/>
@@ -46888,7 +46877,6 @@
   <Type name="SLPS-H18X" class="HAL3" mass="1.008" element="H"/>
   <Type name="SLPS-H18Y" class="HAL3" mass="1.008" element="H"/>
   <Type name="SLPS-H18Z" class="HAL3" mass="1.008" element="H"/>
-  <Type name="SOD-SOD" class="SOD" mass="22.98977" element="Na"/>
   <Type name="SOPA-P" class="PL" mass="30.974" element="P"/>
   <Type name="SOPA-O13" class="O2L" mass="15.9994" element="O"/>
   <Type name="SOPA-O14" class="O2L" mass="15.9994" element="O"/>
@@ -48702,9 +48690,6 @@
   <Type name="TICA-H2" class="HGA3" mass="1.008" element="H"/>
   <Type name="TICA-H3" class="HGA3" mass="1.008" element="H"/>
   <Type name="TICA-H14" class="HGP1" mass="1.008" element="H"/>
-  <Type name="TIP3-OH2" class="OT" mass="9.9514" element="O"/>
-  <Type name="TIP3-H1" class="HT" mass="1.008" element="H"/>
-  <Type name="TIP3-H2" class="HT" mass="1.008" element="H"/>
   <Type name="TLCL1-C3" class="CTL2" mass="12.011" element="C"/>
   <Type name="TLCL1-HG31" class="HAL2" mass="1.008" element="H"/>
   <Type name="TLCL1-HG32" class="HAL2" mass="1.008" element="H"/>
@@ -50320,9 +50305,6 @@
   <Type name="TOLU-H11" class="HGA3" mass="1.008" element="H"/>
   <Type name="TOLU-H12" class="HGA3" mass="1.008" element="H"/>
   <Type name="TOLU-H13" class="HGA3" mass="1.008" element="H"/>
-  <Type name="TP3M-OH2" class="OT" mass="9.9514" element="O"/>
-  <Type name="TP3M-H1" class="HT" mass="1.008" element="H"/>
-  <Type name="TP3M-H2" class="HT" mass="1.008" element="H"/>
   <Type name="TPA-O1" class="OCL" mass="15.9994" element="O"/>
   <Type name="TPA-O2" class="OCL" mass="15.9994" element="O"/>
   <Type name="TPA-C1" class="CL" mass="12.011" element="C"/>
@@ -52772,7 +52754,6 @@
   <Type name="ZIMI-C8" class="CG2R61" mass="12.011" element="C"/>
   <Type name="ZIMI-H8" class="HGR61" mass="1.008" element="H"/>
   <Type name="ZIMI-C9" class="CG2RC0" mass="12.011" element="C"/>
-  <Type name="ZN2-ZN" class="ZN" mass="65.37" element="Zn"/>
   <Type name="ZOIC-C2" class="CG2R61" mass="12.011" element="C"/>
   <Type name="ZOIC-H2" class="HGR61" mass="1.008" element="H"/>
   <Type name="ZOIC-C3" class="CG2R61" mass="12.011" element="C"/>
@@ -53289,9 +53270,6 @@
   <Type name="NME-HT1" class="HA3" mass="1.008" element="H"/>
   <Type name="NME-HT2" class="HA3" mass="1.008" element="H"/>
   <Type name="NME-HT3" class="HA3" mass="1.008" element="H"/>
-  <Type name="HOH-OW" class="OT" mass="9.9514" element="O"/>
-  <Type name="HOH-HW1" class="HT" mass="1.008" element="H"/>
-  <Type name="HOH-HW2" class="HT" mass="1.008" element="H"/>
   <Type name="ALAp-NL" class="NH1" mass="14.007" element="N"/>
   <Type name="ALAp-CB" class="CT3" mass="12.011" element="C"/>
   <Type name="ALAp-HB1" class="HA3" mass="1.008" element="H"/>
@@ -184958,7 +184936,7 @@
   <Atom class="OSL" sigma="0.29399658" epsilon="0.41840000"/>
   <Atom class="OSLP" sigma="0.29399658" epsilon="0.41840000"/>
   <Atom class="OST" sigma="0.30148013" epsilon="0.69036000"/>
-  <Atom class="OT" sigma="0.31505742" epsilon="0.63638640"/>
+  <Atom class="OT" sigma="0.31505742" epsilon="0.63639000"/>
   <Atom class="OX" sigma="0.30290556" epsilon="0.50208000"/>
   <Atom class="P" sigma="0.38308645" epsilon="2.44764000"/>
   <Atom class="P2" sigma="0.38308645" epsilon="2.44764000"/>
@@ -186561,6 +186539,23 @@ for residue_index, residue in enumerate(topology.residues()):
 
     residue_data.append((atom_data, residue_templates))
 
+def residues_bonded(i, j):
+    atoms_j = {index for index, _ in residue_data[j][0].values()}
+    return any(neighbor in atoms_j
+               for index, _ in residue_data[i][0].values()
+               for neighbor in data.bondedToAtom[index])
+
+def find_bonded_residue(i, atom_name):
+    # Residue bonded to residue i that contains atom_name and whose atom_name
+    # atom is itself bonded into residue i (e.g. CLP of the preceding residue).
+    atoms_i = {index for index, _ in residue_data[i][0].values()}
+    for j, (atom_data_j, _) in enumerate(residue_data):
+        if j == i or atom_name not in atom_data_j:
+            continue
+        if any(neighbor in atoms_i for neighbor in data.bondedToAtom[atom_data_j[atom_name][0]]):
+            return j
+    return None
+
 harmonic_impropers = []
 for residue_index, (atom_data, residue_templates) in enumerate(residue_data):
     # Determine all impropers to try to add to this residue.  Use a list to
@@ -186579,7 +186574,13 @@ for residue_index, (atom_data, residue_templates) in enumerate(residue_data):
         log=""
         for offset, atom_name in improper:
             offset_index = residue_index + offset
-            if not 0 &lt;= offset_index &lt; len(residue_data):
+            # Residues are not always neighbours by index (cyclic molecules,
+            # chain breaks), so require an actual bond between the two residues
+            # and otherwise look for the bonded residue that carries the atom.
+            if offset != 0 and not (0 &lt;= offset_index &lt; len(residue_data)
+                                    and residues_bonded(residue_index, offset_index)):
+                offset_index = find_bonded_residue(residue_index, atom_name)
+            if offset_index is None or not 0 &lt;= offset_index &lt; len(residue_data):
                 skip = True
                 break
             offset_atom_data = residue_data[offset_index][0]

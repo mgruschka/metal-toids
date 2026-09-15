@@ -1,10 +1,11 @@
-<<<<<<< HEAD
-# Simulation Data
-metal_solvation/runs/*
+# Simulation data / large inputs not tracked
+metal-solvation/runs/
+toppar
+toppar.tgz
+toppar_c36_jul21/
+sri_docs/*.prmtop
+sri_docs/*.inpcrd
 
-
-=======
->>>>>>> 54a70689f4ab854821b1b8070779d35751f5743b
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
