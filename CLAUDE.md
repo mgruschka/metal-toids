@@ -98,3 +98,7 @@ The `sri_docs/` directory contains files for adding 12-6-4 metal ion LJ paramete
 - Force fields: `/scratch/midway3/gruschka/toid_explore/forcefields/` (set via `$GMXLIB`)
 - Simulation outputs referenced in notebook: `/scratch/midway3/gruschka/toid_explore/simulations/`
 - CHARMM36 toppar: `toppar_c36_jul21/` (standard CHARMM36 July 2021 release)
+
+## Ligand 12-6-4 Parametrization (`ligand-1264/`)
+
+OpenMM pipeline for tuning ion↔ligand-class C4 mixing (`arel` scale per CHARMM class) with the ion's base C4 fixed. YAML config → build (ion placed near a ligand atom, truncated-octahedron SPC/E box with 48 Å face-to-face width (= Li/Merz's tLEaP buffer 24 Å; ~5100 waters, ~10 mM), `mosic.xml`+`spce_ions.xml`+`ions_1264.xml`; CGenFF residues such as `IMIA` imidazole are already in `mosic.xml`, and template bonds are registered so ligand PDBs need no CONECT) → 3-stage restrained minimization → 1 ns NVT heating → NPT equil/prod → `analysis.py`. `lig1264/ti.py` is the MIRIAM-style TI driver (ion A → B alchemical swap with linear energy mixing, 12 Gauss–Legendre windows, `--window N` for SLURM arrays, `--analyze`); `ligand.count` places several ligands around the ion (`count: 0` = water leg). Run with the `metal-toid` python: `python -m lig1264.run configs/x.yaml --outdir runs/x [--resume] [--stop-after build]`; `slurm/run_one.sbatch` for GPU jobs. See `ligand-1264/README.md` for the layout and design notes.

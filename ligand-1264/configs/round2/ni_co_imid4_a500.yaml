@@ -1,0 +1,56 @@
+# MIRIAM TI system: Ni2+ -> Co2+ with 4 imidazoles, tLEaP-sized box.
+# The fitted quantity is alpha(NG2R50), the ion<->imidazole-N polarizability.
+# 1.090 A^3 is the code's own default (Miller N, _pol_element in
+# ions_1264.xml).  Other values here are scan points, not literature
+# values.  The 'alpha = 2.75 / MIRIAM MUTE' attribution in earlier comments
+# is genuine but superseded and OPC-derived -- see README "Provenance of
+# alpha = 2.75".
+name: ni_co_imid4_a500
+
+ion:
+  element: Ni
+  charge: 2
+  near_atom: NE2
+  distance_A: 2.1
+
+ligand:
+  pdb: ligands/imidazole/imidazole.pdb
+  resnames: [IMIA]
+  count: 4
+
+c4:
+  alpha_by_class:
+    NG2R50: 5.00         # round-2 scan value
+  scale_by_class: {}
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 44.5       # = tLEaP solvateoct 24.0 (MIRIAM size; their solvent is OPC)
+  water: spce
+  neutralize: true       # 2+ ion -> 2 Cl-
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  cutoff_nm: 1.0
+  constraints: HBonds
+  min_restraint_k: 1000.0
+  report_ps: 10
+  checkpoint_ps: 500
+
+ti:
+  element_b: Co
+  charge_b: 2
+  n_windows: 12
+  ns_per_window: 5.0
+  dt_fs: 1.0
+  heat_ns: 0.36
+  npt_ns: 2.0
+  dudl_every_ps: 0.5
+  discard_frac: 0.2
+  traj_ps: 10.0          # window_NN.dcd, 500 frames/window (~30 MB each)
+  min_max_iter: [2000, 2000, 10000]
+
+platform: CUDA
+seed: 2026

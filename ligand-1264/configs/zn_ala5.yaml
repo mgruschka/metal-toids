@@ -1,0 +1,51 @@
+# Smoke-test / template system: Zn2+ on the backbone carbonyl of a capped
+# Ala5 peptide (the repo's openmm_viable_AAAAA.pdb).  Swap `ligand` for a
+# peptoid or small-molecule PDB (+ its XML) to parametrize other classes.
+name: zn_ala5
+
+ion:
+  element: Zn
+  charge: 2              # -> residue Zn2+ in ions_1264.xml
+  near_atom: O           # start the ion 2.1 A from this ligand atom ...
+  near_resid: 4          # ... of residue 4 (atom name O repeats)
+  distance_A: 2.1
+
+ligand:
+  pdb: ../openmm_viable_AAAAA.pdb
+  resnames: [ACE, ALA, NME]
+  xml: []                # extra force-field XMLs for non-MoSiC ligands
+  contains_ion: false
+
+c4:
+  # the parameters under study: multiply the polarizability-derived arel of
+  # ion<->class pairs.  1.0 == untouched Li/Merz mixing rule.
+  scale_by_class:
+    O: 1.0
+  alpha_by_class: {}
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 48.0       # face-to-face width = 2 x Li/Merz tLEaP buffer of 24 A -> 5112 waters, 10.6 mM (paper: ~5000, ~10 mM)
+  water: spce
+  neutralize: true
+  positive_ion: Na+
+  negative_ion: Cl-
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  dt_fs: 2
+  cutoff_nm: 1.0
+  constraints: HBonds
+  min_max_iter: [2000, 2000, 10000]
+  min_restraint_k: 1000.0
+  heat_ns: 1.0
+  heat_steps: 50
+  npt_equil_ns: 1.0
+  npt_prod_ns: 10.0
+  report_ps: 10
+  checkpoint_ps: 500
+
+platform: CUDA
+seed: 2026

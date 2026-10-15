@@ -1,0 +1,79 @@
+# Co(II) + ONE imidazole: PMF -> standard-state binding free energy.
+#
+# NOT part of the iteration.  alpha = 4.50 is an arbitrary bracket point
+# left over from an earlier scan-and-fit plan; it carries no literature
+# authority (see the note in README).  The sequential protocol generates
+# its own next config via `fit_alpha --write-config`.  Safe to delete.
+# Target: dG0 = -3.36 kcal/mol  (= -RT ln K at 298 K with log K1 = 2.46),
+# i.e. the STEPWISE first association constant, so ligand.count is 1.
+# Fitted parameter: alpha(NG2R50), the ion<->imidazole-N polarizability in
+# the 12-6-4 mixing rule.  Co's own 12-6 + base C4 stay fixed
+# (R_min/2 1.457 A, eps 0.0271 kcal/mol, C4 209.2 kcal A^4/mol).
+name: co_imid1_a450
+
+ion:
+  element: Co
+  charge: 2
+  near_atom: NE2
+  distance_A: 2.1
+
+ligand:
+  pdb: ligands/imidazole/imidazole.pdb
+  resnames: [IMIA]
+  count: 1
+
+c4:
+  alpha_by_class:
+    NG2R50: 4.50         # scan value
+  scale_by_class: {}
+  zero_other_classes: true   # MIRIAM convention: C4 only on ion<->water and
+                             # ion<->NG2R50 (their all-zero polfile + cloned
+                             # MUTE type).  See README "Provenance of alpha".
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 44.5       # same box as the TI legs
+  water: spce
+  neutralize: true
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  cutoff_nm: 1.0
+  constraints: HBonds
+  friction_per_ps: 1.0
+  min_restraint_k: 1000.0
+  report_ps: 10
+
+pmf:
+  dt_fs: 2.0
+  min_max_iter: [20000, 20000, 20000]
+  heat_ns: 1.0
+  npt_equil_steps: 550000
+  npt_prod_steps: 500000
+
+  pull_atom: NE2
+  pull_resid: null
+  r_start_A: null
+  r_end_A: 10.0          # must reach a flat plateau; wham warns if it does not
+
+  smd_ns: 2.0
+  smd_kappa: 100.0
+  smd_traj_ps: 1.0
+
+  n_windows: 120         # 0.067 A spacing over 2.0-10.0 A
+  window_kappa: 100.0    # see PMFSpec.window_kappa: holds the CIP-SSIP barrier;
+                         # ceiling is kT/spacing^2 = 136 for this ladder
+  window_equil_ns: 2.0
+  window_prod_ns: 4.0    # MIRIAM ran 4 or 40 ns/window; 4 ns is the cheap
+                         # setting.  Their pi-stacked intermediate only
+                         # resolved at 40 ns, and missing it overestimates
+                         # binding -> a low-biased alpha.  Do not call a 4 ns
+                         # fit converged; re-run the accepted alpha at 40 ns.
+  colvar_ps: 1.0
+  traj_ps: 0.0
+  discard_frac: 0.0
+
+platform: CUDA
+seed: 2026

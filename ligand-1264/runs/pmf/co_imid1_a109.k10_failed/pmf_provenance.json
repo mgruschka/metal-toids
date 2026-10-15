@@ -1,0 +1,50 @@
+{
+  "cv": {
+    "ion_atom": 9,
+    "ligand_atom": 8,
+    "pull_atom": "NE2",
+    "pull_resid": null
+  },
+  "protocol": {
+    "dt_fs": 2.0,
+    "cutoff_nm": 1.0,
+    "constraints": "HBonds",
+    "temperature_K": 300,
+    "friction_per_ps": 1.0,
+    "min_max_iter": [
+      20000,
+      20000,
+      20000
+    ],
+    "heat_ns": 1.0,
+    "npt_equil_steps": 550000,
+    "npt_prod_steps": 500000,
+    "prep_restraint_kcal_per_A2": 10.0,
+    "prep_restraint_A": null,
+    "smd_ns": 2.0,
+    "smd_kappa_kcal_per_A2": 100.0,
+    "r_end_A": 10.0,
+    "n_windows": 120,
+    "window_kappa_kcal_per_A2": 10.0,
+    "window_equil_ns": 2.0,
+    "window_prod_ns": 4.0,
+    "colvar_ps": 1.0
+  },
+  "c4": {
+    "alpha_by_class": {
+      "NG2R50": 1.09
+    },
+    "scale_by_class": {},
+    "zero_other_classes": true,
+    "lambda_c4": 1.0,
+    "convention": "MIRIAM: C4 on ion<->water and the named ligand class(es) only"
+  },
+  "substitutions": {
+    "minimizer": "OpenMM L-BFGS, maxIterations=[20000, 20000, 20000] per stage; the AMBER protocol's 10000 steepest-descent + 10000 conjugate-gradient cycles have no OpenMM equivalent",
+    "barostat": "MonteCarloBarostat (freq 25) instead of Berendsen with a 5 ps relaxation time: OpenMM ships no Berendsen barostat and exposes no virial, so one cannot be added"
+  },
+  "constraints": {
+    "requested": "SHAKE on bonds to hydrogen + rigid water",
+    "actual": "constraints=HBonds, rigidWater=True.  On CUDA, OpenMM solves these with SETTLE (water) and SHAKE (heavy atom + its hydrogens), i.e. as requested; CCMA handles anything left over, of which this system has none.  The Reference and CPU platforms have no SHAKE path and use CCMA, so CPU runs differ numerically from CUDA ones."
+  }
+}

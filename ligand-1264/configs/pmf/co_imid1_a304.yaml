@@ -1,0 +1,81 @@
+# Co(II) + ONE imidazole: VALIDATION PMF at the fitted alpha (2026-10-15).
+#
+# alpha(NG2R50) = 3.04 is alpha* from the alpha0 = 1.09 umbrella run
+# (runs/pmf/co_imid1_a109) carried to alpha by the bound-state alpha-TI
+# (TI_param/runs/co_imid1_alpha_ti, plateau-corrected; forward and reverse
+# ladders agree to 1e-4 in alpha*).  TI prediction for THIS run, inner-sphere
+# dG0 (r < r_bound, the barrier top, ~2.8 A at this alpha):
+#     -3.39 kcal/mol on the MBAR alpha0 anchor (+9.08)
+#     -3.34 on the window-7-free anchor (+9.13)   [-3.60 on WHAM, discounted]
+# Target -3.36 (log K1 = 2.46).  Protocol identical to co_imid1_a109 (4 ns
+# windows, kappa 100) so the comparison is like for like; the reweighted
+# alpha* PMF puts the barrier curvature at ~ -40 kcal/mol/A^2, well inside
+# kappa 100.  Only name, alpha, seed and this header differ from co_imid1_a109.
+name: co_imid1_a304
+
+ion:
+  element: Co
+  charge: 2
+  near_atom: NE2
+  distance_A: 2.1
+
+ligand:
+  pdb: ligands/imidazole/imidazole.pdb
+  resnames: [IMIA]
+  count: 1
+
+c4:
+  alpha_by_class:
+    NG2R50: 3.04         # alpha* (validation)
+  scale_by_class: {}
+  zero_other_classes: true   # MIRIAM convention: C4 only on ion<->water and
+                             # ion<->NG2R50 (their all-zero polfile + cloned
+                             # MUTE type).  See README "Provenance of alpha".
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 44.5       # same box as the TI legs
+  water: spce
+  neutralize: true
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  cutoff_nm: 1.0
+  constraints: HBonds
+  friction_per_ps: 1.0
+  min_restraint_k: 1000.0
+  report_ps: 10
+
+pmf:
+  dt_fs: 2.0
+  min_max_iter: [20000, 20000, 20000]
+  heat_ns: 1.0
+  npt_equil_steps: 550000
+  npt_prod_steps: 500000
+
+  pull_atom: NE2
+  pull_resid: null
+  r_start_A: null
+  r_end_A: 10.0          # must reach a flat plateau; wham warns if it does not
+
+  smd_ns: 2.0
+  smd_kappa: 100.0
+  smd_traj_ps: 1.0
+
+  n_windows: 120         # 0.067 A spacing over 2.0-10.0 A
+  window_kappa: 100.0    # see PMFSpec.window_kappa: holds the CIP-SSIP barrier;
+                         # ceiling is kT/spacing^2 = 136 for this ladder
+  window_equil_ns: 2.0
+  window_prod_ns: 4.0    # MIRIAM ran 4 or 40 ns/window; 4 ns is the cheap
+                         # setting.  Their pi-stacked intermediate only
+                         # resolved at 40 ns, and missing it overestimates
+                         # binding -> a low-biased alpha.  Do not call a 4 ns
+                         # fit converged; re-run the accepted alpha at 40 ns.
+  colvar_ps: 1.0
+  traj_ps: 0.0
+  discard_frac: 0.0
+
+platform: CUDA
+seed: 3040

@@ -224,3 +224,30 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ligand-1264 simulation outputs: everything under runs/ is ignored except the
+# small result summaries (whitelist below); trajectories, states, COLVARs stay out.
+# `runs/**` + `!runs/**/` rather than `runs/*`: git cannot re-include a file whose
+# parent directory is ignored, so directories stay visible and files are filtered.
+ligand-1264/runs/**
+!ligand-1264/runs/**/
+!ligand-1264/runs/.gitkeep
+!ligand-1264/runs/**/pmf.json
+!ligand-1264/runs/**/pmf.csv
+!ligand-1264/runs/**/mbar.json
+!ligand-1264/runs/**/mbar_dG0_vs_alpha.csv
+!ligand-1264/runs/**/mbar_pmf_*.csv
+!ligand-1264/runs/**/windows.json
+!ligand-1264/runs/**/pmf_provenance.json
+!ligand-1264/runs/**/ti_results.json
+!ligand-1264/runs/**/config.yaml
+!ligand-1264/runs/**/REPORT.md
+!ligand-1264/runs/**/README.txt
+# anchor_diag inputs are symlinks (absolute paths) into co_imid1_a109
+ligand-1264/runs/pmf/co_imid1_a109_anchor_diag/*/windows.json
+ligand-1264/runs/pmf/co_imid1_a109_anchor_diag/*/config.yaml
+ligand-1264/runs/pmf/co_imid1_a109_anchor_diag/*/pmf_provenance.json
+ligand-1264/logs/*.out
+ligand-1264/logs/*.err
+ligand-1264/.co_a109_jobs
+

@@ -1,0 +1,55 @@
+box:
+  diameter_A: 44.5
+  neutralize: true
+  shape: octahedron
+  water: spce
+c4:
+  alpha_by_class:
+    NG2R50: 1.09
+  lambda_c4: 1.0
+  scale_by_class: {}
+  zero_other_classes: true
+ion:
+  charge: 2
+  distance_A: 2.1
+  element: Co
+  near_atom: NE2
+ligand:
+  count: 1
+  pdb: ligands/imidazole/imidazole.pdb
+  resnames:
+  - IMIA
+md:
+  constraints: HBonds
+  cutoff_nm: 1.0
+  friction_per_ps: 1.0
+  min_restraint_k: 1000.0
+  pressure_bar: 1
+  report_ps: 10
+  temperature_K: 300
+name: bench_stack
+platform: CUDA
+pmf:
+  colvar_ps: 1.0
+  discard_frac: 0.0
+  dt_fs: 2.0
+  heat_ns: 1.0
+  min_max_iter:
+  - 20000
+  - 20000
+  - 20000
+  n_windows: 120
+  npt_equil_steps: 550000
+  npt_prod_steps: 500000
+  pull_atom: NE2
+  pull_resid: null
+  r_end_A: 10.0
+  r_start_A: null
+  smd_kappa: 100.0
+  smd_ns: 2.0
+  smd_traj_ps: 1.0
+  traj_ps: 0.0
+  window_equil_ns: 0.05
+  window_kappa: 100.0
+  window_prod_ns: 0.25
+seed: 2026

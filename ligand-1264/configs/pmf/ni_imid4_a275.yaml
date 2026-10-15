@@ -1,0 +1,71 @@
+# PMF of pulling one imidazole off Ni2+, PLUMED umbrella sampling.
+# Same system as the TI legs (configs/round1/ni_co_imid4_a275.yaml); the
+# fitted quantity is still alpha(NG2R50), now from the standard-state
+# binding free energy (not the well depth).  TI is the independent check.
+name: ni_imid4_a275_pmf
+
+ion:
+  element: Ni
+  charge: 2
+  near_atom: NE2
+  distance_A: 2.1
+
+ligand:
+  pdb: ligands/imidazole/imidazole.pdb
+  resnames: [IMIA]
+  count: 4
+
+c4:
+  alpha_by_class:
+    NG2R50: 2.75         # the fit parameter
+  scale_by_class: {}
+  zero_other_classes: true   # MIRIAM convention: C4 only on ion<->water and
+                             # ion<->NG2R50 (their all-zero polfile + cloned
+                             # MUTE type).  See README "Provenance of alpha".
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 44.5       # = tLEaP solvateoct 24.0, as in the TI legs
+  water: spce
+  neutralize: true
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  cutoff_nm: 1.0         # 10 A
+  constraints: HBonds    # CCMA/SETTLE, standing in for SHAKE
+  friction_per_ps: 1.0   # Langevin collision frequency
+  min_restraint_k: 1000.0
+  report_ps: 10
+
+pmf:
+  dt_fs: 2.0
+  min_max_iter: [20000, 20000, 20000]   # "10k SD + 10k CG" -> L-BFGS, see pmf.py
+  heat_ns: 1.0
+  npt_equil_steps: 550000               # 1.1 ns
+  npt_prod_steps: 500000                # 1.0 ns
+
+  pull_atom: NE2         # CV = d(Ni, NE2 of the imidazole nearest the ion)
+  pull_resid: null
+  r_start_A: null        # null -> the equilibrated Ni-N distance
+  r_end_A: 8.0
+
+  smd_ns: 2.0
+  smd_kappa: 100.0       # kcal/mol/A^2 (soft springs just stretch, see pmf.py)
+  smd_traj_ps: 1.0       # 2000 frames to draw 120 window seeds from
+
+  n_windows: 120
+  window_kappa: 100.0    # kcal/mol/A^2; see PMFSpec.window_kappa (ceiling 242 here, r_end 8 A)
+  window_equil_ns: 2.0
+  window_prod_ns: 4.0    # MIRIAM ran 4 or 40 ns/window; 4 ns is the cheap
+                         # setting.  Their pi-stacked intermediate only
+                         # resolved at 40 ns, and missing it overestimates
+                         # binding -> a low-biased alpha.  Do not call a 4 ns
+                         # fit converged; re-run the accepted alpha at 40 ns.
+  colvar_ps: 1.0
+  traj_ps: 0.0           # per-window DCDs off: 120 x 40 ns is a lot of disk
+  discard_frac: 0.0      # production COLVARs are already post-equilibration
+
+platform: CUDA
+seed: 2026

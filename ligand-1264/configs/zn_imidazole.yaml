@@ -1,0 +1,47 @@
+# Zn2+ + imidazole (CGenFF IMIA, already in mosic.xml), Li/Merz-style
+# starting point for the ion <-> aromatic-N (NG2R50) C4 mixing.
+name: zn_imidazole
+
+ion:
+  element: Zn
+  charge: 2              # -> residue Zn2+ in ions_1264.xml
+  near_atom: NE2         # unprotonated ring N, the binding site
+  distance_A: 2.1
+
+ligand:
+  pdb: ligands/imidazole/imidazole.pdb
+  resnames: [IMIA]
+  xml: []                # IMIA + CGenFF classes live in mosic.xml
+  contains_ion: false
+
+c4:
+  scale_by_class:
+    NG2R50: 1.0          # the parameter under study
+  alpha_by_class: {}
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 48.0       # face-to-face width = 2 x Li/Merz tLEaP buffer of 24 A -> 5112 waters, 10.6 mM (paper: ~5000, ~10 mM)
+  water: spce
+  neutralize: true
+  positive_ion: Na+
+  negative_ion: Cl-
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  dt_fs: 2
+  cutoff_nm: 1.0
+  constraints: HBonds
+  min_max_iter: [2000, 2000, 10000]
+  min_restraint_k: 1000.0
+  heat_ns: 1.0
+  heat_steps: 50
+  npt_equil_ns: 1.0
+  npt_prod_ns: 10.0
+  report_ps: 10
+  checkpoint_ps: 500
+
+platform: CUDA
+seed: 2026

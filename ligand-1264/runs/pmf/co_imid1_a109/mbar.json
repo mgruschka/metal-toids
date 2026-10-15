@@ -1,0 +1,35 @@
+{
+  "cls": "NG2R50",
+  "alpha0": 1.09,
+  "target_kcal": -3.36,
+  "alpha_target": 3.038075964804557,
+  "alpha_target_sem": 0.01967086564131217,
+  "alpha_target_edge": true,
+  "dG0_alpha0_kcal": 9.081708199187531,
+  "dG0_alpha0_sem_kcal": 0.11617649791856664,
+  "plateau_slope_alpha0_kcal_per_A": -0.0342992772141072,
+  "n_windows": 120,
+  "n_samples_raw": 480000,
+  "n_samples_decorrelated": 425991,
+  "g_median": 1.0836866168526733,
+  "overlap_min": 0.28525,
+  "rejected": null,
+  "V_coeff_kcal_A4_per_A3": -144.8753462603878,
+  "cutoff_A": 10.0,
+  "offcv": {
+    "n_pairs": 2,
+    "delta": 0.0,
+    "max_abs": 0.0,
+    "frames": 2000,
+    "bound_frames": 134,
+    "plateau_frames": 310,
+    "delta_kcal_per_A3": 0.0,
+    "max_over_grid_kcal": 0.0
+  },
+  "nonmonotonic_steps": [],
+  "bootstrap": 20,
+  "edges_A": [
+    2.021787322523215,
+    10.0
+  ]
+}
