@@ -1,0 +1,73 @@
+# Hysteresis ladder (README "Known gaps" 3, option B): the SAME system as
+# co_imid1_alpha_ti (run with --seed-from runs/co_imid1_alpha_ti), windows started
+# from a state relaxed 10 ns at alpha1 instead of the alpha0 NPT state.
+# Only name and seed differ from co_imid1_alpha_ti.yaml.
+# Co(II) + ONE imidazole, BOUND state: alpha-TI  dG_bound(alpha0 -> alpha)
+# for alpha(NG2R50) (TI_param/run_TI.py).  Secondary to the umbrella + MBAR
+# route (ligand-1264/configs/pmf/co_imid1_a109.yaml + lig1264.mbar): the
+# ion/ligand/c4/box/md blocks below are copied verbatim from that config, so
+# the system is the one the PMF samples and the two can be compared directly:
+#   dG0(alpha) - dG0(alpha0)  [mbar]   vs   dG_bound(alpha0 -> alpha)  [here]
+# (dG_unbound ~ 0: arel(NG2R50) couples only to the ion, within the cutoff).
+name: co_imid1_alpha_ti_rev
+
+ion:
+  element: Co
+  charge: 2
+  near_atom: NE2
+  distance_A: 2.1
+
+ligand:
+  pdb: ligands/imidazole/imidazole.pdb
+  resnames: [IMIA]
+  count: 1
+
+c4:
+  alpha_by_class:
+    NG2R50: 1.09         # alpha0: the system is BUILT at this value
+  scale_by_class: {}
+  zero_other_classes: true
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 44.5
+  water: spce
+  neutralize: true
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  cutoff_nm: 1.0
+  constraints: HBonds
+  friction_per_ps: 1.0
+  min_restraint_k: 1000.0
+  report_ps: 10
+
+alpha_ti:
+  cls: NG2R50
+  alpha0: null           # -> c4.alpha_by_class.NG2R50 (1.09)
+  alpha1: 4.5            # top of the ladder; every window is itself an alpha:
+                         # 11 uniform windows -> alpha 1.09, 1.431, ..., 4.5
+  n_windows: 11
+  schedule: uniform      # uniform (cumulative TI + MBAR) | gauss_legendre (endpoint)
+  dt_fs: 2.0
+  min_max_iter: [20000, 20000, 20000]
+  heat_ns: 1.0
+  npt_ns: 2.0
+  window_equil_ps: 200
+  ns_per_window: 2.0
+  dudl_every_ps: 0.5
+  discard_frac: 0.1
+  cv_atom: NE2
+  cv_resid: null
+  bound_r_max_A: 2.63   # PMF barrier top (runs/pmf/co_imid1_a109, WHAM 2026-10-14); monitor only
+  max_unbound_frac: 0.05
+  prep_restraint_kappa: 10.0
+  prep_restraint_A: null # -> ion.distance_A
+  traj_ps: 0.0
+  pmf_run: ligand-1264/runs/pmf/co_imid1_a109   # plateau correction (analysis only); relative to repo root
+  plateau_frac: 0.15     # = lig1264.mbar --plateau-frac default
+
+platform: CUDA
+seed: 3026   # != forward run, so the Langevin streams are independent

@@ -251,3 +251,13 @@ ligand-1264/logs/*.out
 ligand-1264/logs/*.err
 ligand-1264/.co_a109_jobs
 
+# TI_param simulation outputs: same scheme, summaries only
+TI_param/runs/**
+!TI_param/runs/**/
+!TI_param/runs/**/alpha_ti_results.json
+!TI_param/runs/**/alpha_ti_dG_vs_alpha.csv
+!TI_param/runs/**/alpha_ti_setup.json
+!TI_param/runs/**/water_cn.json
+!TI_param/runs/**/config.yaml
+TI_param/logs/*.out
+TI_param/logs/*.err
