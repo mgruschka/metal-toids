@@ -5,6 +5,8 @@ PLUMED/OpenMM potential of mean force for ion <-> ligand dissociation.
     python -m lig1264.pmf configs/ni_imid4_pmf.yaml --outdir runs/pmf/ni_imid4 [--resume]
     python -m lig1264.pmf <cfg> --outdir <dir> --window 57        # one umbrella window
     python -m lig1264.wham <dir>                                  # PMF from the COLVARs
+    python -m lig1264.pmf <cfg> --outdir <dir> --add-windows 2.2 2.95 16 300
+                                      # append a stiff sub-ladder (lo hi n kappa)
 
 Same system setup as run.py / ti.py (build.build_system_files), then:
 
@@ -447,6 +449,49 @@ def stage_seed(cfg, out, i, j, args):
     return meta
 
 
+def add_windows(cfg, out, lo_A, hi_A, n, kappa_kcal, max_widths=None):
+    """
+    Append a sub-ladder of n windows over [lo_A, hi_A] at its own kappa to an
+    already seeded windows.json, seeded from smd.dcd like stage_seed.
+
+    For a steep wall the main kappa cannot hold: a window sits F/kappa off
+    its centre, and where W'' approaches -kappa the windows go bistable.
+    Windows already run stay valid -- WHAM and MBAR take a kappa per window
+    -- so a stiff patch over that range is cheaper than reseeding everything.
+    New rows get indices after the existing ones and carry kappa, spacing,
+    a ladder tag and (optionally) their own drift_max_widths.
+    """
+    import mdtraj
+    P = lambda f: os.path.join(out, f)
+    meta = json.load(open(P("windows.json")))
+    tag = f"k{kappa_kcal:g}_{lo_A:g}-{hi_A:g}"
+    if any(r.get("ladder") == tag for r in meta["windows"]):
+        raise SystemExit(f"add-windows: ladder {tag} is already in windows.json")
+    traj = mdtraj.load(P("smd.dcd"), top=P("topology.pdb"))
+    d = mdtraj.compute_distances(traj, [[meta["ion_atom"], meta["ligand_atom"]]],
+                                 periodic=True)[:, 0]
+    centres = np.linspace(lo_A * 0.1, hi_A * 0.1, n)
+    spacing = float(centres[1] - centres[0])
+    w0 = len(meta["windows"])
+    rows = []
+    for k, c in enumerate(centres):
+        f = int(np.argmin(np.abs(d - c)))
+        if abs(d[f] - c) > 2 * spacing:
+            raise SystemExit(f"add-windows: no SMD frame within 2 spacings of "
+                             f"{c * 10:.3f} A (nearest {d[f] * 10:.3f} A)")
+        row = dict(window=w0 + k, centre_nm=float(c), frame=f, frame_cv_nm=float(d[f]),
+                   ladder=tag, kappa_kcal_per_A2=kappa_kcal,
+                   kappa_kj_per_nm2=kappa_kj_nm2(kappa_kcal), spacing_nm=spacing)
+        if max_widths is not None:
+            row["drift_max_widths"] = max_widths
+        rows.append(row)
+    meta["windows"] += rows
+    _atomic_write(P("windows.json"), json.dumps(meta, indent=2))
+    width = (KB_KCAL * cfg.md.temperature_K / kappa_kcal) ** 0.5
+    log(f"add-windows: {tag}: windows {w0}-{w0 + n - 1}, spacing {spacing * 10:.3f} A, "
+        f"width {width:.3f} A (spacing/width {spacing * 10 / width:.2f})")
+
+
 # ---------------------------------------------------------------- windows
 
 ABORT = "ABORT"
@@ -482,11 +527,15 @@ def stage_window(cfg, out, platform, props, args, w):
     # instead, editing window_kappa and rerunning with --resume would simulate
     # at the new value and unbias at the old one -- a silently wrong PMF with
     # no error anywhere.  stage_seed refuses to let the two disagree.
-    kappa = meta["kappa_kj_per_nm2"]
+    # Rows appended by add_windows carry their own kappa / spacing / gate
+    # limit; the top-level values are the main ladder's.
+    kappa = row.get("kappa_kj_per_nm2", meta["kappa_kj_per_nm2"])
     stride = max(1, int(round(pmf.colvar_ps * 1e3 / pmf.dt_fs)))
     prod_colvar = P(f"window_{w:03d}_colvar.dat")
     equil_colvar = P(f"window_{w:03d}_equil_colvar.dat")
-    spacing = abs(meta["windows"][1]["centre_nm"] - meta["windows"][0]["centre_nm"])
+    spacing = row.get("spacing_nm",
+                      abs(meta["windows"][1]["centre_nm"] - meta["windows"][0]["centre_nm"]))
+    max_widths = row.get("drift_max_widths", pmf.drift_max_widths)
     if args.resume and os.path.exists(P(f"window_{w:03d}_done")):
         log(f"window {w}: done")
         return
@@ -528,15 +577,15 @@ def stage_window(cfg, out, platform, props, args, w):
             msg = (f"window {w}: drift check at {pmf.drift_check_ps:g} ps: "
                    f"<d> {d.mean() * 10:.3f} A vs centre {centre * 10:.3f} A, "
                    f"offset {off / spacing:+.1f} spacings / {off / width:+.1f} widths "
-                   f"(limits {pmf.drift_max_spacings:g} / {pmf.drift_max_widths:g})")
+                   f"(limits {pmf.drift_max_spacings:g} / {max_widths:g})")
             if (abs(off) > pmf.drift_max_spacings * spacing
-                    and abs(off) > pmf.drift_max_widths * width):
+                    and abs(off) > max_widths * width):
                 abort_run(out, msg + ".  The restraint is not holding this "
                           "window; raise window_kappa (and n_windows to keep "
                           "overlap) and restart the ladder from seed.")
             log(msg)
         hook = None
-        if pmf.drift_check_ps and pmf.drift_max_spacings and pmf.drift_max_widths:
+        if pmf.drift_check_ps and pmf.drift_max_spacings and max_widths:
             hook = (_steps(pmf.drift_check_ps * 1e-3, pmf.dt_fs), drift_gate)
         run_md(sim, out, f"window_{w:03d}_equil", _steps(pmf.window_equil_ns, pmf.dt_fs),
                pmf.dt_fs, cfg.md.report_ps, hook=hook)
@@ -563,9 +612,12 @@ def stage_window(cfg, out, platform, props, args, w):
     # is the other signature of a restraint too soft for a barrier.  Only a
     # warning -- the pool runs neighbours concurrently, so this sees each pair
     # once, from whichever window finishes second -- and wham.py's overlap
-    # gate is what actually refuses the PMF.
+    # gate is what actually refuses the PMF.  Neighbours are index +/- 1 within
+    # the same ladder (an appended sub-ladder starts right after the main one).
     for nb in (w - 1, w + 1):
-        if 0 <= nb < len(meta["windows"]) and os.path.exists(P(f"window_{nb:03d}_done")):
+        if (0 <= nb < len(meta["windows"])
+                and meta["windows"][nb].get("ladder") == row.get("ladder")
+                and os.path.exists(P(f"window_{nb:03d}_done"))):
             sep = (d.mean() - _colvar_mean(P(f"window_{nb:03d}_colvar.dat"))) * np.sign(w - nb)
             if sep < 0.25 * spacing:
                 msg = (f"window {w}: WARNING - <d> is {sep / spacing:+.2f} spacings "
@@ -666,12 +718,22 @@ def main(argv=None):
     ap.add_argument("--stop-after",
                     choices=["build", "prep", "smd", "seed", "windows"],
                     default="windows")
+    ap.add_argument("--add-windows", nargs=4, metavar=("LO_A", "HI_A", "N", "KAPPA"),
+                    help="append N windows over [LO_A, HI_A] at KAPPA kcal/mol/A^2 "
+                         "to a seeded windows.json, then exit")
+    ap.add_argument("--drift-max-widths", type=float, default=None,
+                    help="with --add-windows: gate limit stored on the new rows "
+                         "(default: use the config's)")
     args = ap.parse_args(argv)
 
     cfg = load_config(args.config)
     if cfg.pmf is None:
         raise SystemExit("config has no `pmf:` section")
     out = args.outdir
+    if args.add_windows:
+        lo, hi, n, k = args.add_windows
+        add_windows(cfg, out, float(lo), float(hi), int(n), float(k), args.drift_max_widths)
+        return
     os.makedirs(out, exist_ok=True)
     _atomic_write(os.path.join(out, "config.yaml"), open(args.config).read())
     platform, props = get_platform(args.platform or cfg.platform, args.allow_cpu)
@@ -707,10 +769,10 @@ def main(argv=None):
     stage_smd(cfg, out, platform, props, args, i, j)
     if args.stop_after == "smd":
         return
-    stage_seed(cfg, out, i, j, args)
+    meta = stage_seed(cfg, out, i, j, args)
     if args.stop_after == "seed":
         return
-    for w in range(cfg.pmf.n_windows):
+    for w in range(len(meta["windows"])):
         stage_window(cfg, out, platform, props, args, w)
     log(f"all windows done; now: python -m lig1264.wham {out}")
 

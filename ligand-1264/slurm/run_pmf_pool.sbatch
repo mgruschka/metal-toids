@@ -64,7 +64,12 @@ GPUS=${5:-1}
 STACK=${STACK:-1}                # concurrent windows per GPU (env, so it survives resubmit)
 MARGIN=${MARGIN:-3900}           # never start a window we cannot finish: >= one window's wall time at this STACK
 
-NWIN=$($PY -c "from lig1264.config import load_config;print(load_config('$CONFIG').pmf.n_windows)")
+# windows.json is authoritative: pmf.py --add-windows can append rows past pmf.n_windows
+if [ -f "$OUTDIR/windows.json" ]; then
+  NWIN=$($PY -c "import json;print(len(json.load(open('$OUTDIR/windows.json'))['windows']))")
+else
+  NWIN=$($PY -c "from lig1264.config import load_config;print(load_config('$CONFIG').pmf.n_windows)")
+fi
 NSTREAM=$((NSHARD * GPUS * STACK))
 END=$(scontrol show job "$SLURM_JOB_ID" | tr ' ' '\n' | grep '^EndTime=' | cut -d= -f2)
 DEADLINE=$(( $(date -d "$END" +%s) - MARGIN ))

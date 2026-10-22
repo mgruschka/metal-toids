@@ -299,12 +299,13 @@ def main(argv=None):
     samples, g = decorrelate([r[2] for r in rows])
     print(f"{len(rows)} windows, {raw_n} samples -> {sum(map(len, samples))} "
           f"decorrelated (statistical inefficiency median {np.median(g):.1f}, max {g.max():.1f})")
-    ov = adjacent_overlap([r[2] for r in rows], args.bins)
+    ov, order = adjacent_overlap([r[2] for r in rows], args.bins, return_order=True)
     rejected = None
     if ov.min() < args.min_overlap:
         bad = np.where(ov < args.min_overlap)[0]
+        cs = centres[order]           # in sampled-mean order, as the pairs are
         rejected = (f"{len(bad)} adjacent window pair(s) overlap below {args.min_overlap}: "
-                    + ", ".join(f"{centres[k] * 10:.2f}|{centres[k + 1] * 10:.2f} A ({ov[k]:.4f})"
+                    + ", ".join(f"{cs[k] * 10:.2f}|{cs[k + 1] * 10:.2f} A ({ov[k]:.4f})"
                                 for k in bad[:10]))
         print(f"REJECTED - {rejected}")
         if not args.force:

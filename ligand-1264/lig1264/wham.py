@@ -41,9 +41,10 @@ KCAL = 4.184
 KB = 0.008314462618      # kJ/mol/K
 
 
-def load_windows(outdir, discard_frac=0.0):
+def load_windows(outdir, discard_frac=0.0, with_kappa=False):
+    """(meta, centres nm, samples[, kappas kJ/mol/nm^2]) for windows with data."""
     meta = json.load(open(os.path.join(outdir, "windows.json")))
-    centres, samples, missing = [], [], []
+    centres, samples, kappas, missing = [], [], [], []
     for row in meta["windows"]:
         f = os.path.join(outdir, f"window_{row['window']:03d}_colvar.dat")
         if not os.path.exists(f):
@@ -59,20 +60,26 @@ def load_windows(outdir, discard_frac=0.0):
             continue
         centres.append(row["centre_nm"])
         samples.append(x)
+        # rows appended by pmf.add_windows carry their own kappa
+        kappas.append(row.get("kappa_kj_per_nm2", meta["kappa_kj_per_nm2"]))
     if missing:
         print(f"warning: {len(missing)} windows missing or too short: {missing}")
+    if with_kappa:
+        return meta, np.array(centres), samples, np.array(kappas)
     return meta, np.array(centres), samples
 
 
 def wham(centres, samples, kappa, kT, bins, tol=1e-7, max_iter=100000):
-    """Returns (bin centres nm, W kJ/mol, beta*f per window, iterations)."""
+    """Returns (bin centres nm, W kJ/mol, beta*f per window, iterations).
+    kappa: one value, or one per window."""
     allx = np.concatenate(samples)
     edges = np.linspace(allx.min(), allx.max(), bins + 1)
     xk = 0.5 * (edges[:-1] + edges[1:])
     H = np.array([np.histogram(x, bins=edges)[0] for x in samples], float)
     n = np.array([len(x) for x in samples], float)
     # bias of every window evaluated on every bin, in kT
-    bw = 0.5 * kappa * (xk[None, :] - centres[:, None]) ** 2 / kT
+    kappa = np.broadcast_to(np.asarray(kappa, float), centres.shape)
+    bw = 0.5 * kappa[:, None] * (xk[None, :] - centres[:, None]) ** 2 / kT
     keep = H.sum(axis=0) > 0
     xk, H, bw = xk[keep], H[:, keep], bw[:, keep]
     log_num = np.log(H.sum(axis=0))
@@ -106,18 +113,28 @@ def bootstrap(centres, samples, kappa, kT, bins, xk_ref, n_boot, block_ps, colva
     return np.array(out)
 
 
-def adjacent_overlap(samples, bins):
+def adjacent_overlap(samples, bins, return_order=False):
     """
     Histogram overlap sum_k min(P_i(k), P_i+1(k)) of each pair of adjacent
-    windows (samples ordered by centre).  Estimator-independent: a pair near
-    0 disconnects the window graph, and no reweighting scheme -- WHAM or MBAR
-    -- can then place the free energies on either side relative to each other.
+    windows.  Estimator-independent: a pair near 0 disconnects the window
+    graph, and no reweighting scheme -- WHAM or MBAR -- can then place the
+    free energies on either side relative to each other.
+
+    Windows are paired in order of their sampled mean, not their centre.  For
+    one ladder that is the same order; with a stiff sub-ladder mixed in
+    (pmf.add_windows) the soft windows sit F/kappa off their centres, so centre
+    order would pair windows that sample far apart and report a gap that the
+    data does not have.  return_order=True also returns that ordering (indices
+    into samples), so callers can label the pairs.
     """
+    order = np.argsort([np.mean(s) for s in samples], kind="stable")
+    samples = [samples[k] for k in order]
     allx = np.concatenate(samples)
     edges = np.linspace(allx.min(), allx.max(), bins + 1)
     P = np.array([np.histogram(s, bins=edges)[0] for s in samples], float)
     P = P / np.clip(P.sum(axis=1, keepdims=True), 1e-300, None)
-    return np.array([np.minimum(P[i], P[i + 1]).sum() for i in range(len(P) - 1)])
+    ov = np.array([np.minimum(P[i], P[i + 1]).sum() for i in range(len(P) - 1)])
+    return (ov, order) if return_order else ov
 
 
 MIN_OVERLAP = 0.03
@@ -212,8 +229,7 @@ def main(argv=None):
             discard = load_config(os.path.join(out, "config.yaml")).pmf.discard_frac
         except Exception:
             discard = 0.0
-    meta, centres, samples = load_windows(out, discard)
-    kappa = meta["kappa_kj_per_nm2"]
+    meta, centres, samples, kappa = load_windows(out, discard, with_kappa=True)
     kT = KB * meta["temperature_K"]
     colvar_ps = json.load(open(os.path.join(out, "pmf_provenance.json"))
                           )["protocol"].get("colvar_ps", 1.0) \
@@ -236,7 +252,7 @@ def main(argv=None):
                   f"[{centres.min() * 10:.2f}, {centres.max() * 10:.2f}] A")
 
     # --- diagnostics: neighbouring-window histogram overlap
-    ov = adjacent_overlap(samples, args.bins)
+    ov, order = adjacent_overlap(samples, args.bins, return_order=True)
     print(f"adjacent-window overlap: min {ov.min():.3f}, median {np.median(ov):.3f} "
           f"({(ov < args.min_overlap).sum()} pairs below {args.min_overlap})")
     # Gate: co_imid1_a109 printed a confident dG0 = -0.10 from a window graph
@@ -245,7 +261,7 @@ def main(argv=None):
     rejected = None
     if ov.min() < args.min_overlap:
         bad = np.where(ov < args.min_overlap)[0]
-        cs = np.sort(centres) * 10
+        cs = centres[order] * 10      # centres of the windows, in sampled-mean order
         pairs = ", ".join(f"{cs[k]:.2f}|{cs[k + 1]:.2f} A ({ov[k]:.4f})" for k in bad[:10])
         rejected = (f"{len(bad)} adjacent window pair(s) overlap below "
                     f"{args.min_overlap}: {pairs}{' ...' if len(bad) > 10 else ''}")

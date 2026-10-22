@@ -73,6 +73,15 @@ pmf:
                          # resolved at 40 ns, and missing it overestimates
                          # binding -> a low-biased alpha.  Do not call a 4 ns
                          # fit converged; re-run the accepted alpha at 40 ns.
+  # Drift gate relaxed for the kappa-100 ladder (2026-10-22).  At alpha* the
+  # inner wall's mean force reaches ~31 kcal/mol/A (window 9, 2.67 A), and a
+  # window under force F sits F/kappa off centre; 3 widths at kappa 100 only
+  # allows |F| < 23, so the gate tripped on a window behaving like its
+  # neighbours (qos=gpu run runs/pmf/co_imid1_a304, ABORT).  6 widths allows
+  # |F| < 46 and still catches a kappa-10 style slide.  The 2.20-2.95 A wall
+  # is also covered by a kappa-300 sub-ladder (pmf --add-windows 2.2 2.95 16
+  # 300 --drift-max-widths 3, windows 120-135), whose rows keep the strict 3.
+  drift_max_widths: 6.0
   colvar_ps: 1.0
   traj_ps: 0.0
   discard_frac: 0.0
