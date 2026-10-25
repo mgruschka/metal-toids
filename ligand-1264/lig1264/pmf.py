@@ -171,11 +171,50 @@ def _steps(ns, dt_fs):
 
 # ---------------------------------------------------------------- simulation
 
+def alpha_deriv_spec(cfg, out):
+    """(class atoms, alpha0) for open_sim's alpha_deriv, or None if v_class is off."""
+    cls = cfg.pmf.v_class
+    if not cls:
+        return None
+    if cls not in cfg.c4.alpha_by_class:
+        raise SystemExit(f"pmf.v_class = {cls} needs c4.alpha_by_class[{cls}] (alpha0)")
+    classes = json.load(open(os.path.join(out, "classes.json")))
+    atoms = sorted(int(i) for i, c in classes.items() if c == cls)
+    if not atoms:
+        raise SystemExit(f"pmf.v_class: no atom of class {cls} in {out}/classes.json")
+    return atoms, cfg.c4.alpha_by_class[cls]
+
+
+class DUDAlphaReporter:
+    """
+    time_ps and V = dU/dalpha (kJ/mol per A^3) every `interval` steps.  The C4
+    force is rebuilt with alpha1 = alpha0 + 1 A^3, so dU/dlambda_alpha is V
+    itself.  Rows are keyed by time so they join with the PLUMED COLVAR.
+    """
+    def __init__(self, path, interval, dt_fs):
+        self._fh = open(path, "w")
+        self._fh.write("# time_ps  V_kJ_per_mol_per_A3  (dU/dalpha, lambda_alpha = 0)\n")
+        self._interval, self._dt_ps = interval, dt_fs * 1e-3
+
+    def describeNextReport(self, simulation):
+        steps = self._interval - simulation.currentStep % self._interval
+        return dict(steps=steps, periodic=None, include=["parameterDerivatives"])
+
+    def report(self, simulation, state):
+        v = state.getEnergyParameterDerivatives()[forces.LAMBDA_ALPHA]
+        self._fh.write(f"{simulation.currentStep * self._dt_ps:.3f} {v:.8g}\n")
+
+    def close(self):
+        self._fh.close()
+
+
 def open_sim(cfg, out, platform, props, plumed=None, seed_offset=0,
-             cv_restraint=None):
+             cv_restraint=None, alpha_deriv=None):
     """
     Fresh Context from system.xml (+ a PlumedForce when `plumed` is given,
-    + a harmonic CV restraint when `cv_restraint=(i, j, k_kj_nm2, r0_nm)`).
+    + a harmonic CV restraint when `cv_restraint=(i, j, k_kj_nm2, r0_nm)`,
+    + a dU/dalpha derivative on LJ1264C4Force when `alpha_deriv=(atoms,
+    alpha0)`, at lambda_alpha = 0 so energies and forces are unchanged).
     The barostat is added with frequency 0; callers switch it on for NPT.
     """
     topology, positions, system, groups = build.load_system_files(out)
@@ -185,6 +224,9 @@ def open_sim(cfg, out, platform, props, plumed=None, seed_offset=0,
         system.addForce(PlumedForce(plumed))
     if cv_restraint is not None:
         forces.add_cv_restraint_force(system, *cv_restraint)
+    if alpha_deriv is not None:
+        atoms, alpha0 = alpha_deriv
+        forces.make_alpha_alchemical(system, atoms, alpha0, alpha0 + 1.0)
     integ = mm.LangevinMiddleIntegrator(cfg.md.temperature_K * unit.kelvin,
                                         cfg.md.friction_per_ps / unit.picosecond,
                                         pmf.dt_fs * unit.femtosecond)
@@ -196,6 +238,8 @@ def open_sim(cfg, out, platform, props, plumed=None, seed_offset=0,
     sim = app.Simulation(topology, system, integ, platform, props)
     sim.context.setPositions(positions)
     sim.context.setParameter("lambda_c4", cfg.c4.lambda_c4)
+    if alpha_deriv is not None:
+        sim.context.setParameter(forces.LAMBDA_ALPHA, 0.0)
     return sim, baro, topology, groups
 
 
@@ -205,12 +249,15 @@ def set_npt(sim, baro, cfg, on=True):
     sim.context.reinitialize(preserveState=True)
 
 
-def run_md(sim, out, tag, n_steps, dt_fs, report_ps, traj_ps=0.0, hook=None):
+def run_md(sim, out, tag, n_steps, dt_fs, report_ps, traj_ps=0.0, hook=None,
+           extra_reporters=()):
     """
-    NPT segment with StateData (+ optional DCD) reporters, cleanly closed.
+    NPT segment with StateData (+ optional DCD, + `extra_reporters`)
+    reporters, cleanly closed.
     `hook=(n, fn)` calls fn() after the first n steps, mid-segment, so an
     early check sees the live COLVAR without splitting the reporter files.
     """
+    sim.reporters.extend(extra_reporters)
     every = max(1, int(round(report_ps * 1e3 / dt_fs)))
     sim.reporters.append(app.StateDataReporter(
         os.path.join(out, f"{tag}.csv"), every, step=True, time=True,
@@ -229,6 +276,8 @@ def run_md(sim, out, tag, n_steps, dt_fs, report_ps, traj_ps=0.0, hook=None):
             sim.step(n_steps)
     finally:
         sim.reporters.clear()   # closes the DCD before the next stage opens one
+        for r in extra_reporters:
+            r.close()
 
 
 # ---------------------------------------------------------------- stages
@@ -595,12 +644,15 @@ def stage_window(cfg, out, platform, props, args, w):
     # --- production
     fresh_colvar(prod_colvar)
     script = umbrella_script(i, j, centre, kappa, prod_colvar, stride)
+    deriv = alpha_deriv_spec(cfg, out)
     sim, baro, _, _ = open_sim(cfg, out, platform, props, plumed=script,
-                               seed_offset=w + 1)
+                               seed_offset=w + 1, alpha_deriv=deriv)
     load_state(sim, P(f"window_{w:03d}_equil.xml"))
     set_npt(sim, baro, cfg, True)
+    extra = ([DUDAlphaReporter(P(f"window_{w:03d}_V.dat"), stride, pmf.dt_fs)]
+             if deriv is not None else [])
     run_md(sim, out, f"window_{w:03d}", _steps(pmf.window_prod_ns, pmf.dt_fs),
-           pmf.dt_fs, cfg.md.report_ps, traj_ps=pmf.traj_ps)
+           pmf.dt_fs, cfg.md.report_ps, traj_ps=pmf.traj_ps, extra_reporters=extra)
     save_state(sim, P(f"window_{w:03d}.xml"))
     open(P(f"window_{w:03d}_done"), "w").close()
     d = np.atleast_2d(np.loadtxt(prod_colvar))[:, 1]
@@ -678,7 +730,7 @@ def write_provenance(cfg, out, i, j):
             window_kappa_kcal_per_A2=pmf.window_kappa,
             window_equil_ns=pmf.window_equil_ns,
             window_prod_ns=pmf.window_prod_ns,
-            colvar_ps=pmf.colvar_ps),
+            colvar_ps=pmf.colvar_ps, v_class=pmf.v_class),
         c4=dict(
             alpha_by_class=dict(cfg.c4.alpha_by_class),
             scale_by_class=dict(cfg.c4.scale_by_class),

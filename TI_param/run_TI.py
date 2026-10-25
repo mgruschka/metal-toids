@@ -233,6 +233,12 @@ def plateau_shift(at, alphas, kT_kcal):
     if mb["cls"] != at.cls or abs(mb["alpha0"] - at.alpha0) > 1e-9:
         raise SystemExit(f"{run}/mbar.json is for {mb['cls']} at alpha0 {mb['alpha0']}, "
                          f"not {at.cls} at {at.alpha0}")
+    # mbar.py with per-frame V (window_NNN_V.dat) also accepts runs where
+    # c / r^4 is not V (a second class atom); this analytic shift would be wrong
+    if not mb.get("V_cv_function", True) or mb.get("V_coeff_kcal_A4_per_A3") is None:
+        raise SystemExit(f"{run}/mbar.json: V is not a function of the CV (v_source "
+                         f"{mb.get('v_source')}); take dG_unbound from the "
+                         f"dG_plateau_kcal column of mbar_dG0_vs_alpha.csv instead")
     c = mb["V_coeff_kcal_A4_per_A3"]
     # mbar.json keeps only the binned range; mbar.py bins it as
     # linspace(lo, hi, bins + 1) with --bins (default 200, not stored)

@@ -177,6 +177,13 @@ class PMFSpec:
     colvar_ps: float = 1.0                    # COLVAR stride
     traj_ps: float = 0.0                      # per-window DCD; 0 = off (they are large)
     discard_frac: float = 0.0                 # of each window COLVAR, before WHAM
+    # --- per-frame V = dU/dalpha of one ligand class (kJ/mol per A^3), written
+    # to window_NNN_V.dat at the COLVAR stride.  Analytic parameter derivative
+    # of LJ1264C4Force (forces.make_alpha_alchemical at lambda_alpha = 0, so
+    # the dynamics are unchanged); it covers every alpha-coupled pair (all
+    # donor atoms of the class, counter-ions), which the CV-only c/r^4 cannot.
+    # The class must be in c4.alpha_by_class (that is alpha0).  None = off.
+    v_class: Optional[str] = None
 
 
 @dataclass
