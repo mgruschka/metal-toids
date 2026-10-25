@@ -371,6 +371,10 @@ class GromacsParameterSet(ParameterSet):
         # If any residue references +X in a bond, then atom X should be an
         # external bond on any residue type containing it (since that residue
         # could be the "next" one in a chain). Similarly for -X.
+        # Only polymer residues -- those with a +/- bond of their own -- can
+        # be a chain neighbour.  Applied to every residue, one PEGM '+C2'
+        # gave 911 CGenFF small molecules (22BPY, ...) a phantom C2 external
+        # bond, so their templates never matched a free molecule.
         forward_targets = set()   # atom names referenced via + (e.g. 'N' from 'C +N')
         backward_targets = set()  # atom names referenced via - (e.g. 'C' from 'N -C')
         for resname, res in self.residues.items():
@@ -388,6 +392,8 @@ class GromacsParameterSet(ParameterSet):
         for resname, res in self.residues.items():
             if not hasattr(res, '_external_bonds'):
                 res._external_bonds = set()
+            if not getattr(res, '_raw_ext_bonds', []):
+                continue
             atom_names = {a.name for a in res.atoms}
             for target in all_ext_targets:
                 if target in atom_names:
