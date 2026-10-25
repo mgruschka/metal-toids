@@ -6,6 +6,7 @@ Force-level helpers:
   (named "LJ1264C4Force", per-particle params cfour / arel), so that the
   ion<->ligand-class C4 can be scaled without rebuilding the System.
 """
+import numpy as np
 import openmm as mm
 from openmm import unit
 
@@ -55,7 +56,9 @@ def set_restrained(context, force, indices, k, positions=None):
 # ----------------------------------------------------------------------
 def add_cv_restraint_force(system, i, j, k, r0):
     """
-    Harmonic restraint on d(i, j); k in kJ/mol/nm^2, r0 in nm.
+    Harmonic restraint on d(i, j); k in kJ/mol/nm^2, r0 in nm.  `j` may be a
+    list of atoms: then d is to their unweighted centroid (the pmf.pull_atoms
+    CV), via CustomCentroidBondForce.
 
     pmf.stage_prep runs minimize/heat/equil/prod with no bias and then starts
     the SMD from whatever separation prod.xml happens to end at.  A complex
@@ -67,11 +70,20 @@ def add_cv_restraint_force(system, i, j, k, r0):
 
     Periodic, so a ligand that wraps mid-run is not yanked across the box.
     """
-    f = mm.CustomBondForce("0.5*k_cv*(r - r0_cv)^2")
+    js = [int(x) for x in np.atleast_1d(j)]
+    if len(js) == 1:
+        f = mm.CustomBondForce("0.5*k_cv*(r - r0_cv)^2")
+        f.addPerBondParameter("k_cv")
+        f.addPerBondParameter("r0_cv")
+        f.addBond(i, js[0], [k, r0])
+    else:
+        f = mm.CustomCentroidBondForce(2, "0.5*k_cv*(distance(g1, g2) - r0_cv)^2")
+        f.addPerBondParameter("k_cv")
+        f.addPerBondParameter("r0_cv")
+        g1 = f.addGroup([i])
+        g2 = f.addGroup(js, [1.0] * len(js))      # unweighted, as PLUMED CENTER
+        f.addBond([g1, g2], [k, r0])
     f.setName(CV_RESTRAINT_FORCE_NAME)
-    f.addPerBondParameter("k_cv")
-    f.addPerBondParameter("r0_cv")
-    f.addBond(i, j, [k, r0])
     f.setUsesPeriodicBoundaryConditions(True)
     system.addForce(f)
     return f

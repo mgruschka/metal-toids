@@ -95,7 +95,8 @@ def class_atom_check(run_dir, cls):
     except (OSError, ValueError):
         return None, None
     hits = [i for i in groups["ligand"] if classes.get(i) == cls]
-    return len(hits), (meta["ligand_atom"] in hits)
+    lig = meta.get("ligand_atoms") or [meta["ligand_atom"]]
+    return len(hits), (len(lig) == 1 and lig[0] in hits)
 
 
 def linear_response(run_dir, alpha, c4_ion, kT_kcal, target, cls,

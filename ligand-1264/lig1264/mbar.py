@@ -330,9 +330,12 @@ def main(argv=None):
 
     # --- which pairs carry alpha, and is V a function of the CV?
     lam, cutoff, pairs = alpha_pairs(out, args.cls, alpha0)
-    cv_pair = (meta["ion_atom"], meta["ligand_atom"])
-    on_cv = [p for p in pairs if {p[0], p[1]} == set(cv_pair)]
-    off_cv = [p for p in pairs if {p[0], p[1]} != set(cv_pair)]
+    # a centroid CV (pmf.pull_atoms) has no single atom pair on the CV, so
+    # V is never a CV function there and per-frame V (V.dat) is required
+    cv_lig = meta.get("ligand_atoms") or [meta["ligand_atom"]]
+    cv_pair = (meta["ion_atom"], cv_lig[0]) if len(cv_lig) == 1 else None
+    on_cv = [p for p in pairs if cv_pair and {p[0], p[1]} == set(cv_pair)]
+    off_cv = [p for p in pairs if not (cv_pair and {p[0], p[1]} == set(cv_pair))]
     cls_atoms = sorted({p[1] for p in pairs})
     groups = json.load(open(os.path.join(out, "groups.json")))
     counter = set(groups.get("counter_ion", []))
@@ -343,7 +346,8 @@ def main(argv=None):
     c_cv = on_cv[0][2] if len(on_cv) == 1 else None
     if not use_file:
         if len(on_cv) != 1:
-            raise SystemExit(f"the CV pair {cv_pair} does not carry alpha({args.cls}); "
+            raise SystemExit(f"the CV ({'centroid of ' + str(cv_lig) if cv_pair is None else cv_pair}) "
+                             f"is not one alpha({args.cls}) pair; "
                              f"V is not a CV function -- per-frame V needed (pmf.v_class)")
         if foreign:
             raise SystemExit(f"{len(foreign)} alpha-dependent pairs other than the CV pair "

@@ -1,0 +1,89 @@
+# Co(II) + ONE 2,2'-bipyridine (bidentate): PMF -> standard-state binding
+# free energy.  First 2-donor system; centroid CV, umbrella sampling.
+#
+# Target: dG0 = -7.91 kcal/mol (log K1 = 5.8, 25 C, I = 0.1 M; NIST SRD 46,
+# targets/logK1_metal_ligand.csv -- marked unverified, check Irving & Mellor
+# 1962 / Anderegg 1963 before fitting to it).
+#
+# CV: d(Co, unweighted centroid of N1 and N7).  With Co 2.1 A from both N
+# (N1-N7 = 2.71 A in the cis chelate) the bound centroid distance is
+# sqrt(2.1^2 - 1.355^2) = 1.60 A, so the ladder starts there.  It runs to
+# 13 A: the N sit <= 1.8 A from the centroid (trans), so on the plateau
+# every Co-N distance exceeds the 10 A cutoff, V = dU/dalpha = 0 there
+# (modulo counter-ions) and dG_unbound = 0 for every alpha.
+#
+# alpha(NG2R60) = 1.09 A^3: the code's default for any aromatic N (Miller),
+# the unmodified 12-6-4 starting point, as co_imid1_a109.  Both bipyridine N
+# are NG2R60, so one alpha; per-frame V (v_class) covers both donors and the
+# counter-ions for MBAR reweighting across alpha.  Per-pair rule: the
+# imidazole alpha* (3.04, NG2R50) does not transfer.
+#
+# The N1-C2-C8-N7 torsion (cis 0 deg bound, trans 180 deg free) is printed
+# unbiased as COLVAR column 4: check each window samples it in equilibrium,
+# especially around the mono-/bidentate region, before trusting the PMF.
+name: co_bpy1_a109
+
+ion:
+  element: Co
+  charge: 2
+  near_atoms: [N1, N7]   # chelate placement, 2.1 A from both
+  distance_A: 2.1
+
+ligand:
+  pdb: ligands/bipyridine/bipyridine.pdb       # cis conformer
+  resnames: [22BPY]
+  pdb_rename: {BPY: 22BPY}                      # PDB resName holds 4 chars
+  count: 1
+
+c4:
+  alpha_by_class:
+    NG2R60: 1.09         # scan value (Miller aromatic N default)
+  scale_by_class: {}
+  zero_other_classes: true   # MIRIAM convention, as the imidazole runs
+  lambda_c4: 1.0
+
+box:
+  shape: octahedron
+  diameter_A: 44.5       # as co_imid1; 13 A pull + 10 A cutoff < 31 A to the image
+  water: spce
+  neutralize: true
+
+md:
+  temperature_K: 300
+  pressure_bar: 1
+  cutoff_nm: 1.0
+  constraints: HBonds
+  friction_per_ps: 1.0
+  min_restraint_k: 1000.0
+  report_ps: 10
+
+pmf:
+  dt_fs: 2.0
+  min_max_iter: [20000, 20000, 20000]
+  heat_ns: 1.0
+  npt_equil_steps: 550000
+  npt_prod_steps: 500000
+
+  pull_atoms: [N1, N7]   # CV = d(Co, centroid(N1, N7))
+  monitor_torsions: [[N1, C2, C8, N7]]
+  pull_resid: null
+  r_start_A: null        # the equilibrated bound centroid distance (~1.6 A)
+  r_end_A: 13.0          # beyond the cutoff for both N (see header)
+  prep_restraint_A: 1.6  # bound centroid distance; ion.distance_A is a Co-N length
+
+  smd_ns: 2.5            # longer range than co_imid1 (11.4 vs 8 A)
+  smd_kappa: 100.0
+  smd_traj_ps: 1.0
+
+  n_windows: 171         # 0.067 A spacing over 1.6-13 A, as co_imid1
+  window_kappa: 100.0    # ceiling kT/spacing^2 = 133 for this ladder
+  window_equil_ns: 2.0
+  window_prod_ns: 4.0    # cheap setting; mono<->bidentate and cis/trans may
+                         # need longer -- check the torsion column first
+  colvar_ps: 1.0
+  traj_ps: 0.0
+  discard_frac: 0.0
+  v_class: NG2R60        # per-frame dU/dalpha -> window_NNN_V.dat
+
+platform: CUDA
+seed: 2027

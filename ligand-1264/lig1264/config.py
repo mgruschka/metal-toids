@@ -24,6 +24,11 @@ class IonSpec:
     # away from the ligand centre of mass.  Ignored when the ligand PDB
     # already contains the ion (complex_pdb mode).
     near_atom: Optional[str] = None
+    # Chelate placement: every listed atom ends up `distance_A` from the ion
+    # (2 donors: on their perpendicular bisector, away from the ligand COM,
+    # e.g. [N1, N7] for 2,2'-bipyridine, [O1, O2] for acetate).  Overrides
+    # near_atom; ligand.count must be 1.
+    near_atoms: List[str] = field(default_factory=list)
     near_resid: Optional[str] = None          # disambiguates when the atom name repeats
     distance_A: float = 2.1
 
@@ -123,8 +128,16 @@ class PMFSpec:
     heat_ns: float = 1.0                      # NVT 0 -> T
     npt_equil_steps: int = 550_000            # 1.1 ns at 2 fs
     npt_prod_steps: int = 500_000             # 1.0 ns at 2 fs
-    # --- collective variable: d(ion, pull_atom of one ligand copy)
+    # --- collective variable: d(ion, pull_atom of one ligand copy), or with
+    # pull_atoms d(ion, centroid of those atoms) -- the unweighted centre of
+    # the donors (PLUMED CENTER), e.g. [N1, N7] for 2,2'-bipyridine or
+    # [O1, O2] for acetate.  One name in pull_atoms == pull_atom.
     pull_atom: str = "NE2"
+    pull_atoms: List[str] = field(default_factory=list)
+    # ligand torsions (atom names, same copy as the CV) printed as extra
+    # COLVAR columns in SMD and windows, unbiased -- e.g. [[N1, C2, C8, N7]]
+    # for the bipyridine cis/trans coordinate.
+    monitor_torsions: List[List[str]] = field(default_factory=list)
     pull_resid: Optional[str] = None          # None -> the copy nearest the ion
     r_start_A: Optional[float] = None         # None -> the equilibrated distance
     r_end_A: float = 8.0

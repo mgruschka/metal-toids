@@ -83,6 +83,11 @@ def load_solute(cfg: Config):
         log(f"renamed {n} residue(s) per ligand.pdb_rename {cfg.ligand.pdb_rename}")
     if cfg.ligand.contains_ion:
         return app.Modeller(pdb.topology, pdb.positions)
+    if cfg.ligand.count == 1 and cfg.ion.near_atoms:
+        top, pos = place_ion_chelate(pdb.topology, pdb.positions, cfg)
+        return app.Modeller(top, pos)
+    if cfg.ion.near_atoms:
+        raise SystemExit("ion.near_atoms (chelate placement) needs ligand.count = 1")
     if cfg.ligand.count == 1:
         top, pos = place_ion(pdb.topology, pdb.positions, cfg)
         return app.Modeller(top, pos)
@@ -123,6 +128,63 @@ def place_ion(top, pos, cfg: Config):
     new.add(itop, [Vec3(*ion_xyz)] * unit.nanometer)
     log(f"placed {ion.resname} {ion.distance_A} A from {ion.near_atom} "
         f"(residue {anchor_atom.residue.name}{anchor_atom.residue.id})")
+    return new.topology, new.positions
+
+
+def place_ion_chelate(top, pos, cfg: Config):
+    """
+    Add the ion `distance_A` from every atom in `near_atoms` (one ligand
+    copy), on the far side from the ligand COM.  The ion sits at
+    m + h u: m the donors' centroid, u the unit vector from the COM to m with
+    any component along the donor-donor axis removed (2 donors: the
+    perpendicular bisector in the plane of COM and donors), h solved so the
+    mean ion-donor distance is distance_A.  For two donors both distances
+    are then exactly distance_A, which needs distance_A >= half their spacing.
+    """
+    ion = cfg.ion
+    lig = [a for a in top.atoms() if a.residue.name in cfg.ligand.resnames]
+    if not lig:
+        raise SystemExit(f"no atoms with residue names {cfg.ligand.resnames} in {cfg.ligand.pdb}")
+    res = {a.residue for a in lig
+           if ion.near_resid is None or a.residue.id == str(ion.near_resid)}
+    if len(res) != 1:
+        raise SystemExit(f"ion.near_atoms: {len(res)} candidate ligand residues; set ion.near_resid")
+    (res,) = res
+    by_name = {a.name: a for a in res.atoms()}
+    missing = [n for n in ion.near_atoms if n not in by_name]
+    if missing:
+        raise SystemExit(f"ion.near_atoms {missing} not in residue {res.name}{res.id}")
+    xyz = np.array([p.value_in_unit(unit.nanometer) for p in pos])
+    donors = xyz[[by_name[n].index for n in ion.near_atoms]]
+    com = xyz[[a.index for a in res.atoms()]].mean(axis=0)
+    m = donors.mean(axis=0)
+    u = m - com
+    if len(donors) == 2:
+        ax = (donors[1] - donors[0]) / np.linalg.norm(donors[1] - donors[0])
+        u = u - np.dot(u, ax) * ax
+        if np.linalg.norm(u) < 1e-6:    # COM on the donor axis: any perpendicular
+            u = np.cross(ax, [1.0, 0.0, 0.0] if abs(ax[0]) < 0.9 else [0.0, 1.0, 0.0])
+    u = u / np.linalg.norm(u)
+    r = ion.distance_A * 0.1
+    mean_d = lambda h: np.linalg.norm(donors - (m + h * u), axis=1).mean()
+    if mean_d(0.0) > r:
+        raise SystemExit(f"ion.distance_A = {ion.distance_A} A is shorter than the "
+                         f"donors' mean distance from their centroid "
+                         f"({mean_d(0.0) * 10:.2f} A); no chelate position exists")
+    lo, hi = 0.0, 2 * r
+    for _ in range(60):                 # mean_d grows monotonically with h >= 0
+        mid = 0.5 * (lo + hi)
+        lo, hi = (mid, hi) if mean_d(mid) < r else (lo, mid)
+    ion_xyz = m + 0.5 * (lo + hi) * u
+
+    new = app.Modeller(top, pos)
+    itop = app.Topology()
+    ires = itop.addResidue(ion.resname, itop.addChain())
+    itop.addAtom(ion.element.upper(), app.Element.getBySymbol(ion.element), ires)
+    new.add(itop, [Vec3(*ion_xyz)] * unit.nanometer)
+    d = np.linalg.norm(donors - ion_xyz, axis=1) * 10
+    log(f"placed {ion.resname} as a chelate of {res.name}{res.id}: "
+        + ", ".join(f"{n} {x:.2f} A" for n, x in zip(ion.near_atoms, d)))
     return new.topology, new.positions
 
 

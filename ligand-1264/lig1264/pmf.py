@@ -18,7 +18,8 @@ Same system setup as run.py / ti.py (build.build_system_files), then:
               the CV (pmf.prep_restraint_kappa) so a weakly bound ion cannot
               drift off before the pull; it is dropped for everything below,
               so no free energy is ever computed under it
-    smd       steered MD: PLUMED MOVINGRESTRAINT pulls d(ion, NE2) from the
+    smd       steered MD: PLUMED MOVINGRESTRAINT pulls the CV -- d(ion,
+              pmf.pull_atom), or d(ion, centroid of pmf.pull_atoms) -- from the
               bound distance out to pmf.r_end_A over pmf.smd_ns (Jarzynski
               work recorded in smd_colvar.dat); -> smd.dcd
     seed      pmf.n_windows frames picked from smd.dcd, one per umbrella
@@ -82,28 +83,77 @@ def kappa_kj_nm2(kcal_per_A2):
 
 # ---------------------------------------------------------------- CV selection
 
-def pull_pair(topology, xyz_nm, groups, pmf):
+class CV:
     """
-    (ion index, ligand atom index) for the CV, 0-based.
+    The pulled coordinate: d(ion, centroid of `lig`), `lig` one atom (the
+    original single-donor CV) or several (pmf.pull_atoms, e.g. both
+    bipyridine N or both acetate O; unweighted centroid, as PLUMED CENTER).
+    `tors` are monitored torsions (atom index quadruples), printed unbiased.
+    """
+    def __init__(self, ion, lig, tors=()):
+        self.ion = int(ion)
+        self.lig = [int(x) for x in lig]
+        self.tors = [[int(x) for x in t] for t in tors]
 
-    The ligand copy is `pmf.pull_resid` if given, otherwise the one whose
-    `pmf.pull_atom` sits closest to the ion -- i.e. a bound one.
+    @classmethod
+    def from_meta(cls, meta):
+        """From windows.json; runs seeded before centroids store only ligand_atom."""
+        return cls(meta["ion_atom"], meta.get("ligand_atoms") or [meta["ligand_atom"]],
+                   meta.get("monitor_torsions", []))
+
+    def meta(self):
+        m = dict(ion_atom=self.ion, ligand_atoms=self.lig, monitor_torsions=self.tors)
+        if len(self.lig) == 1:
+            m["ligand_atom"] = self.lig[0]     # pre-centroid readers
+        return m
+
+
+def pull_cv(topology, xyz_nm, groups, pmf):
+    """
+    CV for the ligand copy `pmf.pull_resid` if given, otherwise the copy whose
+    CV atoms' centroid sits closest to the ion -- i.e. a bound one.
     """
     ion = groups["ion"][0]
+    names = list(getattr(pmf, "pull_atoms", None) or [pmf.pull_atom])
     lig = set(groups["ligand"])
-    cands = [a for a in topology.atoms()
-             if a.index in lig and a.name == pmf.pull_atom]
+    copies = {}
+    for a in topology.atoms():
+        if a.index in lig and a.name in names:
+            copies.setdefault(a.residue, {})[a.name] = a.index
     if pmf.pull_resid is not None:
-        cands = [a for a in cands if str(a.residue.id) == str(pmf.pull_resid)]
-    if not cands:
-        raise SystemExit(f"pmf.pull_atom={pmf.pull_atom!r} "
-                         f"(resid {pmf.pull_resid}) matched no ligand atom")
-    d = [np.linalg.norm(xyz_nm[a.index] - xyz_nm[ion]) for a in cands]
-    pick = cands[int(np.argmin(d))]
-    log(f"CV: d(ion atom {ion}, {pick.name} of {pick.residue.name}{pick.residue.id} "
-        f"atom {pick.index}) = {min(d) * 10:.2f} A"
-        + ("" if len(cands) == 1 else f"  [closest of {len(cands)} copies]"))
-    return ion, pick.index
+        copies = {r: v for r, v in copies.items() if str(r.id) == str(pmf.pull_resid)}
+    copies = {r: v for r, v in copies.items() if len(v) == len(names)}
+    if not copies:
+        raise SystemExit(f"pmf CV atoms {names} (resid {pmf.pull_resid}) matched no "
+                         f"ligand residue holding all of them")
+    best = None
+    for res, idx in copies.items():
+        js = [idx[n] for n in names]
+        d = np.linalg.norm(xyz_nm[js].mean(axis=0) - xyz_nm[ion])
+        if best is None or d < best[0]:
+            best = (d, res, js)
+    d, res, js = best
+    by_name = {a.name: a.index for a in res.atoms()}
+    tors = []
+    for t in getattr(pmf, "monitor_torsions", None) or []:
+        miss = [n for n in t if n not in by_name]
+        if len(t) != 4 or miss:
+            raise SystemExit(f"pmf.monitor_torsions {t}: need 4 atom names of "
+                             f"{res.name}{res.id} (missing {miss})")
+        tors.append([by_name[n] for n in t])
+    what = names[0] if len(names) == 1 else "centroid(" + ",".join(names) + ")"
+    log(f"CV: d(ion atom {ion}, {what} of {res.name}{res.id} atoms {js}) = {d * 10:.2f} A"
+        + ("" if len(copies) == 1 else f"  [closest of {len(copies)} copies]")
+        + (f"; monitoring torsions {pmf.monitor_torsions}" if tors else ""))
+    return CV(ion, js, tors)
+
+
+def pull_pair(topology, xyz_nm, groups, pmf):
+    """(ion index, ligand atom index) for a single-atom CV (TI_param/run_TI.py)."""
+    cv = pull_cv(topology, xyz_nm, groups, pmf)
+    if len(cv.lig) != 1:
+        raise SystemExit("pull_pair: the CV is a centroid; use pull_cv")
+    return cv.ion, cv.lig[0]
 
 
 # ---------------------------------------------------------------- PLUMED input
@@ -126,22 +176,41 @@ def fresh_colvar(path):
             os.remove(f)
 
 
-def smd_script(i, j, r0_nm, r1_nm, n_steps, kappa, colvar, stride):
-    """MOVINGRESTRAINT pull; PLUMED atom numbering is 1-based."""
-    return (PLUMED_HEADER +
-            f"d: DISTANCE ATOMS={i + 1},{j + 1}\n"
+def cv_lines(cv):
+    """
+    PLUMED definition of `d` (+ monitored torsions t1, t2, ...) and the extra
+    PRINT arguments.  PLUMED atom numbering is 1-based.  CENTER without MASS is
+    the unweighted centroid; PLUMED rebuilds the group whole across PBC.
+    """
+    one = lambda xs: ",".join(str(x + 1) for x in xs)
+    if len(cv.lig) == 1:
+        txt = f"d: DISTANCE ATOMS={cv.ion + 1},{cv.lig[0] + 1}\n"
+    else:
+        txt = f"c: CENTER ATOMS={one(cv.lig)}\nd: DISTANCE ATOMS={cv.ion + 1},c\n"
+    extra = ""
+    for k, t in enumerate(cv.tors, start=1):
+        txt += f"t{k}: TORSION ATOMS={one(t)}\n"
+        extra += f",t{k}"
+    return txt, extra
+
+
+def smd_script(cv, r0_nm, r1_nm, n_steps, kappa, colvar, stride):
+    """MOVINGRESTRAINT pull.  COLVAR: time d smd.work smd.bias [t1 ...]."""
+    txt, extra = cv_lines(cv)
+    return (PLUMED_HEADER + txt +
             f"smd: MOVINGRESTRAINT ARG=d "
             f"STEP0=0 AT0={r0_nm:.5f} KAPPA0={kappa:.3f} "
             f"STEP1={n_steps} AT1={r1_nm:.5f} KAPPA1={kappa:.3f}\n"
-            f"PRINT ARG=d,smd.work,smd.bias STRIDE={stride} FILE={colvar}\n"
+            f"PRINT ARG=d,smd.work,smd.bias{extra} STRIDE={stride} FILE={colvar}\n"
             f"FLUSH STRIDE={stride}\n")
 
 
-def umbrella_script(i, j, centre_nm, kappa, colvar, stride):
-    return (PLUMED_HEADER +
-            f"d: DISTANCE ATOMS={i + 1},{j + 1}\n"
+def umbrella_script(cv, centre_nm, kappa, colvar, stride):
+    """COLVAR: time d res.bias [t1 ...] (readers use columns 0-1 only)."""
+    txt, extra = cv_lines(cv)
+    return (PLUMED_HEADER + txt +
             f"res: RESTRAINT ARG=d AT={centre_nm:.5f} KAPPA={kappa:.3f}\n"
-            f"PRINT ARG=d,res.bias STRIDE={stride} FILE={colvar}\n"
+            f"PRINT ARG=d,res.bias{extra} STRIDE={stride} FILE={colvar}\n"
             f"FLUSH STRIDE={stride}\n")
 
 
@@ -212,7 +281,7 @@ def open_sim(cfg, out, platform, props, plumed=None, seed_offset=0,
              cv_restraint=None, alpha_deriv=None):
     """
     Fresh Context from system.xml (+ a PlumedForce when `plumed` is given,
-    + a harmonic CV restraint when `cv_restraint=(i, j, k_kj_nm2, r0_nm)`,
+    + a harmonic CV restraint when `cv_restraint=(ion, ligand atom(s), k_kj_nm2, r0_nm)`,
     + a dU/dalpha derivative on LJ1264C4Force when `alpha_deriv=(atoms,
     alpha0)`, at lambda_alpha = 0 so energies and forces are unchanged).
     The barostat is added with frequency 0; callers switch it on for NPT.
@@ -282,17 +351,21 @@ def run_md(sim, out, tag, n_steps, dt_fs, report_ps, traj_ps=0.0, hook=None,
 
 # ---------------------------------------------------------------- stages
 
-def prep_restraint(cfg, i, j):
-    """(i, j, k, r0) for open_sim's cv_restraint, or None if disabled."""
+def prep_restraint(cfg, cv):
+    """(ion, ligand atoms, k, r0) for open_sim's cv_restraint, or None if disabled."""
     pmf = cfg.pmf
     k = pmf.prep_restraint_kappa
     if not k:
         return None
+    if len(cv.lig) > 1 and not (pmf.prep_restraint_A or pmf.r_start_A):
+        # ion.distance_A is an ion-donor bond length, not the centroid distance
+        raise SystemExit("centroid CV: set pmf.prep_restraint_A (or r_start_A) to the "
+                         "bound ion-centroid distance; ion.distance_A is an ion-donor length")
     r0_A = pmf.prep_restraint_A or pmf.r_start_A or cfg.ion.distance_A
-    return i, j, kappa_kj_nm2(k), r0_A * 0.1
+    return cv.ion, cv.lig, kappa_kj_nm2(k), r0_A * 0.1
 
 
-def stage_prep(cfg, out, platform, props, args, i, j):
+def stage_prep(cfg, out, platform, props, args, cv):
     """
     minimize -> heat -> NPT equil -> NPT prod.  Leaves prod.xml.
 
@@ -306,7 +379,7 @@ def stage_prep(cfg, out, platform, props, args, i, j):
         log("prep: done, prod.xml present")
         return
 
-    cv_res = prep_restraint(cfg, i, j)
+    cv_res = prep_restraint(cfg, cv)
     if cv_res is None:
         log("prep: WARNING - no CV restraint (pmf.prep_restraint_kappa = 0); "
             "a weakly bound ion may dissociate before the pull starts")
@@ -333,7 +406,7 @@ def stage_prep(cfg, out, platform, props, args, i, j):
     else:
         stages.heat_nvt(sim, cfg, out)
         save_state(sim, P("heat.xml"))
-    log(f"prep: CV after heat = {sim_cv(sim, i, j) * 10:.2f} A")
+    log(f"prep: CV after heat = {sim_cv(sim, cv) * 10:.2f} A")
 
     set_npt(sim, baro, cfg, True)
     if done("equil.xml"):
@@ -343,15 +416,15 @@ def stage_prep(cfg, out, platform, props, args, i, j):
         run_md(sim, out, "equil", pmf.npt_equil_steps, pmf.dt_fs,
                md.report_ps, pmf.traj_ps)
         save_state(sim, P("equil.xml"))
-    log(f"prep: CV after equil = {sim_cv(sim, i, j) * 10:.2f} A")
+    log(f"prep: CV after equil = {sim_cv(sim, cv) * 10:.2f} A")
     run_md(sim, out, "prod", pmf.npt_prod_steps, pmf.dt_fs, md.report_ps, pmf.traj_ps)
     save_state(sim, P("prod.xml"))
-    log(f"prep: CV after prod = {sim_cv(sim, i, j) * 10:.2f} A")
+    log(f"prep: CV after prod = {sim_cv(sim, cv) * 10:.2f} A")
 
 
 # ---------------------------------------------------------------- SMD
 
-def min_image(v, box):
+def min_image_vec(v, box):
     """Shortest v under triclinic PBC (box rows are the lattice vectors)."""
     best = v
     for a in (-1, 0, 1):
@@ -360,31 +433,47 @@ def min_image(v, box):
                 w = v + a * box[0] + b * box[1] + c * box[2]
                 if np.dot(w, w) < np.dot(best, best):
                     best = w
-    return float(np.linalg.norm(best))
+    return best
 
 
-def state_cv(path, i, j):
+def xyz_cv(xyz, box, cv):
+    """
+    d(ion, centroid) in nm: the mean of the minimum-image ion->atom vectors,
+    so a ligand split across the box edge still gives its whole centroid.
+    """
+    return float(np.linalg.norm(np.mean([min_image_vec(xyz[j] - xyz[cv.ion], box)
+                                         for j in cv.lig], axis=0)))
+
+
+def state_cv(path, cv):
     st = mm.XmlSerializer.deserialize(open(path).read())
     xyz = np.array(st.getPositions().value_in_unit(unit.nanometer))
     box = np.array(st.getPeriodicBoxVectors().value_in_unit(unit.nanometer))
-    return min_image(xyz[i] - xyz[j], box)
+    return xyz_cv(xyz, box, cv)
 
 
-def sim_cv(sim, i, j):
-    """Minimum-image d(i, j) in nm from a live Context."""
+def sim_cv(sim, cv):
+    """The CV in nm from a live Context."""
     st = sim.context.getState(getPositions=True)
     xyz = np.array(st.getPositions().value_in_unit(unit.nanometer))
     box = np.array(st.getPeriodicBoxVectors().value_in_unit(unit.nanometer))
-    return min_image(xyz[i] - xyz[j], box)
+    return xyz_cv(xyz, box, cv)
 
 
-def stage_smd(cfg, out, platform, props, args, i, j):
+def traj_cv(traj, cv):
+    """The CV in nm per frame of an mdtraj trajectory (same construction as xyz_cv)."""
+    import mdtraj
+    disp = mdtraj.compute_displacements(traj, [[cv.ion, j] for j in cv.lig], periodic=True)
+    return np.linalg.norm(disp.mean(axis=1), axis=1)
+
+
+def stage_smd(cfg, out, platform, props, args, cv):
     pmf = cfg.pmf
     P = lambda f: os.path.join(out, f)
     if args.resume and os.path.exists(P("smd.xml")):
         log("smd: done")
         return
-    r0 = pmf.r_start_A * 0.1 if pmf.r_start_A else state_cv(P("prod.xml"), i, j)
+    r0 = pmf.r_start_A * 0.1 if pmf.r_start_A else state_cv(P("prod.xml"), cv)
     r1 = pmf.r_end_A * 0.1
     if r0 >= r1:
         raise SystemExit(
@@ -396,7 +485,7 @@ def stage_smd(cfg, out, platform, props, args, i, j):
             f"explicitly, and rerun prep.")
     n = _steps(pmf.smd_ns, pmf.dt_fs)
     stride = max(1, int(round(pmf.colvar_ps * 1e3 / pmf.dt_fs)))
-    script = smd_script(i, j, r0, r1, n, kappa_kj_nm2(pmf.smd_kappa),
+    script = smd_script(cv, r0, r1, n, kappa_kj_nm2(pmf.smd_kappa),
                         P("smd_colvar.dat"), stride)
     fresh_colvar(P("smd_colvar.dat"))
     open(P("smd.plumed"), "w").write(script)
@@ -424,7 +513,7 @@ def stage_smd(cfg, out, platform, props, args, i, j):
 
 # ---------------------------------------------------------------- seeding
 
-def stage_seed(cfg, out, i, j, args):
+def stage_seed(cfg, out, cv, args):
     """Pick one SMD frame per umbrella centre, evenly spaced in the CV."""
     import mdtraj
     pmf = cfg.pmf
@@ -443,7 +532,7 @@ def stage_seed(cfg, out, i, j, args):
         log("seed: done")
         return meta
     traj = mdtraj.load(P("smd.dcd"), top=P("topology.pdb"))
-    d = mdtraj.compute_distances(traj, [[i, j]], periodic=True)[:, 0]
+    d = traj_cv(traj, cv)
     lo = pmf.r_start_A * 0.1 if pmf.r_start_A else float(d.min())
     hi = pmf.r_end_A * 0.1
     centres = np.linspace(lo, hi, pmf.n_windows)
@@ -491,7 +580,7 @@ def stage_seed(cfg, out, i, j, args):
             f"would have no overlap there.  Raise pmf.smd_kappa, lengthen "
             f"pmf.smd_ns, or shorten pmf.smd_traj_ps for more frames, then "
             f"delete smd.* and windows.json and rerun from the SMD.")
-    meta = dict(ion_atom=i, ligand_atom=j, kappa_kcal_per_A2=pmf.window_kappa,
+    meta = dict(**cv.meta(), kappa_kcal_per_A2=pmf.window_kappa,
                 kappa_kj_per_nm2=kappa_kj_nm2(pmf.window_kappa),
                 temperature_K=cfg.md.temperature_K, windows=rows)
     json.dump(meta, open(P("windows.json"), "w"), indent=2)
@@ -517,8 +606,7 @@ def add_windows(cfg, out, lo_A, hi_A, n, kappa_kcal, max_widths=None):
     if any(r.get("ladder") == tag for r in meta["windows"]):
         raise SystemExit(f"add-windows: ladder {tag} is already in windows.json")
     traj = mdtraj.load(P("smd.dcd"), top=P("topology.pdb"))
-    d = mdtraj.compute_distances(traj, [[meta["ion_atom"], meta["ligand_atom"]]],
-                                 periodic=True)[:, 0]
+    d = traj_cv(traj, CV.from_meta(meta))
     centres = np.linspace(lo_A * 0.1, hi_A * 0.1, n)
     spacing = float(centres[1] - centres[0])
     w0 = len(meta["windows"])
@@ -569,7 +657,7 @@ def stage_window(cfg, out, platform, props, args, w):
     P = lambda f: os.path.join(out, f)
     meta = json.load(open(P("windows.json")))
     row = meta["windows"][w]
-    i, j = meta["ion_atom"], meta["ligand_atom"]
+    cv = CV.from_meta(meta)
     centre = row["centre_nm"]
     # windows.json is the single source of truth for kappa, not the config.
     # wham.py unbiases with meta["kappa_kj_per_nm2"]; if this read the config
@@ -595,7 +683,7 @@ def stage_window(cfg, out, platform, props, args, w):
         log(f"window {w}: equil done")
     else:
         fresh_colvar(equil_colvar)
-        script = umbrella_script(i, j, centre, kappa, equil_colvar, stride)
+        script = umbrella_script(cv, centre, kappa, equil_colvar, stride)
         sim, baro, _, _ = open_sim(cfg, out, platform, props, plumed=script,
                                    seed_offset=w + 1)
         frame = mdtraj.load_frame(P("smd.dcd"), row["frame"], top=P("topology.pdb"))
@@ -643,7 +731,7 @@ def stage_window(cfg, out, platform, props, args, w):
 
     # --- production
     fresh_colvar(prod_colvar)
-    script = umbrella_script(i, j, centre, kappa, prod_colvar, stride)
+    script = umbrella_script(cv, centre, kappa, prod_colvar, stride)
     deriv = alpha_deriv_spec(cfg, out)
     sim, baro, _, _ = open_sim(cfg, out, platform, props, plumed=script,
                                seed_offset=w + 1, alpha_deriv=deriv)
@@ -682,11 +770,10 @@ def stage_window(cfg, out, platform, props, args, w):
 # ---------------------------------------------------------------- driver
 
 def resolve_cv(cfg, out, topology, positions):
-    """CV atom pair, taken from windows.json if a run is already seeded."""
+    """The CV, taken from windows.json if a run is already seeded."""
     P = os.path.join(out, "windows.json")
     if os.path.exists(P):
-        m = json.load(open(P))
-        return m["ion_atom"], m["ligand_atom"]
+        return CV.from_meta(json.load(open(P)))
     groups = json.load(open(os.path.join(out, "groups.json")))
     prod = os.path.join(out, "prod.xml")
     if os.path.exists(prod):   # pick the bound copy from the equilibrated state
@@ -694,7 +781,7 @@ def resolve_cv(cfg, out, topology, positions):
         xyz = np.array(st.getPositions().value_in_unit(unit.nanometer))
     else:
         xyz = np.array(positions.value_in_unit(unit.nanometer))
-    return pull_pair(topology, xyz, groups, cfg.pmf)
+    return pull_cv(topology, xyz, groups, cfg.pmf)
 
 
 def _atomic_write(path, text):
@@ -712,10 +799,13 @@ def _atomic_write(path, text):
     os.replace(tmp, path)
 
 
-def write_provenance(cfg, out, i, j):
+def write_provenance(cfg, out, cv):
     pmf = cfg.pmf
     _atomic_write(os.path.join(out, "pmf_provenance.json"), json.dumps(dict(
-        cv=dict(ion_atom=i, ligand_atom=j, pull_atom=pmf.pull_atom,
+        cv=dict(**cv.meta(), pull_atom=pmf.pull_atom, pull_atoms=list(pmf.pull_atoms),
+                monitor_torsion_names=[list(t) for t in pmf.monitor_torsions],
+                definition=("distance(ion, atom)" if len(cv.lig) == 1 else
+                            "distance(ion, unweighted centroid of ligand_atoms)"),
                 pull_resid=pmf.pull_resid),
         protocol=dict(
             dt_fs=pmf.dt_fs, cutoff_nm=cfg.md.cutoff_nm,
@@ -798,8 +888,8 @@ def main(argv=None):
     if args.stop_after == "build":
         return
 
-    i, j = resolve_cv(cfg, out, topology, positions)
-    write_provenance(cfg, out, i, j)
+    cv = resolve_cv(cfg, out, topology, positions)
+    write_provenance(cfg, out, cv)
 
     # array mode: the prep/SMD/seed stages must already exist
     if args.window is not None:
@@ -813,15 +903,15 @@ def main(argv=None):
         stage_window(cfg, out, platform, props, args, args.window)
         return
 
-    stage_prep(cfg, out, platform, props, args, i, j)
+    stage_prep(cfg, out, platform, props, args, cv)
     if args.stop_after == "prep":
         return
-    i, j = resolve_cv(cfg, out, topology, positions)   # re-pick from prod.xml
-    write_provenance(cfg, out, i, j)                  # prep may have changed it
-    stage_smd(cfg, out, platform, props, args, i, j)
+    cv = resolve_cv(cfg, out, topology, positions)    # re-pick from prod.xml
+    write_provenance(cfg, out, cv)                    # prep may have changed it
+    stage_smd(cfg, out, platform, props, args, cv)
     if args.stop_after == "smd":
         return
-    meta = stage_seed(cfg, out, i, j, args)
+    meta = stage_seed(cfg, out, cv, args)
     if args.stop_after == "seed":
         return
     for w in range(len(meta["windows"])):
