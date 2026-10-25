@@ -74,6 +74,13 @@ def load_solute(cfg: Config):
         log(f"bare {ion.resname}, no ligand")
         return app.Modeller(top, [Vec3(0, 0, 0)] * unit.nanometer)
     pdb = app.PDBFile(cfg.ligand.pdb)
+    if cfg.ligand.pdb_rename:
+        n = 0
+        for res in pdb.topology.residues():
+            if res.name in cfg.ligand.pdb_rename:
+                res.name = cfg.ligand.pdb_rename[res.name]
+                n += 1
+        log(f"renamed {n} residue(s) per ligand.pdb_rename {cfg.ligand.pdb_rename}")
     if cfg.ligand.contains_ion:
         return app.Modeller(pdb.topology, pdb.positions)
     if cfg.ligand.count == 1:

@@ -158,12 +158,17 @@ Order agreed with the user: first finish and validate the co_imid1 forward +
 hysteresis runs (analysis, TI vs MBAR, forward vs reverse, the gaps above).
 Then move to a bidentate ligand, most likely **2,2′-bipyridine**.
 
-### Ligand parametrization is a prerequisite
-There is no 2,2′-bipyridine residue in `mosic.xml` or in
-`toppar_c36_jul21/top_all36_cgenff.rtf`. The closest entries are `3BPY`
-(butylpyridine) and the bipyrroles. It needs CGenFF parametrization (server
-or by analogy), and the **inter-ring N–C–C–N torsion** in particular must be
-checked against QM, because it controls the cis/trans balance below.
+### Ligand parameters (available; corrected 2026-10-25)
+CGenFF has `RESI 22BPY` (`toppar_c36_jul21/top_all36_cgenff.rtf:28821`), and
+`mosic.xml` carries it. It includes a dedicated four-term N1–C2–C8–N7
+torsion (`par_all36_cgenff.prm:7456`). An earlier search for `BIPY`/`BPY`
+missed it. Both donor N are class `NG2R60`, so a single α class covers
+both. The template matches a free molecule only since the 2026-10-25
+`mosic.xml` rebuild (a converter bug had given it a phantom C2 external
+bond). `ligand-1264/ligands/bipyridine/` holds the cis (chelating) and trans
+PDBs. In the gas phase, minimized trans (180°) lies 6.3 kcal/mol below a
+twisted cis minimum (~50°), and planar cis is ~10 kcal/mol above trans.
+Spot-check that cis/trans balance against QM before relying on it.
 
 ### H-REMD across the λ_α ladder (proposed fix for slow bound sub-states)
 - A multidentate bound state has slow sub-states: denticity n versus n−1

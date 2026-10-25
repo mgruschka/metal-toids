@@ -39,6 +39,10 @@ class LigandSpec:
     pdb: Optional[str] = None                 # ligand (or ion+ligand complex)
     resnames: List[str] = field(default_factory=list)   # residues that count as "ligand"
     xml: List[str] = field(default_factory=list)   # extra FF XMLs (CGenFF-derived etc.)
+    # residue renames applied right after reading `pdb`, for template names
+    # longer than the 4 characters a PDB resName holds, e.g. {BPY: 22BPY}.
+    # `resnames` uses the renamed (template) name.
+    pdb_rename: Dict[str, str] = field(default_factory=dict)
     contains_ion: bool = False                # True -> pdb is the full complex
     # number of copies placed around the ion (0 -> bare ion, the TI water
     # leg).  >1 arranges them on octahedral directions with `ion.near_atom`
