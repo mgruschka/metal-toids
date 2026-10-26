@@ -113,6 +113,14 @@ class AlphaTISpec:
     # (last plateau_frac of the binned range).  None -> not applied.
     pmf_run: Optional[str] = None
     plateau_frac: float = 0.15
+    # Unbound-leg mode: [lo, hi] A.  The windows hold the CV in this shell
+    # with a flat-bottom restraint (forces.add_cv_walls_force, cv_walls_kappa
+    # kcal/mol/A^2 outside) instead of running unrestrained, and analyze
+    # keeps only frames inside it -- the shell-conditional ensemble the
+    # plateau correction averages over.  Set it to pmf_run's plateau shell;
+    # analyze compares the TI with plateau_shift and with mbar's dG_plateau.
+    cv_walls_A: Optional[List[float]] = None
+    cv_walls_kappa: float = 100.0
 
 
 @dataclass

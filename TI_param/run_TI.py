@@ -26,6 +26,13 @@ Protocol (config `alpha_ti:`, system blocks as for lig1264.pmf):
               biasing <dU/dl>.
               -> alpha_ti_results.json, alpha_ti_dG_vs_alpha.csv
 
+Unbound-leg check (alpha_ti.cv_walls_A = [lo, hi] A): the windows hold the
+CV in that shell (the PMF's plateau) with a flat-bottom restraint, analyze
+keeps only frames inside it, and the TI is dG_unbound itself.  It is
+compared with plateau_shift (analytic c/r^4 over an r^2-weighted shell) and
+with mbar's dG_plateau column, and split into the ion-CV-pair part (c/r^4
+on the sampled r) and the rest (counter-ion pairs) -> unbound_check.csv.
+
 Binding cycle: dG0(alpha) = dG0(alpha0) + dG_bound(alpha0->alpha) - dG_unbound,
 and dG_unbound ~ 0 (the class atom's arel couples only to the ion, within
 the 1 nm cutoff).  Compare with `python -m lig1264.mbar <pmf run>` at the
@@ -51,12 +58,17 @@ from lig1264 import build, forces, stages, lambda_windows    # noqa: E402
 from lig1264.build import log                                # noqa: E402
 from lig1264.run import get_platform                         # noqa: E402
 from lig1264.pmf import (pull_pair, kappa_kj_nm2, save_state,  # noqa: E402
-                         load_state, sim_cv)
+                         load_state, sim_cv as _sim_cv, CV)
 
 KCAL = 4.184
 KB = 0.008314462618      # kJ/mol/K
 # what --seed-from copies: everything load_system_files and class_atoms read
 SYSTEM_FILES = ("system.xml", "topology.pdb", "groups.json", "classes.json", "resnames.json")
+
+
+def sim_cv(sim, i, j):
+    """d(i, j) in nm (pmf.sim_cv takes a CV object since centroid CVs)."""
+    return _sim_cv(sim, CV(i, [j]))
 
 
 def schedule(at):
@@ -76,17 +88,23 @@ def class_atoms(out, groups, cls):
     return idx
 
 
-def open_sim(cfg, out, platform, props, cls_idx, seed_offset=0, cv_restraint=None):
+def open_sim(cfg, out, platform, props, cls_idx, seed_offset=0, cv_restraint=None,
+             walls=None):
     """
     Fresh Context from system.xml + the lambda_alpha C4 force (+ the prep CV
-    restraint when given).  Barostat added at frequency 0; NVT unless the
-    caller switches it on.
+    restraint when given; + the alpha_ti.cv_walls_A flat-bottom shell on
+    d(walls) when `walls=(i, j)` and the config sets it).  Barostat added at
+    frequency 0; NVT unless the caller switches it on.
     """
     at = cfg.alpha_ti
     topology, positions, system, groups = build.load_system_files(out)
     forces.make_alpha_alchemical(system, cls_idx, at.alpha0, at.alpha1)
     if cv_restraint is not None:
         forces.add_cv_restraint_force(system, *cv_restraint)
+    if walls is not None and at.cv_walls_A:
+        lo, hi = at.cv_walls_A
+        forces.add_cv_walls_force(system, *walls, kappa_kj_nm2(at.cv_walls_kappa),
+                                  lo * 0.1, hi * 0.1)
     integ = mm.LangevinMiddleIntegrator(cfg.md.temperature_K * unit.kelvin,
                                         cfg.md.friction_per_ps / unit.picosecond,
                                         at.dt_fs * unit.femtosecond)
@@ -158,7 +176,7 @@ def stage_relax(cfg, out, platform, props, args, cls_idx, i, j):
         return
     start = args.start_state or P("npt.xml")
     lam = float(args.relax_lambda)
-    sim, _, _ = open_sim(cfg, out, platform, props, cls_idx, seed_offset=100)
+    sim, _, _ = open_sim(cfg, out, platform, props, cls_idx, seed_offset=100, walls=(i, j))
     load_state(sim, start)
     n_steps = int(round(args.relax_ns * 1e6 / at.dt_fs))
     every = int(round(at.dudl_every_ps * 1e3 / at.dt_fs))
@@ -187,7 +205,7 @@ def stage_window(cfg, out, platform, props, args, cls_idx, i, j, k, lam):
         if not os.path.exists(start):
             raise SystemExit(f"window {k}: {start} missing (sequential mode); "
                              f"run the earlier windows or use --window")
-    sim, _, _ = open_sim(cfg, out, platform, props, cls_idx, seed_offset=1 + k)
+    sim, _, _ = open_sim(cfg, out, platform, props, cls_idx, seed_offset=1 + k, walls=(i, j))
     load_state(sim, start)
     alpha_k = at.alpha0 + lam * (at.alpha1 - at.alpha0)
     sim.context.setParameter(forces.LAMBDA_ALPHA, float(lam))
@@ -206,8 +224,27 @@ def stage_window(cfg, out, platform, props, args, cls_idx, i, j, k, lam):
     save_state(sim, endf)
     _, cv = lambda_windows.load_window(csvf, at.discard_frac)
     d = d[int(at.discard_frac * len(d)):]
+    if at.cv_walls_A:
+        lo, hi = at.cv_walls_A
+        occ = f"outside shell {((cv[:, 0] < lo) | (cv[:, 0] > hi)).mean():.3f}"
+    else:
+        occ = f"unbound frac {(cv[:, 0] > at.bound_r_max_A).mean():.3f}"
     log(f"window {k}: <dU/dl> = {d.mean() / KCAL:.4f} kcal/mol, "
-        f"CV mean {cv[:, 0].mean():.2f} A, unbound frac {(cv[:, 0] > at.bound_r_max_A).mean():.3f}")
+        f"CV mean {cv[:, 0].mean():.2f} A, {occ}")
+
+
+def plateau_shell(mb, bins, plateau_frac):
+    """(lo, hi) A of the plateau shell, exactly as lig1264.mbar.reweight_scan bins it."""
+    edges = np.linspace(mb["edges_A"][0], mb["edges_A"][1], bins + 1)
+    xk = 0.5 * (edges[:-1] + edges[1:])
+    return float(xk[-max(3, int(plateau_frac * len(xk)))]), float(edges[-1])
+
+
+def pmf_mbar_json(at):
+    run = Path(at.pmf_run)
+    if not run.is_absolute():
+        run = Path(__file__).resolve().parents[1] / run
+    return run, json.load(open(run / "mbar.json"))
 
 
 def plateau_shift(at, alphas, kT_kcal):
@@ -245,9 +282,7 @@ def plateau_shift(at, alphas, kT_kcal):
     bins = mb.get("bins", 200)
     if "bins" not in mb:
         log(f"plateau: {run.name}/mbar.json has no 'bins'; assuming mbar.py's default {bins}")
-    edges = np.linspace(mb["edges_A"][0], mb["edges_A"][1], bins + 1)
-    xk = 0.5 * (edges[:-1] + edges[1:])
-    lo, hi = xk[-max(3, int(at.plateau_frac * len(xk)))], edges[-1]
+    lo, hi = plateau_shell(mb, bins, at.plateau_frac)
     r = np.linspace(lo, hi, 2001)
     w = r ** 2
     shift = []
@@ -259,10 +294,70 @@ def plateau_shift(at, alphas, kT_kcal):
     return np.array(shift), dict(pmf_run=str(run), c=c, shell_A=[float(lo), float(hi)])
 
 
+def unbound_check(cfg, out, lam, rows, samples, cvs, kT):
+    """
+    Unbound-leg TI vs the implemented plateau corrections, per alpha_k:
+      ti / mbar_lambda   this run: dG_unbound(alpha0 -> alpha_k), all pairs
+      ti_cv_pair         TI of the ion-CV-pair term alone, c/r^4 on the
+                         sampled r (c from pmf_run's mbar.json)
+      ti_rest            ti - ti_cv_pair: the counter-ion pairs
+      analytic           plateau_shift: c/r^4, r^2-weighted shell (run_TI)
+      pmf_mbar           dG_plateau from pmf_run's mbar_dG0_vs_alpha.csv,
+                         interpolated to alpha_k (absent if mbar.py predates it)
+    -> unbound_check.csv
+    """
+    at = cfg.alpha_ti
+    if not at.pmf_run:
+        raise SystemExit("cv_walls_A needs alpha_ti.pmf_run (the PMF whose plateau is checked)")
+    run, mb = pmf_mbar_json(at)
+    bins = mb.get("bins", 200)
+    lo, hi = plateau_shell(mb, bins, at.plateau_frac)
+    if abs(lo - at.cv_walls_A[0]) > 0.01 or abs(hi - at.cv_walls_A[1]) > 0.01:
+        log(f"WARNING: cv_walls_A {at.cv_walls_A} differs from {run.name}'s plateau "
+            f"shell [{lo:.3f}, {hi:.3f}] A -- not the same ensemble")
+    alphas = [r["alpha"] for r in rows]
+    dalpha = at.alpha1 - at.alpha0
+    c = mb["V_coeff_kcal_A4_per_A3"]                           # kcal/mol A^4 per A^3
+    rc = mb["cutoff_A"]
+    # dU/dlambda of the ion-CV pair alone, per sample, kcal/mol
+    cv_means = np.array([np.mean(dalpha * np.where(r < rc, c / r ** 4, 0.0)) for r in cvs])
+    cv_sems = np.array([lambda_windows.block_sem(dalpha * np.where(r < rc, c / r ** 4, 0.0))
+                        for r in cvs])
+    ti_cv, _ = lambda_windows.cumulative_ti(lam, cv_means, cv_sems)
+    analytic, _ = plateau_shift(at, alphas, kT / KCAL)
+    pmf_mb = None
+    csv = run / "mbar_dG0_vs_alpha.csv"
+    if csv.exists():
+        t = np.genfromtxt(csv, delimiter=",", names=True)
+        if "dG_plateau_kcal" in t.dtype.names:
+            pmf_mb = np.interp(alphas, t["alpha"], t["dG_plateau_kcal"])
+    if pmf_mb is None:
+        log(f"{run.name}/mbar_dG0_vs_alpha.csv has no dG_plateau_kcal column "
+            f"(rerun lig1264.mbar there for it); comparing with the analytic shift only")
+    with open(os.path.join(out, "unbound_check.csv"), "w") as fh:
+        fh.write("alpha,ti_kcal,ti_sem_kcal,mbar_lambda_kcal,ti_cv_pair_kcal,ti_rest_kcal,"
+                 "analytic_kcal,pmf_mbar_kcal,ti_minus_analytic_kcal,outside_shell_frac\n")
+        for k, r in enumerate(rows):
+            pm = float(pmf_mb[k]) if pmf_mb is not None else float("nan")
+            fh.write(f"{r['alpha']:.4f},{r['dG_ti_kcal']:.5f},{r['dG_ti_sem_kcal']:.5f},"
+                     f"{r['dG_mbar_kcal']:.5f},{ti_cv[k]:.5f},{r['dG_ti_kcal'] - ti_cv[k]:.5f},"
+                     f"{analytic[k]:.5f},{pm:.5f},{r['dG_ti_kcal'] - analytic[k]:.5f},"
+                     f"{r['outside_shell_frac']:.3f}\n")
+            log(f"alpha {r['alpha']:.3f}: dG_unbound TI {r['dG_ti_kcal']:+.4f} +/- "
+                f"{r['dG_ti_sem_kcal']:.4f} (MBAR-lambda {r['dG_mbar_kcal']:+.4f}; ion-CV pair "
+                f"{ti_cv[k]:+.4f}, rest {r['dG_ti_kcal'] - ti_cv[k]:+.4f})  vs  analytic "
+                f"{analytic[k]:+.4f}" + (f", PMF-MBAR {pm:+.4f}" if pmf_mb is not None else "")
+                + " kcal/mol")
+    return dict(pmf_run=str(run), shell_A=[lo, hi], walls_A=list(at.cv_walls_A),
+                ti_kcal=[r["dG_ti_kcal"] for r in rows], ti_cv_pair_kcal=ti_cv.tolist(),
+                analytic_kcal=list(map(float, analytic)),
+                pmf_mbar_kcal=None if pmf_mb is None else pmf_mb.tolist())
+
+
 def analyze(cfg, out, lam, wts):
     at = cfg.alpha_ti
     kT = KB * cfg.md.temperature_K
-    rows, samples = [], []
+    rows, samples, cvs = [], [], []
     for k in range(len(lam)):
         f = os.path.join(out, f"dudl_w{k:02d}.csv")
         if not os.path.exists(f):
@@ -270,14 +365,22 @@ def analyze(cfg, out, lam, wts):
             return None
         d, extra = lambda_windows.load_window(f, at.discard_frac)
         cv = extra[:, 0]
+        n_all = len(d)
+        if at.cv_walls_A:
+            # shell-conditional ensemble: drop frames that leaked past a wall
+            inside = (cv >= at.cv_walls_A[0]) & (cv <= at.cv_walls_A[1])
+            d, cv = d[inside], cv[inside]
         samples.append(d)
+        cvs.append(cv)
         rows.append(dict(window=k, lam=float(lam[k]),
                          alpha=float(at.alpha0 + lam[k] * (at.alpha1 - at.alpha0)),
                          dudl_mean_kcal=float(d.mean() / KCAL),
                          dudl_sem_kcal=lambda_windows.block_sem(d) / KCAL,
                          n=int(len(d)), cv_mean_A=float(cv.mean()), cv_max_A=float(cv.max()),
-                         unbound_frac=float((cv > at.bound_r_max_A).mean())))
-    bad = [r["window"] for r in rows if r["unbound_frac"] > at.max_unbound_frac]
+                         unbound_frac=float((cv > at.bound_r_max_A).mean()),
+                         outside_shell_frac=float(1 - len(d) / n_all)))
+    bad = [] if at.cv_walls_A else [r["window"] for r in rows
+                                    if r["unbound_frac"] > at.max_unbound_frac]
     if bad:
         log(f"WARNING: windows {bad} spent > {at.max_unbound_frac:.0%} of frames with "
             f"CV > {at.bound_r_max_A} A -- the ligand left; their <dU/dl> is not bound-state")
@@ -295,6 +398,10 @@ def analyze(cfg, out, lam, wts):
                      dG_mbar_kcal=float(c), dG_mbar_sem_kcal=float(e), stat_ineff=float(gi))
         res["adjacent_overlap"] = overlap.tolist()
         res["dG_ti_kcal"], res["dG_mbar_kcal"] = float(ti[-1]), float(mb[-1])
+        if at.cv_walls_A:
+            res["unbound_check"] = unbound_check(cfg, out, lam, rows, samples, cvs, kT)
+            json.dump(res, open(os.path.join(out, "alpha_ti_results.json"), "w"), indent=2)
+            return res
         # binding-cycle closure: ddG0(alpha0 -> alpha) = dG_bound - dG_unbound
         pl = plateau_shift(at, [r["alpha"] for r in rows], kT / KCAL)
         if pl is not None:

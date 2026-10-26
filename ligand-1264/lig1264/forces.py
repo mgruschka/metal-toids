@@ -306,6 +306,28 @@ def dudl(context, name=LAMBDA_ION):
     return st.getEnergyParameterDerivatives()[name]
 
 
+CV_WALLS_FORCE_NAME = "CVWalls"
+
+
+def add_cv_walls_force(system, i, j, k, lo, hi):
+    """
+    Flat-bottom restraint on d(i, j): zero for lo <= d <= hi, harmonic
+    0.5*k*(d - wall)^2 outside; k in kJ/mol/nm^2, lo/hi in nm.  Used by the
+    unbound-leg alpha-TI (TI_param/run_TI.py, alpha_ti.cv_walls_A) to hold
+    the ion in the PMF's plateau shell.  Inside the shell the ensemble is the
+    unrestrained one, and the force does not depend on lambda_alpha, so it
+    adds nothing to dU/dlambda.  Periodic.
+    """
+    f = mm.CustomBondForce("0.5*k_w*(step(lo_w - r)*(r - lo_w)^2 + step(r - hi_w)*(r - hi_w)^2)")
+    f.setName(CV_WALLS_FORCE_NAME)
+    for name in ("k_w", "lo_w", "hi_w"):
+        f.addPerBondParameter(name)
+    f.addBond(i, j, [k, lo, hi])
+    f.setUsesPeriodicBoundaryConditions(True)
+    system.addForce(f)
+    return f
+
+
 # ----------------------------------------------------------------------
 # alchemical polarizability (alpha-TI, TI_param/run_TI.py):
 # alpha0 (lambda_alpha=0) -> alpha1 (lambda_alpha=1) on one ligand class
